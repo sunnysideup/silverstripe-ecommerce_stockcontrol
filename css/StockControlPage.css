@@ -1,0 +1,29 @@
+/**
+*@author nicolaas[at]sunnysideup . co . nz
+*
+**/
+
+.StockObjectsFeedback{background-color: yellow; color: brown; margin: 1em 0; padding: 0.7em}
+#StockProductObjects{margin: 0; padding: 0;}
+	#StockProductObjects li {list-style: none; border-bottom: 1px dotted grey; margin: 0; padding: 0.7em; background-image: none;}
+		#StockProductObjects label {}
+			#StockProductObjects span.currentNumber{width: 4em;text-align: right; float: left; display: block; margin-right: 0.3em }
+			#StockProductObjects label.history {}
+			#StockProductObjects input.updateField{width: 3em;  margin-right: 0.3em; text-align: right}
+			#StockProductObjects label.right {width: 100px; margin-left: 355px; font-size: 0.8em;}
+		#StockProductObjects div.loadHistoryHere{width: 100%}
+#StockVariationObjects{}
+
+#StockProductObjects .loadHistoryHere {display: none; border: 1px dotted grey; background-color: #e7e7e7; padding: 0.3em;}
+	#StockProductObjects .loadHistoryHere ul {}
+		#StockProductObjects .loadHistoryHere ul li {}
+			#StockProductObjects .loadHistoryHere ul li span {}
+				#StockProductObjects .loadHistoryHere ul li span.date {}
+				#StockProductObjects .loadHistoryHere ul li span.quantity {font-weight: bold; font-size: 1.2em;}
+				#StockProductObjects .loadHistoryHere ul li span.explanation {color: grey;}
+				#StockProductObjects .loadHistoryHere ul li span.small {color: grey; font-size: 0.8em;}
+
+	#StockProductObjects .loadHistoryHere h3 {color: red;}
+	#StockProductObjects .loadHistoryHere h4 {color: green; background-color: gold;}
+
+.loading {background-image: url(../images/loading.gif); background-repeat: no-repeat; background-position: right middle;}

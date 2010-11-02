@@ -1,0 +1,12 @@
+eCommerce stock control change log
+
+TODO:
+ * Ability to change many stock levels quickly in CMS. StockControlPage can be used in the mean time.
+ * Provide guidlines, and/or templates for displaying 'out of stock' messages.
+ * Low /out of stock email notificaion - allow setting frequency of email.
+ 
+
+
+0.2alpha
+ * Introduced stock field to product CMS fields
+ * added stock setters and getters to Product and ProductVariation classes

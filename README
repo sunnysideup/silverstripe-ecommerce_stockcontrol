@@ -1,0 +1,69 @@
+###############################################
+eCommerce Stock Control Module
+version 0.2alpha
+###############################################
+
+Developer
+-----------------------------------------------
+Nicolaas Francken [at] sunnysideup.co.nz
+Jeremy Shipman (jeremy [at] burnbright.co.nz)
+
+Requirements
+-----------------------------------------------
+SilverStripe 2.3.0 or greater. (2.4 recommended)
+
+Documentation
+-----------------------------------------------
+
+This module stores stock levels seperate from the products themsleves. This means that a history of stock levels can be
+produced. The module also stores different types of stock updates - manual, and order based.
+ 
+The module also includes a MinMaxModifier, which will make sure that a product quantity in cart stays between a min and a max.
+
+This module provides a stock control page for quick updating of stock levels. This may be refactored into the CMS.
+
+About the model classes:
+
+ProductStockCalculatedQuantity: works out the quantity available for each product based on the the number of items
+sold (recorded in ProductStockOrderEntry) and manual corrections, recorded in ProductStockManualUpdate.
+ 
+ProductStockVariationCalculatedQuantity: calculates quantities available for product variations as opposed to products.
+
+ProductStockOrderEntry: keeps a record of the quantity deduction made for each sale. That is, if we sell 10 items
+in an order then an entry is made in this dataclass for a reduction of ten widgets in the available quantity.
+
+ProductStockManualUpdate: at any stage, the product available quantity can be changed (manually overridden) using this class.
+
+
+Installation Instructions
+-----------------------------------------------
+1. Find out how to add modules to SS and add module as per usual.
+2. copy configurations from this module's _config.php file
+into mysite/_config.php file and edit settings as required.
+NB. the idea is not to edit the module at all, but instead customise
+it from your mysite folder, so that you can upgrade the module without redoing the settings.
+
+If you just want one or two things from this module
+then of course you are free to copy them to your
+mysite folder and delete the rest of this module.
+
+Make sure you name the module root folder 'ecommerce_stockcontrol'. This will enable requirements to be included properly.
+
+
+copy the lines between the START and END line to your /mysite/_config.php file and choose the right settings
+
+
+//===================---------------- START ecommerce_stockcontrol MODULE ----------------===================
+//if you only want to use stock quantity tables then set this value to "",
+//otherwise you can have a field in Product / ProductVariation such as MininumPurchase
+
+//MinMaxModifier::set_min_field("MinQuantity");
+//MinMaxModifier::set_max_field("MaxQuantity");
+
+//MinMaxModifier::set_default_min_quantity(1);
+//MinMaxModifier::set_default_max_quantity(99);
+//MinMaxModifier::set_adjustment_message("Quantities have been adjusted as follows: ");
+//MinMaxModifier::set_sorry_message("Sorry, your selected value not is available");
+//use this to allow stock quantities
+
+//===================---------------- END ecommerce_stockcontrol MODULE ----------------===================
