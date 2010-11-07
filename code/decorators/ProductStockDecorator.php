@@ -11,7 +11,13 @@ class ProductStockDecorator extends DataObjectDecorator{
 	 * Allow setting stock level in CMS
 	 */
 	function updateCMSFields(&$fields){
-		$fields->addFieldToTab('Root.Content.Main',new NumericField('Stock','Stock'),'Content');	
+		
+		//FIXME: hack, because $this->Variations doesn't seem to work???
+		if(DataObject::get('ProductVariation',"\"ProductID\" = ".$this->owner->ID) == null){ 
+			$fields->addFieldToTab('Root.Content.Main',new NumericField('Stock','Stock'),'Content');
+		}
+		
+		
 	}
 	
 	/*

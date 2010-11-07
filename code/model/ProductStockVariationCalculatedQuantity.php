@@ -134,6 +134,7 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 						{$bt}Order{$bt}
 						INNER JOIN {$bt}OrderAttribute{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}OrderID{$bt} = {$bt}Order{$bt}.ID
 						INNER JOIN {$bt}OrderItem{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}ID{$bt} = {$bt}OrderItem{$bt}.{$bt}ID{$bt}
+						INNER JOIN {$bt}Product_OrderItem{$bt} ON {$bt}Product_OrderItem{$bt}.{$bt}ID{$bt} = {$bt}OrderAttribute{$bt}.{$bt}ID{$bt}
 						INNER JOIN {$bt}ProductVariation_OrderItem{$bt} ON {$bt}ProductVariation_OrderItem{$bt}.{$bt}ID{$bt} = {$bt}OrderAttribute{$bt}.{$bt}ID{$bt}
 						INNER JOIN {$bt}Payment{$bt} ON {$bt}Payment{$bt}.{$bt}ID{$bt} = {$bt}Order{$bt}.{$bt}ID{$bt}
 						INNER JOIN {$bt}ProductStockOrderEntry{$bt} On {$bt}ProductStockOrderEntry{$bt}.{$bt}OrderID{$bt} = {$bt}Order{$bt}.{$bt}ID{$bt}
@@ -167,7 +168,7 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 					DB::query("
 						UPDATE {$bt}ProductStockOrderEntry{$bt}
 						SET {$bt}IncludeInCurrentCalculation{$bt} = 0
-						WHERE {$bt}LastEdited{$bt} < ".$LatestManualUpdate->LastEdited."
+						WHERE {$bt}LastEdited{$bt} < '".$LatestManualUpdate->LastEdited."'
 							AND {$bt}ParentID{$bt} = ".$this->ID
 					);
 				}

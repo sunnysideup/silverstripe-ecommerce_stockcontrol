@@ -4,7 +4,8 @@ TODO:
  * Ability to change many stock levels quickly in CMS. StockControlPage can be used in the mean time.
  * Provide guidlines, and/or templates for displaying 'out of stock' messages.
  * Low /out of stock email notificaion - allow setting frequency of email.
- 
+ * Side report for products with low stock
+ * Prevent adding more than # in stock to cart ... or give warning message that more will need to be ordered.
 
 
 0.2alpha
