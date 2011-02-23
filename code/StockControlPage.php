@@ -27,7 +27,7 @@ class StockControlPage extends Page {
 	}
 
 	function canCreate() {
-		if(!DataObject::get_one("SiteTree", "ClassName = 'StockControlPage'") && MinMaxModifier::get_use_stock_quantities()) {
+		if(!DataObject::get_one("SiteTree", "\"ClassName\" = 'StockControlPage'") && MinMaxModifier::get_use_stock_quantities()) {
 			return true;
 		}
 		return false;
@@ -35,7 +35,7 @@ class StockControlPage extends Page {
 
 	function requireDefaultRecords() {
 		parent::requireDefaultRecords();
-		if(!DataObject::get_one("SiteTree", "ClassName = 'StockControlPage'") && MinMaxModifier::get_use_stock_quantities()) {
+		if(!DataObject::get_one("SiteTree", "\"ClassName\" = 'StockControlPage'") && MinMaxModifier::get_use_stock_quantities()) {
 			$page = new StockControlPage();
 			$page->URLSegment = "stock-manager";
 			$page->Title = "Stock Manager";
