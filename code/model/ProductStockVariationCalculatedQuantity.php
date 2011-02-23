@@ -34,7 +34,7 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 	);
 
 
-	public static $default_sort = "ProductVariationPresent DESC, Name ASC";
+	public static $default_sort = "\"ProductVariationPresent\" DESC, \"Name\" ASC";
 
 	public static $singular_name = "Product Stock Variation Calculated Quantity";
 
@@ -48,7 +48,7 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 		//add ones that have not been added yet
 		$sql = "
 			INSERT INTO {$bt}ProductStockVariationCalculatedQuantity{$bt} (ProductVariationID, BaseQuantity, Name)
-			SELECT {$bt}Product{$bt}.{$bt}ID{$bt} AS ProductID, 0 AS BaseQuantity, {$bt}ProductVariation{$bt}.{$bt}Title{$bt} AS Name
+			SELECT {$bt}Product{$bt}.{$bt}ID{$bt} AS ProductID, 0 AS BaseQuantity, {$bt}ProductVariation{$bt}.{$bt}Title{$bt} AS \"Name\"
 			FROM {$bt}ProductVariation{$bt}
 				LEFT JOIN {$bt}ProductStockVariationCalculatedQuantity{$bt}
 					ON {$bt}ProductStockVariationCalculatedQuantity{$bt}.{$bt}ProductVariationID{$bt} = {$bt}ProductVariation{$bt}.{$bt}ID{$bt}
@@ -77,7 +77,7 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 	}
 
 	static function get_by_product_variation_id($productVariationID) {
-		if($obj = DataObject::get_one("ProductStockVariationCalculatedQuantity", "ProductVariationID = ".intval($productVariationID))) {
+		if($obj = DataObject::get_one("ProductStockVariationCalculatedQuantity", "\"ProductVariationID\" = ".intval($productVariationID))) {
 			$obj = $obj;
 		}
 		else {
@@ -104,7 +104,7 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 	function WorkOutQuantities($productVariations = null) {
 		if($productVariations) {
 			foreach($productVariations as $productVariation) {
-				$ProductStockVariationCalculatedQuantityRecord = DataObject::get_one("ProductStockVariationCalculatedQuantity", "ProductVariationID = ".$productVariation->ID);
+				$ProductStockVariationCalculatedQuantityRecord = DataObject::get_one("ProductStockVariationCalculatedQuantity", "\"ProductVariationID\" = ".$productVariation->ID);
 				if(!$ProductStockVariationCalculatedQuantityRecord && $LatestUpdate) {
 					$ProductStockVariationCalculatedQuantityRecord = new ProductStockVariationCalculatedQuantity();
 					$ProductStockVariationCalculatedQuantityRecord->ProductVariationID = $productVariation->ID;
@@ -128,11 +128,11 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 				$data = DB::query("
 					SELECT
 						{$bt}ProductVariation_OrderItem{$bt}.{$bt}ProductVariationID{$bt},
-						Sum({$bt}OrderItem{$bt}.{$bt}Quantity{$bt})+0 QuantitySum,
-						{$bt}Order{$bt}.{$bt}ID{$bt} OrderID
+						Sum({$bt}OrderItem{$bt}.{$bt}Quantity{$bt})+0 \"QuantitySum\",
+						{$bt}Order{$bt}.{$bt}ID{$bt} \"OrderID\"
 					FROM
 						{$bt}Order{$bt}
-						INNER JOIN {$bt}OrderAttribute{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}OrderID{$bt} = {$bt}Order{$bt}.ID
+						INNER JOIN {$bt}OrderAttribute{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}OrderID{$bt} = {$bt}Order{$bt}.\"ID\"
 						INNER JOIN {$bt}OrderItem{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}ID{$bt} = {$bt}OrderItem{$bt}.{$bt}ID{$bt}
 						INNER JOIN {$bt}Product_OrderItem{$bt} ON {$bt}Product_OrderItem{$bt}.{$bt}ID{$bt} = {$bt}OrderAttribute{$bt}.{$bt}ID{$bt}
 						INNER JOIN {$bt}ProductVariation_OrderItem{$bt} ON {$bt}ProductVariation_OrderItem{$bt}.{$bt}ID{$bt} = {$bt}OrderAttribute{$bt}.{$bt}ID{$bt}
@@ -160,7 +160,7 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 				$OrderQuantityToDeduct = $sqlQuery->execute()->value();
 
 				//find last adjustment
-				$LatestManualUpdate = DataObject::get_one("ProductStockManualUpdate","ParentID = ".$this->ID, "LastEdited DESC");
+				$LatestManualUpdate = DataObject::get_one("ProductStockManualUpdate","\"ParentID\" = ".$this->ID, "\"LastEdited\" DESC");
 
 				//nullify order quantities that were entered before last adjustment
 				if($LatestManualUpdate) {

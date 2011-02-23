@@ -44,7 +44,7 @@ class ProductStockOrderEntry extends DataObject {
 		"Quantity"
 	);
 
-	public static $default_sort = "LastEdited DESC, ParentID ASC";
+	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
 
 	public static $singular_name = "Product Stock Order Entry";
 
@@ -80,8 +80,8 @@ class ProductStockOrderEntry extends DataObject {
 				user_error("Can not create record without order.", E_USER_ERROR);
 			}
 			//make sure no doubles are created
-			while($tobeDeleted = DataObject::get_one("ProductStockOrderEntry", "{$bt}OrderID{$bt} = ".$this->OrderID." AND ParentID = ".$this->ParentID." AND {$bt}ID{$bt} <> ".$this->ID, false, "LastEdited ASC")) {
-				$toBeDeleted = DataObject::get_one("ProductStockOrderEntry", "OrderID = ".$this->OrderID, false, "LastEdited ASC");
+			while($tobeDeleted = DataObject::get_one("ProductStockOrderEntry", "{$bt}OrderID{$bt} = ".$this->OrderID." AND \"ParentID\" = ".$this->ParentID." AND {$bt}ID{$bt} <> ".$this->ID, false, "\"LastEdited\" ASC")) {
+				$toBeDeleted = DataObject::get_one("ProductStockOrderEntry", "\"OrderID\" = ".$this->OrderID, false, "\"LastEdited\" ASC");
 				$toBeDeleted->delete();
 				user_error("deleting ProductStockOrderEntry because there are multiples!", E_USER_ERROR);
 			}

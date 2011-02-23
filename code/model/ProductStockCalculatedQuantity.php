@@ -49,7 +49,7 @@ class ProductStockCalculatedQuantity extends DataObject {
 		"LastEdited"
 	);
 
-	public static $default_sort = "ProductPresent DESC, Name ASC";
+	public static $default_sort = "\"ProductPresent\" DESC, \"Name\" ASC";
 
 	public static $singular_name = "Product Stock Calculated Quantity";
 
@@ -112,7 +112,7 @@ class ProductStockCalculatedQuantity extends DataObject {
 	}
 
 	static function get_by_product_id($productID) {
-		if($obj = DataObject::get_one("ProductStockCalculatedQuantity", "ProductID = ".intval($productID))) {
+		if($obj = DataObject::get_one("ProductStockCalculatedQuantity", "\"ProductID\" = ".intval($productID))) {
 			//do nothing
 		}
 		else {
@@ -140,7 +140,7 @@ class ProductStockCalculatedQuantity extends DataObject {
 	function WorkOutQuantities($products = null) {
 		if($products) {
 			foreach($products as $product) {
-				$ProductStockCalculatedQuantityRecord = DataObject::get_one("ProductStockCalculatedQuantity", "ProductID = ".$product->ID);
+				$ProductStockCalculatedQuantityRecord = DataObject::get_one("ProductStockCalculatedQuantity", "\"ProductID\" = ".$product->ID);
 				if(!$ProductStockCalculatedQuantityRecord && $LatestUpdate) {
 					$ProductStockCalculatedQuantityRecord = new ProductStockCalculatedQuantity();
 					$ProductStockCalculatedQuantityRecord->ProductID = $product->ID;
@@ -163,11 +163,11 @@ class ProductStockCalculatedQuantity extends DataObject {
 				$data = DB::query("
 					SELECT
 						{$bt}Product_OrderItem{$bt}.{$bt}ProductID{$bt},
-						Sum({$bt}OrderItem{$bt}.{$bt}Quantity{$bt})+0 QuantitySum,
-						{$bt}Order{$bt}.{$bt}ID{$bt} OrderID
+						Sum({$bt}OrderItem{$bt}.{$bt}Quantity{$bt})+0 \"QuantitySum\",
+						{$bt}Order{$bt}.{$bt}ID{$bt} \"OrderID\"
 					FROM
 						{$bt}Order{$bt}
-						INNER JOIN {$bt}OrderAttribute{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}OrderID{$bt} = {$bt}Order{$bt}.ID
+						INNER JOIN {$bt}OrderAttribute{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}OrderID{$bt} = {$bt}Order{$bt}.\"ID\"
 						INNER JOIN {$bt}OrderItem{$bt} ON {$bt}OrderAttribute{$bt}.{$bt}ID{$bt} = {$bt}OrderItem{$bt}.{$bt}ID{$bt}
 						INNER JOIN {$bt}Product_OrderItem{$bt} ON {$bt}Product_OrderItem{$bt}.{$bt}ID{$bt} = {$bt}OrderAttribute{$bt}.{$bt}ID{$bt}
 						INNER JOIN {$bt}Payment{$bt} ON {$bt}Payment{$bt}.{$bt}OrderID{$bt} = {$bt}Order{$bt}.{$bt}ID{$bt}
@@ -179,7 +179,7 @@ class ProductStockCalculatedQuantity extends DataObject {
 				if($data) {
 					foreach($data as $row) {
 						if($row["OrderID"] && $this->ID && $row["QuantitySum"]) {
-							if($ProductStockOrderEntry = DataObject::get_one("ProductStockOrderEntry", "OrderID = ".$row["OrderID"]." AND ParentID = ".$this->ID)) {
+							if($ProductStockOrderEntry = DataObject::get_one("ProductStockOrderEntry", "\"OrderID\" = ".$row["OrderID"]." AND \"ParentID\" = ".$this->ID)) {
 								//do nothing
 							}
 							else {
@@ -199,13 +199,13 @@ class ProductStockCalculatedQuantity extends DataObject {
 				//work out additional purchases
 				$sqlQuery = new SQLQuery(
 					 "SUM({$bt}Quantity{$bt})", // Select
-					 "ProductStockOrderEntry", // From
+					 "\"ProductStockOrderEntry\"", // From
 					 "{$bt}ParentID{$bt} = ".$this->ID." AND {$bt}IncludeInCurrentCalculation{$bt} = 1" // Where (optional)
 				);
 				$OrderQuantityToDeduct = $sqlQuery->execute()->value();
 
 				//find last adjustment
-				$LatestManualUpdate = DataObject::get_one("ProductStockManualUpdate","ParentID = ".$this->ID, "LastEdited DESC");
+				$LatestManualUpdate = DataObject::get_one("ProductStockManualUpdate","\"ParentID\" = ".$this->ID, "\"LastEdited\" DESC");
 
 				//nullify order quantities that were entered before last adjustment
 				if($LatestManualUpdate) {

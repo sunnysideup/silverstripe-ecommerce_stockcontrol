@@ -37,7 +37,7 @@ class ProductStockManualUpdate extends DataObject {
 		"Quantity" => "Quantity Deducted"
 	);
 
-	public static $default_sort = "LastEdited DESC, ParentID ASC";
+	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
 
 	public static $singular_name = "Product Stock Manual Update Entry";
 
