@@ -9,6 +9,13 @@
  **/
 
 
+Director::addRules(50, array(
+	'updatestockquantity/edit/$ProductCode/$VariationCode/$NewQuantity' => 'UpdateStockQuantity'
+));
+
+
+
+
 //copy the lines between the START AND END line to your /mysite/_config.php file and choose the right settings
 //===================---------------- START ecommerc_stockcontrol MODULE ----------------===================
 //MIN MAX MUST SET

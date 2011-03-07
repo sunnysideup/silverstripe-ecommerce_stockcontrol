@@ -10,6 +10,7 @@ class ProductStockManualUpdate extends DataObject {
 
 	static $db = array(
 		"Quantity" => "Int",
+		"ExternalUpdate" => "Boolean"
 	);
 
 	static $has_one = array(
