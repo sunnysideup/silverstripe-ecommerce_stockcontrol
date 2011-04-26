@@ -37,8 +37,10 @@ class ProductStockVariationCalculatedQuantity extends ProductStockCalculatedQuan
 	public static $default_sort = "\"ProductVariationPresent\" DESC, \"Name\" ASC";
 
 	public static $singular_name = "Product Stock Variation Calculated Quantity";
+		function i18n_single_name() { return _t("ProductStockVariationCalculatedQuantity.CAlCULATEDSTOCKQUANTITY", "Calculated Stock Quantity");}
 
 	public static $plural_name = "Product Stock Variation Calculated Quantities";
+		function i18n_plural_name() { return _t("ProductStockVariationCalculatedQuantity.CAlCULATEDSTOCKQUANTITIES", "Calculated Stock Quantities");}
 
 
 	//END MODEL ADMIN STUFF

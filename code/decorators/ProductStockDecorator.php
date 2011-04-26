@@ -8,13 +8,13 @@
 class ProductStockDecorator extends DataObjectDecorator{
 
 	public static $alwaysAllowPurchase = false;
-	
+
 	public static $stockLevelIndicators = array(
 		0 => "none",
 		10 => "limited",
-		1000 => "many"	
+		1000 => "many"
 	);
-	
+
 	/*
 	 * Allow setting stock level in CMS
 	 */
@@ -68,10 +68,10 @@ class ProductStockDecorator extends DataObjectDecorator{
 	 * Only allow purchase if stock levels allow
 	 * TODO: customise this to a certian stock level, on, or off
 	 */
-	function canPurchase(){
-		if( self::$alwaysAllowPurchase )
+	function canPurchase($member = null){
+		if( self::$alwaysAllowPurchase ) {
 			return true;
-			
+		}
 		if($this->owner->Stock <= 0){
 			 return false;
 		}
@@ -86,7 +86,7 @@ class ProductStockDecorator extends DataObjectDecorator{
 			$last = $value;
 			if($level <= $key)
 				return $value;
-		} 
-		return $last;	
+		}
+		return $last;
 	}
 }

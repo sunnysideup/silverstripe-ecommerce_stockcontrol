@@ -40,19 +40,21 @@ class ProductStockManualUpdate extends DataObject {
 
 	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
 
-	public static $singular_name = "Product Stock Manual Update Entry";
+	public static $singular_name = "Stock Update Entry";
+		function i18n_singular_name() { return _t("ProductStockManualUpdate.STOCKUPDATEENTRY", "Stock Update Entry");}
 
 	public static $plural_name = "Product Stock Manual Update Entries";
+		function i18n_plural_name() { return _t("ProductStockManualUpdate.STOCKUPDATEENTRIES", "Stock Update Entries");}
 
-	public function canView() {return $this->canDoAnything();}
+	public function canView($member = null) {return $this->canDoAnything();}
 
-	public function canCreate() {return $this->canDoAnything();}
+	public function canCreate($member = null) {return $this->canDoAnything();}
 
-	public function canEdit() {return false;}
+	public function canEdit($member = null) {return false;}
 
 	public function canDelete() {return false;}
 
-	protected function canDoAnything() {
+	protected function canDoAnything($member = null) {
 		if(!Permission::check("ADMIN")) {
 			Security::permissionFailure($this, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
 		}

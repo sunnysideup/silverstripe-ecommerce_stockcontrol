@@ -55,7 +55,7 @@ class MinMaxModifier extends OrderModifier {
 	}
 
 //-------------------------------------------------------------------- *** display functions
-	function CanRemove() {
+	function CanBeRemoved() {
 		return false;
 	}
 
@@ -68,7 +68,7 @@ class MinMaxModifier extends OrderModifier {
 
 
 //--------------------------------------------------------------------*** table values
-	function LiveAmount() {
+	function LiveCalculationValue() {
 		self::apply_min_max();
 		return 0;
 	}
