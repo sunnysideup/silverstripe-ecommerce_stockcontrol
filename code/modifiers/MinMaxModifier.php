@@ -105,98 +105,107 @@ class MinMaxModifier extends OrderModifier {
 				$msgArray = array();
 				$minFieldName = self::$min_field;
 				$maxFieldName = self::$max_field;
-				$items = ShoppingCart::get_items();
+				$items = ShoppingCart::current_order()->Items();
 				$i = 0;
-				foreach($items as $itemIndex => $item) {
-					if($item) {
-						$product = $item->Product();
-
-						if($quantity = $item->getQuantity()) {
-							$newQuantity = -1; //can be zero, but can not be minus 1!
-							$absoluteMin = 0;
-							$absoluteMax = 9999999;
-							if($minFieldName) {
-								if($product->$minFieldName) {
-									$absoluteMin = $product->$minFieldName;
-									if($quantity < $product->$minFieldName) {
-										$newQuantity = $product->$minFieldName;
+				if($items) {
+					foreach($items as $itemIndex => $item) {
+						if($item) {
+							$buyable = $item->Buyable();
+							if($buyable instanceOf ProductVaration) {
+								$buyable = $buyable->Product();
+							}
+							if($quantity = $item->Quantity) {
+								//THIS IS A BIT OF A HACK
+								if(isset($_REQUEST["quantity"])) {
+									$quantity = $_REQUEST["quantity"];
+								}
+								//END OF HACK
+								$newQuantity = -1; //can be zero, but can not be minus 1!
+								$absoluteMin = 0;
+								$absoluteMax = 9999999;
+								if($minFieldName) {
+									if($buyable->$minFieldName && $buyable->$minFieldName > 0) {
+										$absoluteMin = $buyable->$minFieldName;
+										if($quantity < $buyable->$minFieldName) {
+											$newQuantity = $buyable->$minFieldName;
+										}
 									}
 								}
-							}
-							elseif(self::$default_min_quantity) {
-								if($absoluteMin < self::$default_min_quantity ) {
-									$absoluteMin = self::$default_min_quantity;
-								}
-								if($quantity < self::$default_min_quantity) {
-									$newQuantity = self::$default_min_quantity;
-								}
-							}
-							if($maxFieldName) {
-								if($product->$maxFieldName) {
-									$absoluteMax = $product->$maxFieldName;
-									if($quantity > $product->$maxFieldName) {
-										$newQuantity = $product->$maxFieldName;
+								elseif(self::$default_min_quantity) {
+									if($absoluteMin < self::$default_min_quantity ) {
+										$absoluteMin = self::$default_min_quantity;
+									}
+									if($quantity < self::$default_min_quantity) {
+										$newQuantity = self::$default_min_quantity;
 									}
 								}
-							}
-							elseif(self::$default_max_quantity) {
-								if($absoluteMax > self::$default_max_quantity) {
-									$absoluteMax = self::$defaul_max_quantity;
+								if($maxFieldName) {
+									if($buyable->$maxFieldName && $buyable->$maxFieldName > 0) {
+										$absoluteMax = $buyable->$maxFieldName;
+										if($quantity > $buyable->$maxFieldName) {
+											$newQuantity = $buyable->$maxFieldName;
+										}
+									}
 								}
+								elseif(self::$default_max_quantity) {
+									if($absoluteMax > self::$default_max_quantity) {
+										$absoluteMax = self::$defaul_max_quantity;
+									}
 
-								if($quantity > self::$default_max_quantity) {
-									$newQuantity = self::$default_max_quantity;
+									if($quantity > self::$default_max_quantity) {
+										$newQuantity = self::$default_max_quantity;
+									}
 								}
-							}
-							if(self::$use_stock_quantities) {
-								$maxStockQuantity = ProductStockCalculatedQuantity::get_quantity_by_product_id($product->ID);
-								if($absoluteMax > $maxStockQuantity) {
-									$absoluteMax = $maxStockQuantity;
+								if(self::$use_stock_quantities) {
+									$maxStockQuantity = ProductStockCalculatedQuantity::get_quantity_by_product_id($product->ID);
+									if($absoluteMax > $maxStockQuantity) {
+										$absoluteMax = $maxStockQuantity;
+									}
+									if($absoluteMin > $maxStockQuantity) {
+										$absoluteMax = 0;
+										$maxStockQuantity = 0;
+									}
+									if($quantity > $maxStockQuantity) {
+										$newQuantity = $maxStockQuantity;
+									}
 								}
-								if($absoluteMin > $maxStockQuantity) {
-									$absoluteMax = 0;
-									$maxStockQuantity = 0;
+								if($newQuantity != $quantity && $newQuantity > -1) {
+									ShoppingCart::singleton()->setQuantity($buyable, $newQuantity);
+									$msgArray[$i] = $buyable->Title." changed from ".$quantity." to ".$newQuantity;
+									$i++;
+									$quantity = $newQuantity;
 								}
-								if($quantity > $maxStockQuantity) {
-									$newQuantity = $maxStockQuantity;
-								}
-							}
-							if($newQuantity != $quantity && $newQuantity > -1) {
-								ShoppingCart::set_quantity_item($product->ID, $newQuantity);
-								$msgArray[$i] = $product->Title." changed from ".$quantity." to ".$newQuantity;
-								$i++;
-								$quantity = $newQuantity;
-							}
-							if(!Director::is_ajax()) {
-								if($absoluteMin || $absoluteMax < 99999) {
-									//IS THIS WORKING
-									$js = '
-										jQuery(document).ready(
-											function() {
-												jQuery("input[name=\'Product_OrderItem_'.$product->ID.'_Quantity\']").blur(
-													function() {
-														var updated = 0;
-														if(jQuery(this).val() > '.intval($absoluteMax).') {
-															jQuery(this).val('.intval($absoluteMax).');
-															updated = 1;
+								if(!Director::is_ajax()) {
+									if($absoluteMin || $absoluteMax < 99999) {
+										//IS THIS WORKING
+										$js = '
+											jQuery(document).ready(
+												function() {
+													jQuery("input[name=\''.$item->QuantityFieldName().'\']").blur(
+														function() {
+															var updated = 0;
+															if(jQuery(this).val() > '.intval($absoluteMax).') {
+																jQuery(this).val('.intval($absoluteMax).');
+																updated = 1;
+															}
+															if(jQuery(this).val() < '.intval($absoluteMin).') {
+																jQuery(this).val('.intval($absoluteMin).');
+																updated = 1;
+															}
+															if(updated) {
+																alert("'.addslashes(self::$sorry_message).'");
+																jQuery("input[name=\''.$item->QuantityFieldName().'\']").change();
+															}
 														}
-														if(jQuery(this).val() < '.intval($absoluteMin).') {
-															jQuery(this).val('.intval($absoluteMin).');
-															updated = 1;
-														}
-														if(updated) {
-															alert("'.addslashes(self::$sorry_message).'");
-															jQuery("input[name=\'Product_OrderItem_'.$product->ID.'_Quantity\']").change();
-														}
-													}
-												);
-											}
-										);';
-										Requirements::customScript($js,'Product_OrderItem_'.$product->ID.'_Quantity');
+													);
+												}
+											);';
+											Requirements::customScript($js,$item->QuantityFieldName());
+									}
 								}
-							}
-							elseif($quantity) {
-								$jsAjaxArray[] = array("name" => 'Product_OrderItem_'.$product->ID.'_Quantity', "value" => $quantity);
+								elseif($quantity) {
+									$jsAjaxArray[] = array("name" => $item->QuantityFieldName(), "value" => $quantity);
+								}
 							}
 						}
 					}
