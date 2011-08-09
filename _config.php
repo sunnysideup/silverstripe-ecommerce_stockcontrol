@@ -33,4 +33,6 @@ Director::addRules(50, array(
 //MinMaxModifier::set_use_stock_quantities(true); //make use of the stock quantity tables to keep track of them
 //DataObject::add_extension('Product', 'ProductStockDecorator');
 //DataObject::add_extension('ProductVariation', 'ProductVariationStockDecorator');
+//Object::add_extension('ContentController', 'ProductStockExtension');
+Object::add_extension('Product_Controller', 'ProductStockDecorator_Extension');
 //===================---------------- END ecommerc_stockcontrol MODULE ----------------===================

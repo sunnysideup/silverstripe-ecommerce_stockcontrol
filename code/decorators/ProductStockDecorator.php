@@ -90,3 +90,18 @@ class ProductStockDecorator extends DataObjectDecorator{
 		return $last;
 	}
 }
+
+class ProductStockDecorator_Extension extends Extension {
+
+	function index() {
+		if($field = MinMaxModifier::get_min_field()) {
+			if($min = $this->owner->$field) {
+				Requirements::customScript('jQuery(document).ready(function() {jQuery("#Quantity input").val('.$min.');})', "SETQUANTITY");
+			}
+		}
+		return array();
+	}
+
+	
+
+}
