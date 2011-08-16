@@ -27,7 +27,6 @@ Director::addRules(50, array(
 //MinMaxModifier::set_max_field("MaxQuantity");
 //MinMaxModifier::set_adjustment_message("Based on stock availability, quantities have been adjusted as follows: ");
 //MinMaxModifier::set_sorry_message("Sorry, your selected value not is available");
-//MinMaxModifier::set_show_adjustments_in_checkout_table(true);
 
 //STOCK CONTROL MUST SET
 //MinMaxModifier::set_use_stock_quantities(true); //make use of the stock quantity tables to keep track of them

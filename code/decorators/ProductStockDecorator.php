@@ -7,9 +7,14 @@
 
 class ProductStockDecorator extends DataObjectDecorator{
 
-	public static $alwaysAllowPurchase = false;
+	protected static $quantity_field_selector = '#Quantity input';
+		static function set_quantity_field_selector($s) {self::$quantity_field_selector = $s;}
+		static function get_quantity_field_selector() {return self::$quantity_field_selector;}
+	
+	protected $alwaysAllowPurchase = false;
+		function alwaysAllowPurchase($b) {$this->alwaysAllowPurchase = $b;}
 
-	public static $stockLevelIndicators = array(
+	public static $stock_level_indicators = array(
 		0 => "none",
 		10 => "limited",
 		1000 => "many"
@@ -69,7 +74,7 @@ class ProductStockDecorator extends DataObjectDecorator{
 	 * TODO: customise this to a certian stock level, on, or off
 	 */
 	function canPurchase($member = null){
-		if( self::$alwaysAllowPurchase ) {
+		if( $this->alwaysAllowPurchase ) {
 			return true;
 		}
 		if($this->owner->Stock <= 0){
@@ -81,11 +86,11 @@ class ProductStockDecorator extends DataObjectDecorator{
 	function StockIndicator($level = null){
 		$level = is_numeric($level) ? $level : $this->owner->Stock;
 		$last = null;
-		foreach(self::$stockLevelIndicators as $key => $value)
-		{
+		foreach(self::$stock_level_indicators as $key => $value) {
 			$last = $value;
-			if($level <= $key)
+			if($level <= $key) {
 				return $value;
+			}
 		}
 		return $last;
 	}
@@ -94,11 +99,19 @@ class ProductStockDecorator extends DataObjectDecorator{
 class ProductStockDecorator_Extension extends Extension {
 
 	function index() {
-		if($field = MinMaxModifier::get_min_field()) {
-			if($min = $this->owner->$field) {
-				Requirements::customScript('jQuery(document).ready(function() {jQuery("#Quantity input").val('.$min.');})', "SETQUANTITY");
-			}
+		$min = 0;
+		$max = 0;
+		$msg = MinMaxModifier::get_sorry_message();
+		$fieldSelector = ProductStockDecorator::get_quantity_field_selector() ;
+		if($minField = MinMaxModifier::get_min_field()) {
+			$min = $this->owner->$minField;
 		}
+		if($maxField = MinMaxModifier::get_max_field()) {
+			$max = $this->owner->$maxField;
+		}
+		$js = 'MinMaxModifier.add_item("'.$fieldSelector.'", '.intval($min).', '.intval($max).', "'.addslashes($msg).'");';
+		Requirements::javascript("ecommerce_stockcontrol/javascript/MinMaxModifier.js");
+		Requirements::customScript($js,$fieldSelector);		
 		return array();
 	}
 
