@@ -80,20 +80,6 @@ class MinMaxModifier extends OrderModifier {
 		return "";
 	}
 
-	function Name() {
-		if($this->ID) {
-			return $this->Name;
-		}
-		else {
-			return $this->LiveName();
-		}
-	}
-
-	function TableTitle() {
-		return $this->Name();
-	}
-
-
 //-------------------------------------------------------------------- *** calculations
 	static function apply_min_max() {
 		if(self::$min_field || self::$max_field  || self::$default_min_quantity || self::$default_max_quantity ) {
