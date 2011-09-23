@@ -2,14 +2,8 @@
 
 class UpdateStockQuantity extends Controller {
 
-	function init() {
-		die("BBB");
-		parent::init();
+	function update(){
+		return "not completed yet";
 	}
 
-	function edit($request) {
-		return "AAAAAAAA";
-		print_r($request);
-		die();
-	}
 }

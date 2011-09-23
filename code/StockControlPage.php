@@ -14,7 +14,7 @@
 
 class StockControlPage extends Page {
 
-	static $icon = "mysite/images/treeicons/StockControlPage";
+	static $icon = "ecommerce_stockcontrol/images/treeicons/StockControlPage";
 
 	static $defaults = array(
 		"ShowInMenus" => 0,
@@ -68,32 +68,15 @@ class StockControlPage_Controller extends Page_Controller {
 	}
 
 	function StockProductObjects() {
-		ProductStockCalculatedQuantity::add_all_products();
-		$dos = new DataObjectSet();
-		$products = DataObject::get("Product");
-		foreach($products as $product) {
-			$product->CalculatedQuantity = ProductStockCalculatedQuantity::get_quantity_by_product_id($product->ID);
-			$product->VariationQuantities = $this->StockVariationObjects($product->ID);
-			$product->StockControlPage = $this;
-		}
-		return $products;
-	}
-
-	function StockVariationObjects($ProductID) {
-		$dos = new DataObjectSet();
-		$variations = DataObject::get("ProductVariation", "\"ProductID\" = ".$ProductID);
-		if($variations) {
-			foreach($variations as $variation) {
-				$variation->CalculatedQuantity = ProductStockCalculatedQuantity::get_quantity_by_product_id($variation->ID);
-				$variation->StockControlPage = $this;
+		$buyableStockCalculatedQuantities = DataObject::get("BuyableStockCalculatedQuantity");
+		if($buyableStockCalculatedQuantities) {
+			foreach($buyableStockCalculatedQuantities as $buyableStockCalculatedQuantity) {
+				$buyable->CalculatedQuantity = BuyableStockCalculatedQuantity::get_quantity_by_buyable($buyable);
+				$buyable->StockControlPage = $this;
 			}
-			return $variations;
-		}
-		else {
-			return null;
+			return $buyableStockCalculatedQuantities;
 		}
 	}
-
 
 	function update($request = null) {
 		$table = $request->param("ID");
@@ -101,19 +84,10 @@ class StockControlPage_Controller extends Page_Controller {
 		$newValue = intval($request->getVar("v"));
 		if($memberID = Member::currentUserID()) {
 			if(class_exists($table) && $id && ($newValue || $newValue === 0)) {
-				if($page = DataObject::get_by_id($table, $id)) {
-					if($page instanceOf Product) {
-						$parent = ProductStockCalculatedQuantity::get_by_product_id($id);
-					}
-					elseif($page instanceOf ProductVariation) {
-						$parent = ProductStockCalculatedQuantity::get_by_product_variation_id($id);
-					}
-					else {
-						user_error("$table is not an instance of Product or Product Variation", E_ERROR);
-					}
-					if($parent) {
-						$page->Stock = $newValue;
-						return $parent->Name . " quantity updated to ".$newValue;
+				if($buyable = DataObject::get_by_id($table, $id)) {
+					if($buyable) {
+						$buyable->setActualQuantity($newValue);
+						return $buyable->Name . " quantity updated to ".$newValue;
 					}
 					else {
 						user_error("Could not create Calculation object", E_ERROR);
@@ -132,27 +106,18 @@ class StockControlPage_Controller extends Page_Controller {
 		}
 	}
 
-	function history($request = null) {
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
-		$table = $request->param("ID");
-		$id = intval($request->param("OtherID"));
-		if($table == "product") {
-			$parent = DataObject::get_one("ProductStockCalculatedQuantity", "{$bt}ProductID{$bt} = '".$id."'");
-		}
-		elseif($table == "variation") {
-			$parent = DataObject::get_one("ProductStockCalculatedQuantity", "{$bt}ProductVariationID{$bt} = '".$id."'");
-		}
-		else {
-			user_error("could not find class: derived from ($table) for history", E_ERROR);
-		}
-		if($parent) {
-			$parent->ManualUpdates = DataObject::get("ProductStockManualUpdate", "\"ParentID\" = ".$parent->ID);
-			$parent->OrderEntries = DataObject::get("ProductStockOrderEntry", "\"ParentID\" = ".$parent->ID);
-			return $this->customise($parent)->renderWith("AjaxStockControlPageHistory");
+ 	function history($request = null) {
+		$id = intval($request->param("ID"));
+		$buyableStockCalculatedQuantity = DataObject::get_by_id("BuyableStockCalculatedQuantity", $id);
+		if($buyableStockCalculatedQuantity) {
+			$buyableStockCalculatedQuantity->ManualUpdates = DataObject::get("BuyableStockManualUpdate", "\"ParentID\" = ".$parent->ID);
+			$buyableStockCalculatedQuantity->OrderEntries = DataObject::get("BuyableStockOrderEntry", "\"ParentID\" = ".$parent->ID);
+			return $this->customise($buyableStockCalculatedQuantity)->renderWith("AjaxStockControlPageHistory");
 		}
 		else {
 			return " could not find historical data";
 		}
-	}
+ 	}
+
 
 }

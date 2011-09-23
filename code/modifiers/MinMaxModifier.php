@@ -4,7 +4,7 @@
  * @author Nicolaas [at] sunnysideup.co.nz
  * @package: ecommerce
  * @sub-package: ecommerce_stockcontrol
- * @description: makes sure that a product quantity in cart stays between a min and a max
+ * @description: makes sure that a buyable quantity in cart stays between a min and a max
  */
 class MinMaxModifier extends OrderModifier {
 
@@ -130,7 +130,7 @@ class MinMaxModifier extends OrderModifier {
 							}
 						}
 						if(self::$use_stock_quantities) {
-							$maxStockQuantity = ProductStockCalculatedQuantity::get_quantity_by_product_id($product->ID);
+							$maxStockQuantity = BuyableStockCalculatedQuantity::get_quantity_by_buyable($buyable);
 							if($absoluteMax > $maxStockQuantity) {
 								$absoluteMax = $maxStockQuantity;
 							}
@@ -197,10 +197,6 @@ class MinMaxModifier extends OrderModifier {
 
 
 //--------------------------------------------------------------------*** database functions
-
-	public function onBeforeWrite() {
-		parent::onBeforeWrite();
-	}
 
 }
 

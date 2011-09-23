@@ -7,7 +7,7 @@
  *
  **/
 
-class ProductStockOrderEntry extends DataObject {
+class BuyableStockOrderEntry extends DataObject {
 
 	static $db = array(
 		"Quantity" => "Int",
@@ -15,7 +15,7 @@ class ProductStockOrderEntry extends DataObject {
 	);
 
 	static $has_one = array(
-		"Parent" => "ProductStockCalculatedQuantity",
+		"Parent" => "BuyableStockCalculatedQuantity",
 		"Order" => "Order",
 	);
 
@@ -34,7 +34,7 @@ class ProductStockOrderEntry extends DataObject {
 	public static $field_labels = array(
 		"Quantity" => "Calculated Quantity On Hand",
 		"IncludeInCurrentCalculation" => "Include in Calculation",
-		"ParentID" => "Product",
+		"ParentID" => "Buyable Calculation",
 		"OrderID" => "Order"
 	);
 
@@ -47,10 +47,10 @@ class ProductStockOrderEntry extends DataObject {
 	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
 
 	public static $singular_name = "Stock Sale Entry";
-		function i18n_single_name() { return _t("ProductStockOrderEntry.STOCKSALEENTRY", "Stock Sale Entry");}
+		function i18n_single_name() { return _t("BuyableStockOrderEntry.STOCKSALEENTRY", "Stock Sale Entry");}
 
-	public static $plural_name = "Product Stock  Order Entries";
-		function i18n_plural_name() { return _t("ProductStockOrderEntry.STOCKSALEENTRIES", "Stock Sale Entries");}
+	public static $plural_name = "Stock Sale Entries";
+		function i18n_plural_name() { return _t("BuyableStockOrderEntry.STOCKSALEENTRIES", "Stock Sale Entries");}
 
 	public function canCreate() {return false;}
 
@@ -73,19 +73,18 @@ class ProductStockOrderEntry extends DataObject {
 		if($this->ID) {
 			//basic checks
 			if(!$this->ParentID) {
-
 				$this->delete();
-				user_error("Can not create record without associated product.", E_USER_ERROR);
+				user_error("Can not create record without associated buyable.", E_USER_ERROR);
 			}
 			if(!$this->OrderID) {
 				$this->delete();
 				user_error("Can not create record without order.", E_USER_ERROR);
 			}
-			//make sure no doubles are created
-			while($tobeDeleted = DataObject::get_one("ProductStockOrderEntry", "{$bt}OrderID{$bt} = ".$this->OrderID." AND \"ParentID\" = ".$this->ParentID." AND {$bt}ID{$bt} <> ".$this->ID, false, "\"LastEdited\" ASC")) {
-				$toBeDeleted = DataObject::get_one("ProductStockOrderEntry", "\"OrderID\" = ".$this->OrderID, false, "\"LastEdited\" ASC");
+			//make sure no duplicates are created
+			while($tobeDeleted = DataObject::get_one("BuyableStockOrderEntry", "{$bt}OrderID{$bt} = ".$this->OrderID." AND \"ParentID\" = ".$this->ParentID." AND {$bt}ID{$bt} <> ".$this->ID, false, "\"LastEdited\" ASC")) {
+				$toBeDeleted = DataObject::get_one("BuyableStockOrderEntry", "\"OrderID\" = ".$this->OrderID, false, "\"LastEdited\" ASC");
 				$toBeDeleted->delete();
-				user_error("deleting ProductStockOrderEntry because there are multiples!", E_USER_ERROR);
+				user_error("deleting BuyableStockOrderEntry because there are multiples!", E_USER_ERROR);
 			}
 		}
 	}

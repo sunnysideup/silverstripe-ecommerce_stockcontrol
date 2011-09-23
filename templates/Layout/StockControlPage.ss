@@ -6,16 +6,8 @@ $Form
 	<li>
 		<span class="currentNumber">$CalculatedQuantity =</span>
 		<input type="text" value="" name="$ClassName/$ID" class="updateField productUpdateField" />
-		<label class="history"><a href="{$StockControlPage.Link}history/product/$ID" rel="history{$ClassName}{$ID}">$Title</a></label>
+		<label class="history"><a href="{$StockControlPage.Link}history/$ID" rel="history{$ClassName}{$ID}">$Name</a></label>
 		<div class="loadHistoryHere" id="history{$ClassName}{$ID}"></div>
-		<% if VariationQuantities %><ul id="StockVariationObjects"><% control VariationQuantities %>
-			<li>
-				<span class="currentNumber">$CalculatedQuantity =</span>
-				<input type="text" value="" name="$ClassName/$ID" class="updateField variationUpdateField" />
-				<label class="history"><a href="{$StockControlPage.Link}history/variation/$ID" rel="history{$ClassName}{$ID}">$Title</a></label>
-				<div class="loadHistoryHere" id="history{$ClassName}{$ID}"></div>
-			</li>
-		<% end_control %></ul><% end_if %>
 	</li>
 <% end_control %>
 </ul>
