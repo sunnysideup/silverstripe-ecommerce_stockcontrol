@@ -16,13 +16,16 @@
 
 var StockControlPage = {
 
+	url: "update-stock",
+		set_url: function(s) {this.url = s;},
+
 	ulSelector: "#StockProductObjects",
 
 	inputSelector: "#StockProductObjects input.updateField",
 
 	feedbackSelector: ".StockObjectsFeedback",
 
-	historyLinkSelector: "#StockProductObjects .history a",
+	historyLinkSelector: ".history a",
 
 	init: function () {
 		jQuery(StockControlPage.inputSelector).change(
@@ -31,15 +34,17 @@ var StockControlPage = {
 				jQuery(this).addClass("loading");
 				var element = this;
 				var nameArray = nameValue.split("/");
-				var table = nameArray[0];
+				var action = nameArray[0];
 				var id = nameArray[1];
 				var value = parseInt(jQuery(this).val());
 				jQuery.get(
-					StockControlPageURL + table + "/" + id + "/?v=" + value,
+					StockControlPage.url + id + "/" + value + "/",
 					{},
 					function(data) {
 						jQuery(StockControlPage.feedbackSelector).html(data)
 						jQuery(element).removeClass("loading");
+						jQuery(element).val("");
+						jQuery(".item" + id).text(value + " = ");
 					}
 				);
 			}
@@ -65,7 +70,6 @@ var StockControlPage = {
 				}
 				return false;
 			}
-
 		);
 	}
 

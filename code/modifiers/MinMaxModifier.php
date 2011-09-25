@@ -19,7 +19,7 @@ class MinMaxModifier extends OrderModifier {
 	protected static $default_min_quantity = 1;
 		static function set_default_min_quantity($i) { self::$default_min_quantity = $i;}
 
-	protected static $default_max_quantity = 99;
+	protected static $default_max_quantity = 9999;
 		static function set_default_max_quantity($i) { self::$default_max_quantity = $i;}
 
 	protected static $min_field = "MinQuantity";
@@ -97,10 +97,10 @@ class MinMaxModifier extends OrderModifier {
 
 						//END OF HACK
 						$newValue = $quantity; //can be zero, but can not be minus 1!
-						$absoluteMin = 0;
-						$absoluteMax = 9999;
+						$absoluteMin = self::$default_min_quantity;
+						$absoluteMax = self::$default_max_quantity;
 						if($minFieldName) {
-							if($buyable->$minFieldName && $buyable->$minFieldName > 0) {
+							if(isset($buyable->$minFieldName) && $buyable->$minFieldName > 0) {
 								$absoluteMin = $buyable->$minFieldName;
 							}
 							elseif(!isset($buyable->$minFieldName)) {
@@ -109,13 +109,8 @@ class MinMaxModifier extends OrderModifier {
 								}
 							}
 						}
-						elseif(self::$default_min_quantity) {
-							if($absoluteMin < self::$default_min_quantity ) {
-								$absoluteMin = self::$default_min_quantity;
-							}
-						}
 						if($maxFieldName) {
-							if($buyable->$maxFieldName && $buyable->$maxFieldName > 0) {
+							if(isset($buyable->$maxFieldName) && $buyable->$maxFieldName > 0) {
 								$absoluteMax = $buyable->$maxFieldName;
 							}
 							elseif(!isset($buyable->$maxFieldName)) {
@@ -124,13 +119,8 @@ class MinMaxModifier extends OrderModifier {
 								}
 							}
 						}
-						elseif(self::$default_max_quantity) {
-							if($absoluteMax > self::$default_max_quantity) {
-								$absoluteMax = self::$defaul_max_quantity;
-							}
-						}
-						if(self::$use_stock_quantities) {
-							$maxStockQuantity = BuyableStockCalculatedQuantity::get_quantity_by_buyable($buyable);
+						if(self::$use_stock_quantities && !$buyable->UnlimitedStock) {
+							$maxStockQuantity = $buyable->getActualQuantity();
 							if($absoluteMax > $maxStockQuantity) {
 								$absoluteMax = $maxStockQuantity;
 							}
@@ -177,7 +167,7 @@ class MinMaxModifier extends OrderModifier {
 				if($msg && !Director::is_ajax()) {
 					Requirements::customScript('alert("'.Convert::raw2js($msg).'");', "MinMaxModifierAlert");
 				}
-				$this->Adjustments = $msg;
+				//$this->Adjustments = $msg;
 			}
 		}
 	}

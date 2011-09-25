@@ -10,7 +10,7 @@
 
 
 Director::addRules(50, array(
-	'updatestockquantity/update/$ProductCode/$VariationCode/$NewQuantity' => 'UpdateStockQuantity'
+	StockControlController::get_url_segment().'//$Action/$ID/$OtherID/$Value' => 'StockControlController'
 ));
 
 
@@ -27,10 +27,8 @@ Order::add_modifier('MinMaxModifier');
 
 //HIGHLY RECOMMENDED
 //MinMaxModifier::set_use_stock_quantities(true); //make use of the stock quantity tables to keep track of them
-//BuyableAdmin::add_managed_model("BuyableStockCalculatedQuantity");
-//BuyableAdmin::add_managed_model("BuyableStockVariationCalculatedQuantity");
-//BuyableAdmin::add_managed_model("BuyableStockManualUpdate");
-//BuyableAdmin::add_managed_model("BuyableStockOrderEntry");
+//ProductsAndGroupsModelAdmin::add_managed_model("BuyableStockManualUpdate");
+//ProductsAndGroupsModelAdmin::add_managed_model("BuyableStockOrderEntry");
 
 
 //MAY SET

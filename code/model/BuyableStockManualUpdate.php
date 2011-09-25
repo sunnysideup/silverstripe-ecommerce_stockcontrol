@@ -26,20 +26,19 @@ class BuyableStockManualUpdate extends DataObject {
 
 	public static $searchable_fields = array(
 		"Quantity",
-		"ParentID",
 		"MemberID"
 	);
 
 	public static $field_labels = array(
 		"Quantity",
 		"ParentID"  => "Buyable",
-		"MemberID"  => "Administrator"
+		"MemberID"  => "Updated by ..."
 	);
 
 	public static $summary_fields = array(
 		"Parent.Name" => "Buyable",
-		"Member.FirstName" => "Administrator",
-		"Quantity" => "New Quantity"
+		"Member.FirstName" => "Updater",
+		"Quantity" => "Quantity"
 	);
 
 	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";

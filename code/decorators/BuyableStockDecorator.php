@@ -21,10 +21,16 @@ class BuyableStockDecorator extends DataObjectDecorator{
 		return array (
 			'db' => array(
 				'MinQuantity' => 'Int',
-				'MaxQantity' => 'Int'
+				'MaxQuantity' => 'Int',
+				'UnlimitedStock' => 'Boolean'
 			),
 			'casting' => array(
 				'ActualQuantity' => 'Int'
+			),
+			'defaults' => array(
+				'UnlimitedStock' => 1,
+				'MinQuantity' => 0,
+				'MaxQuantity' => 0
 			)
 		);
 	}
@@ -38,9 +44,18 @@ class BuyableStockDecorator extends DataObjectDecorator{
 		else {
 			$tabName = 'Root.Stock';
 		}
-		$fields->addFieldToTab($tabName,new NumericField('MinQuantity','Minimum Order Size'));
-		$fields->addFieldToTab($tabName,new NumericField('MaxQantity','Maximum Order Size'));
-		$fields->addFieldToTab($tabName,new NumericField('ActualQantity','Stock Available', $this->getActualQuantity()));
+		$fields->addFieldsToTab(
+			$tabName,
+			array(
+				new HeaderField('MinMaxHeader','Minimum and Maximum Quantities per Order', 3),
+				new NumericField('MinQuantity','Minimum Quantity'),
+				new NumericField('MaxQuantity','Maximum Quantity'),
+				new HeaderField('ActualQantityHeader','Stock available', 3),
+				new CheckboxField('UnlimitedStock','Unlimited Stock'),
+				new NumericField('ActualQantity','Actual Stock Available', $this->getActualQuantity()),
+				new LiteralField('ActualQantityAdjustmentLink','This CMS also provides a <a href="/'.StockControlController::get_url_segment().'/" target="_blank">quick stock adjuster</a>.')
+			)
+		);
 	}
 
 	/*
@@ -80,10 +95,23 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	 * TODO: customise this to a certian stock level, on, or off
 	 */
 	function canPurchase($member = null){
-		if($this->getActualQuantity() <= $this->MinQuantity){
-			 return false;
+		if($this->owner->getActualQuantity() <= $this->owner->MinQuantity){
+			if(!$this->owner->UnlimitedStock) {
+				return false;
+			}
 		}
-		return null; //returning null ensures that can checks continue
+		return null; //returning null ensures that checks can continue
+	}
+
+
+	function onAfterWrite(){
+		BuyableStockCalculatedQuantity::get_by_buyable($this->owner);
+		if(isset($_REQUEST["ActualQantity"])) {
+			$actualQantity = intval($_REQUEST["ActualQantity"]);
+			if($actualQantity != $this->owner->getActualQuantity() && ($actualQantity === 0 || $actualQantity) ) {
+				$this->owner->setActualQuantity($actualQantity);
+			}
+		}
 	}
 
 }
@@ -113,7 +141,6 @@ class BuyableStockDecorator_Extension extends Extension {
 		Requirements::customScript($js,$fieldSelector);
 		return array();
 	}
-
 
 
 }

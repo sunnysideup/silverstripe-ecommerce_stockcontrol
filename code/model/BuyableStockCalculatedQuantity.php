@@ -13,6 +13,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 
 	static $db = array(
 		"BaseQuantity" => "Int",
+		"UnlimitedStock" => "Boolean",
 		"BuyableID" => "Int",
 		"BuyableClassName" => "Varchar"
 	);
@@ -32,8 +33,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 
 	//MODEL ADMIN STUFF
 	public static $searchable_fields = array(
-		"BaseQuantity",
-		"Name"
+		"BaseQuantity"
 	);
 
 	public static $field_labels = array(
@@ -64,6 +64,14 @@ class BuyableStockCalculatedQuantity extends DataObject {
 
 	public function canView() {return $this->canDoAnything();}
 
+	function Link($action = "update") {
+		return "/".StockControlController::get_url_segment()."/".$action."/".$this->ID."/";
+	}
+
+	function HistoryLink() {
+		return $this->Link("history");
+	}
+
 	function Buyable() {return $this->getBuyable();}
 	function getBuyable() {
 		if($this->BuyableID && class_exists($this->BuyableClassName)) {
@@ -74,8 +82,9 @@ class BuyableStockCalculatedQuantity extends DataObject {
 	function Name() {return $this->getName();}
 	function getName() {
 		if($buyable = $this->getBuyable()) {
-			return $buyable->Title();
+			return $buyable->getTitle();
 		}
+		return "no name";
 	}
 
 	protected function canDoAnything($member = null) {
@@ -105,23 +114,32 @@ class BuyableStockCalculatedQuantity extends DataObject {
 		}
 		else {
 			$obj = new BuyableStockCalculatedQuantity();
-			$obj->BuyableID = $buyableID;
-			$obj->BuyableClassName = $buyableClassName;
+			$obj->BuyableID = $buyable->ID;
+			$obj->BuyableClassName = $buyable->ClassName;
 		}
 		if($obj) {
-			//we must write here to calculate quantities
-			$obj->write();
-			//and we repeat this for good luck!
-			$obj->write();
+			if(isset($obj->ID) && $obj->ID && $obj->UnlimitedStock == $buyable->UnlimitedStock) {
+				//do nothing
+			}
+			else {
+				$obj->UnlimitedStock = $buyable->UnlimitedStock;
+				//we must write here to calculate quantities
+				$obj->write();
+			}
 			return $obj;
 		}
 		user_error("Could not find / create BuyableStockCalculatedQuantity for buyable with ID / ClassName ".$buyableID."/".$buyableClassName, E_WARNING);
 	}
 
 	function calculatedBaseQuantity() {
-		$this->write();
 		if(!$this->ID) {
 			return 0;
+		}
+		$actualQantity = $this->workoutActualQuantity();
+		if($actualQantity != $this->BaseQuantity) {
+			$this->BaseQuantity = $actualQantity;
+			$this->write();
+			return $actualQantity;
 		}
 		else {
 			return $this->getField("BaseQuantity");
@@ -140,6 +158,10 @@ class BuyableStockCalculatedQuantity extends DataObject {
 	}
 
 	function onBeforeWrite() {
+		parent::onBeforeWrite();
+	}
+
+	protected function workoutActualQuantity() {
 		if($buyable = $this->getBuyable()) {
 			//set name
 			//add total order quantities
@@ -188,7 +210,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 			$latestManualUpdate = DataObject::get_one("BuyableStockManualUpdate","\"ParentID\" = ".$this->ID, "\"LastEdited\" DESC");
 			//nullify order quantities that were entered before last adjustment
 			if($latestManualUpdate) {
-				$latestManualUpdateQTY = $LatestManualUpdate->Quantity;
+				$latestManualUpdateQTY = $latestManualUpdate->Quantity;
 				DB::query("
 					UPDATE \"BuyableStockOrderEntry\"
 					SET \"IncludeInCurrentCalculation\" = 0
@@ -208,19 +230,21 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				 "\"ParentID\" = ".$this->ID." AND \"IncludeInCurrentCalculation\" = 1" // Where (optional)
 			);
 			$orderQuantityToDeduct = $sqlQuery->execute()->value();
-
+			if(!$orderQuantityToDeduct) {
+				$orderQuantityToDeduct = 0;
+			}
 			//work out base total
-			$this->BaseQuantity = $latestManualUpdateQTY - $orderQuantityToDeduct;
+			$actualQantity = $latestManualUpdateQTY - $orderQuantityToDeduct;
 			if(isset($_GET["debug"])) {
 				echo "<hr />";
 				echo $this->Name;
-				echo " | Manual SUM: ".$LatestManualUpdateQuantity;
-				echo " | Order SUM: ".$OrderQuantityToDeduct;
+				echo " | Manual SUM: ".$latestManualUpdateQTY;
+				echo " | Order SUM: ".$orderQuantityToDeduct;
 				echo " | Total SUM: ".$this->BaseQuantity;
 				echo "<hr />";
 			}
 		}
-		parent::onBeforeWrite();
+		return $actualQantity;
 	}
 
 }

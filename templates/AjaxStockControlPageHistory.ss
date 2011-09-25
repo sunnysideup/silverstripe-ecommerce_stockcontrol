@@ -13,7 +13,7 @@
 	<% end_control %>
 </ul>
 <% else %>
-<h4>There are no sales yet</h4>
+<h4>There are no sales yet.</h4>
 <% end_if %>
 
 <% if ManualUpdates %>
@@ -28,6 +28,6 @@
 	<% end_control %>
 </ul>
 <% else %>
-<h4>There are no manual adjustments</h4>
+<h4>There are no manual adjustments yet.</h4>
 <% end_if %>
 
