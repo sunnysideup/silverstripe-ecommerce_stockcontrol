@@ -96,7 +96,6 @@ class MinMaxModifier extends OrderModifier {
 						//THIS IS A BIT OF A HACK - NEED TO WORK OUT CURRENT ADJUSTMENTS>>>
 
 						//END OF HACK
-						$newValue = $quantity; //can be zero, but can not be minus 1!
 						$absoluteMin = self::$default_min_quantity;
 						$absoluteMax = self::$default_max_quantity;
 						if($minFieldName) {
@@ -131,11 +130,12 @@ class MinMaxModifier extends OrderModifier {
 						}
 						$absoluteMin = intval($absoluteMin) - 0;
 						$absoluteMax = intval($absoluteMax) - 0;
-						if($quantity < $absoluteMin) {
+						$newValue = $quantity;
+						if($quantity < $absoluteMin && $absoluteMin > 0) {
 							//echo "adjusting for MIN: $quantity < $absoluteMin";
 							$newValue = $absoluteMin;
 						}
-						if($quantity > $absoluteMax) {
+						if($quantity > $absoluteMax && $absoluteMax > 0) {
 							//echo "adjusting for MAX: $quantity > $absoluteMax";
 							$newValue = $absoluteMax;
 						}

@@ -95,9 +95,11 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	 * TODO: customise this to a certian stock level, on, or off
 	 */
 	function canPurchase($member = null){
-		if($this->owner->getActualQuantity() <= $this->owner->MinQuantity){
-			if(!$this->owner->UnlimitedStock) {
-				return false;
+		if($this->owner->MinQuantity > 0) {
+			if($this->owner->getActualQuantity() <= $this->owner->MinQuantity){
+				if(!$this->owner->UnlimitedStock) {
+					return false;
+				}
 			}
 		}
 		return null; //returning null ensures that checks can continue
