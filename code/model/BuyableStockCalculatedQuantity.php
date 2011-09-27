@@ -48,6 +48,11 @@ class BuyableStockCalculatedQuantity extends DataObject {
 		"LastEdited"
 	);
 
+	static $indexes = array(
+		"BuyableID" => true,
+		"BuyableClassName" => true
+	);
+
 	public static $default_sort = "\"BuyableClassName\", \"BaseQuantity\" DESC";
 
 	public static $singular_name = "Stock Calculated Quantity";

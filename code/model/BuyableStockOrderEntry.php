@@ -23,6 +23,7 @@ class BuyableStockOrderEntry extends DataObject {
 		"IncludeInCurrentCalculation" => 1
 	);
 
+
 	//MODEL ADMIN STUFF
 	public static $searchable_fields = array(
 		"Quantity",
