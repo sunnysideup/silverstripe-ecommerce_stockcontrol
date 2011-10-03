@@ -53,6 +53,7 @@ class BuyableStockDecorator extends DataObjectDecorator{
 				new HeaderField('ActualQantityHeader','Stock available', 3),
 				new CheckboxField('UnlimitedStock','Unlimited Stock'),
 				new NumericField('ActualQantity','Actual Stock Available', $this->getActualQuantity()),
+				new HeaderField('ActualQantityAdjustmentHeader','Adjust all stock', 3),
 				new LiteralField('ActualQantityAdjustmentLink','This CMS also provides a <a href="/'.StockControlController::get_url_segment().'/" target="_blank">quick stock adjuster</a>.')
 			)
 		);
