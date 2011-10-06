@@ -54,6 +54,14 @@ class MinMaxModifier extends OrderModifier {
 		return false;
 	}
 
+//-------------------------------------------------------------------- *** cms fuctions
+
+	function getCMSFields(){
+		$fields = parent::getCMSFields();
+		$fields->removeByName("Adjustments");
+		$fields->addFieldToTab("Root.Debug", new ReadonlyField("AdjustmentsShown", "Adjustments", $this->Adjustments));
+		return $fields;
+	}
 //-------------------------------------------------------------------- *** display functions
 	function CanBeRemoved() {
 		return false;
