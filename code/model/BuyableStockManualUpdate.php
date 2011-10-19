@@ -49,16 +49,16 @@ class BuyableStockManualUpdate extends DataObject {
 	public static $plural_name = "Stock Manual Update Entries";
 		function i18n_plural_name() { return _t("BuyableStockManualUpdate.STOCKUPDATEENTRIES", "Stock Manual Update Entries");}
 
-	public function canView($member = null) {return $this->canDoAnything();}
+	public function canView($member = null) {return $this->canDoAnything($member);}
 
-	public function canCreate($member = null) {return $this->canDoAnything();}
+	public function canCreate($member = null) {return $this->canDoAnything($member);}
 
 	public function canEdit($member = null) {return false;}
 
 	public function canDelete() {return false;}
 
 	protected function canDoAnything($member = null) {
-		if(!Permission::check("ADMIN")) {
+		if(!Permission::check("ADMIN") && !Permission::check("SHOPADMIN")) {
 			Security::permissionFailure($this, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
 		}
 		return true;
