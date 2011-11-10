@@ -73,7 +73,7 @@ class MinMaxModifier extends OrderModifier {
 
 
 //--------------------------------------------------------------------*** table values
-	function LiveCalculationValue() {
+	function LiveCalculatedTotal() {
 		self::apply_min_max();
 		return 0;
 	}
