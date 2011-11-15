@@ -78,7 +78,7 @@ class MinMaxModifier extends OrderModifier {
 		return 0;
 	}
 
-	function TableValue() {
+	function LiveTableValue() {
 		return "";
 	}
 
