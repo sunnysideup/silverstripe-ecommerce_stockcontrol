@@ -140,11 +140,11 @@ class BuyableStockCalculatedQuantity extends DataObject {
 		if(!$this->ID) {
 			return 0;
 		}
-		$actualQantity = $this->workoutActualQuantity();
-		if($actualQantity != $this->BaseQuantity) {
-			$this->BaseQuantity = $actualQantity;
+		$actualQuantity = $this->workoutActualQuantity();
+		if($actualQuantity != $this->BaseQuantity) {
+			$this->BaseQuantity = $actualQuantity;
 			$this->write();
-			return $actualQantity;
+			return $actualQuantity;
 		}
 		else {
 			return $this->getField("BaseQuantity");
@@ -167,6 +167,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 	}
 
 	protected function workoutActualQuantity() {
+		$actualQuantity = 0;
 		if($buyable = $this->getBuyable()) {
 			//set name
 			//add total order quantities
@@ -239,7 +240,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				$orderQuantityToDeduct = 0;
 			}
 			//work out base total
-			$actualQantity = $latestManualUpdateQTY - $orderQuantityToDeduct;
+			$actualQuantity = $latestManualUpdateQTY - $orderQuantityToDeduct;
 			if(isset($_GET["debug"])) {
 				echo "<hr />";
 				echo $this->Name;
@@ -249,7 +250,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				echo "<hr />";
 			}
 		}
-		return $actualQantity;
+		return $actualQuantity;
 	}
 
 }
