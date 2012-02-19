@@ -85,6 +85,7 @@ class BuyableStockOrderEntry extends DataObject {
 			while($tobeDeleted = DataObject::get_one("BuyableStockOrderEntry", "{$bt}OrderID{$bt} = ".$this->OrderID." AND \"ParentID\" = ".$this->ParentID." AND {$bt}ID{$bt} <> ".$this->ID, false, "\"LastEdited\" ASC")) {
 				$toBeDeleted = DataObject::get_one("BuyableStockOrderEntry", "\"OrderID\" = ".$this->OrderID, false, "\"LastEdited\" ASC");
 				$toBeDeleted->delete();
+				$toBeDeleted->destroy();
 				user_error("deleting BuyableStockOrderEntry because there are multiples!", E_USER_ERROR);
 			}
 		}

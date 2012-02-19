@@ -28,6 +28,7 @@ var StockControlPage = {
 	historyLinkSelector: ".history a",
 
 	init: function () {
+		jQuery(".loadHistoryHere").hide();
 		jQuery(StockControlPage.inputSelector).change(
 			function () {
 				var nameValue = jQuery(this).attr("name");

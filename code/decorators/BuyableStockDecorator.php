@@ -7,16 +7,33 @@
 
 class BuyableStockDecorator extends DataObjectDecorator{
 
+	/**
+	 * Array of Class Names of classes that are buyables
+	 * @to do, do we need this here, why not use the original buyable dod.
+	 * @var Array
+	 *
+	 */
 	protected static $buyables = array();
 		public static function set_buyables($a) {self::$buyables = $a;}
 		public static function get_buyables() {return self::$buyables;}
 		public static function add_buyable($s) {self::$buyables[] = $s;}
 		public static function has_buyable($s) {return in_array($s, self::$buyables);}
 
+	/**
+	 * Selector for field in the HTML where quantities are set
+	 * @to do - move this out to template...
+	 * @var String
+	 *
+	 */
 	protected static $quantity_field_selector = "";
 		public static function set_quantity_field_selector($s) {self::$quantity_field_selector = $s;}
 		public static function get_quantity_field_selector() {return self::$quantity_field_selector;}
 
+	/**
+	 * Standard SS method
+	 *
+	 * @return Array
+	 */
 	public function extraStatics() {
 		return array (
 			'db' => array(
@@ -34,6 +51,7 @@ class BuyableStockDecorator extends DataObjectDecorator{
 			)
 		);
 	}
+
 	/*
 	 * Allow setting stock level in CMS
 	 */
@@ -91,9 +109,10 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	}
 
 
-	/*
+	/**
+	 * This is a pivotal method.
 	 * Only allow purchase if stock levels allow
-	 * TODO: customise this to a certian stock level, on, or off
+	 * TODO: customise this to a certain stock level, on, or off
 	 */
 	function canPurchase($member = null){
 		if($this->owner->MinQuantity > 0) {
@@ -103,10 +122,12 @@ class BuyableStockDecorator extends DataObjectDecorator{
 				}
 			}
 		}
-		return null; //returning null ensures that checks can continue
+		return null; //returning null ensures that the value from this method is ignored.
 	}
 
-
+	/**
+	 * stanard SS metehod
+	 */
 	function onAfterWrite(){
 		BuyableStockCalculatedQuantity::get_by_buyable($this->owner);
 		if(isset($_REQUEST["ActualQantity"])) {
@@ -123,7 +144,7 @@ class BuyableStockDecorator_Extension extends Extension {
 	/**
 	 * TO DO: review method below
 	 *  - move to init???
-	 *
+	 *  - decorate Ecommerce Quantity Field?
 	 *
 	 **/
 

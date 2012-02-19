@@ -29,6 +29,7 @@ class StockControlController extends ContentController {
 			Security::permissionFailure($this, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
 		}
 		parent::init();
+
 		Requirements::themedCSS("StockControlPage");
 		Requirements::javascript(THIRDPARTY_DIR."/jquery/jquery.js");
 		Requirements::javascript("ecommerce_stockcontrol/javascript/StockControlPage.js");
@@ -41,7 +42,7 @@ class StockControlController extends ContentController {
 	}
 
 	function StockProductObjects() {
-		$buyableStockCalculatedQuantities = DataObject::get("BuyableStockCalculatedQuantity", "UnlimitedStock = 0", "", "", "10");
+		$buyableStockCalculatedQuantities = DataObject::get("BuyableStockCalculatedQuantity", "", "", "", "10");
 		if($buyableStockCalculatedQuantities) {
 			foreach($buyableStockCalculatedQuantities as $buyableStockCalculatedQuantity) {
 				if($buyableStockCalculatedQuantity->Buyable()->UnlimitedStock) {

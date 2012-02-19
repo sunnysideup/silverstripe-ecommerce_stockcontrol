@@ -6,12 +6,13 @@
 </head>
 <body>
 
+<% if StockProductObjects %>
 <div class="StockObjectsFeedback"><p>Please adjust available quantities below.</p></div>
 <ul id="StockProductObjects">
 <% control StockProductObjects %>
 	<li>
 		<span class="currentNumber item$ID">$BaseQuantity =</span>
-		<input type="text" value="" name="update/$ID" class="updateField productUpdateField" />
+		<input type="text" value="" name="update/{$ID}" class="updateField productUpdateField" />
 		<label class="history"><a href="$HistoryLink" rel="history{$BuyableClassName}{$BuyableID}">$Name</a></label>
 		<div class="loadHistoryHere" id="history{$BuyableClassName}{$BuyableID}"></div>
 	</li>
@@ -33,6 +34,10 @@
 <% end_if %>
 </ul>
 <div class="StockObjectsFeedback"><p>Please adjust available quantities above.</p></div>
+
+<% else %>
+<p>There are no stock quantities to adjust.</p>
+<% end_if %>
 
 </body>
 </html>

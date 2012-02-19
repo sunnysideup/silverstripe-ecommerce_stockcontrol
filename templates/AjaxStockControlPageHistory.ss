@@ -2,7 +2,7 @@
 
 <% if OrderEntries %>
 <h4>Sales</h4>
-<ul>
+<ul class="entries">
 	<% control OrderEntries %>
 	<li>
 		<span class="quantity">$Quantity</span>
@@ -18,7 +18,7 @@
 
 <% if ManualUpdates %>
 <h4>Manual Adjustments</h4>
-<ul>
+<ul class="entries">
 	<% control ManualUpdates %>
 	<li>
 		<span class="quantity">$Quantity</span>

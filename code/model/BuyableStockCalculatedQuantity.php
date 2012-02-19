@@ -13,7 +13,6 @@ class BuyableStockCalculatedQuantity extends DataObject {
 
 	static $db = array(
 		"BaseQuantity" => "Int",
-		"UnlimitedStock" => "Boolean",
 		"BuyableID" => "Int",
 		"BuyableClassName" => "Varchar"
 	);
@@ -26,9 +25,11 @@ class BuyableStockCalculatedQuantity extends DataObject {
 	static $defaults = array(
 		"BaseQuantity" => 0
 	);
+
 	static $casting = array(
 		"Name" => "Varchar",
-		"Buyable" => "DataObject"
+		"Buyable" => "DataObject",
+		"UnlimitedStock" => "Boolean"
 	);
 
 	//MODEL ADMIN STUFF
@@ -81,6 +82,13 @@ class BuyableStockCalculatedQuantity extends DataObject {
 	function getBuyable() {
 		if($this->BuyableID && class_exists($this->BuyableClassName)) {
 			return DataObject::get_by_id($this->BuyableClassName, $this->BuyableID);
+		}
+	}
+
+	function UnlimitedStock() {return $this->geUnlimitedStock();}
+	function getUnlimitedStock() {
+		if($buyable = $this->getBuyable()) {
+			return $buyable->UnlimitedStock;
 		}
 	}
 
@@ -160,10 +168,6 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				}
 			}
 		}
-	}
-
-	function onBeforeWrite() {
-		parent::onBeforeWrite();
 	}
 
 	protected function workoutActualQuantity() {
