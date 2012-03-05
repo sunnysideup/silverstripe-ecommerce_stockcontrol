@@ -48,7 +48,7 @@ class BuyableStockOrderEntry extends DataObject {
 	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
 
 	public static $singular_name = "Stock Sale Entry";
-		function i18n_single_name() { return _t("BuyableStockOrderEntry.STOCKSALEENTRY", "Stock Sale Entry");}
+		function i18n_singular_name() { return _t("BuyableStockOrderEntry.STOCKSALEENTRY", "Stock Sale Entry");}
 
 	public static $plural_name = "Stock Sale Entries";
 		function i18n_plural_name() { return _t("BuyableStockOrderEntry.STOCKSALEENTRIES", "Stock Sale Entries");}

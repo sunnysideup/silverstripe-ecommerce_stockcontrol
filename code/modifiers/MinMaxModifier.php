@@ -14,6 +14,13 @@ class MinMaxModifier extends OrderModifier {
 		"Adjustments" => "HTMLText"
 	);
 
+
+	public static $singular_name = "Stock Adjustment";
+		function i18n_singular_name() { return _t("MinMaxModifier.MINMAXMODIFIER", "Stock Adjustment");}
+
+	public static $plural_name = "Stock Adjustments";
+		function i18n_plural_name() { return _t("MinMaxModifier.MINMAXMODIFIER", "Stock Adjustments");}
+
 	protected static $title = "MinMaxModifier";
 
 	protected static $default_min_quantity = 1;
