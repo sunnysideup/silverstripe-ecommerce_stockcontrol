@@ -15,7 +15,7 @@ Director::addRules(50, array(
 
 
 Object::add_extension('Product_Controller', 'BuyableStockDecorator_Extension');
-Order::add_modifier('MinMaxModifier');
+//Order::add_modifier('MinMaxModifier');
 
 //copy the lines between the START AND END line to your /mysite/_config.php file and choose the right settings
 //===================---------------- START ecommerc_stockcontrol MODULE ----------------===================
