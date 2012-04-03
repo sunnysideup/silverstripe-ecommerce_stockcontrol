@@ -167,9 +167,10 @@ class MinMaxModifier extends OrderModifier {
 						}
 						else {
 							//IS THIS WORKING
-							$js = 'MinMaxModifier.add_item("input[name=\''.$item->QuantityFieldName().'\']", '.intval($absoluteMin).', '.intval($absoluteMax).', "'.addslashes(self::$sorry_message).'");';
+							$fieldName = $item->AJAXDefinitions()->QuantityFieldName();
+							$js = 'MinMaxModifier.add_item("input[name=\''.$fieldName.'\']", '.intval($absoluteMin).', '.intval($absoluteMax).', "'.addslashes(self::$sorry_message).'");';
 							Requirements::javascript("ecommerce_stockcontrol/javascript/MinMaxModifier.js");
-							Requirements::customScript($js,$item->QuantityFieldName());
+							Requirements::customScript($js,$fieldName);
 						}
 
 					}
@@ -187,7 +188,8 @@ class MinMaxModifier extends OrderModifier {
 		}
 	}
 
-	function updateForAjax(array &$js) {
+	function updateForAjax(&$js) {
+		parent::updateForAjax($js);
 		self::apply_min_max();
 		if(is_array(self::$ids_of_items_adjusted) && count(self::$ids_of_items_adjusted)) {
 			$items = DataObject::get("OrderItem", "OrderItem.ID IN (".implode(",", self::$ids_of_items_adjusted) .")");
