@@ -25,7 +25,8 @@ class StockControlController extends ContentController {
 
 	function init() {
 		// Only administrators can run this method
-		if(!Permission::check("ADMIN") && !Permission::check("SHOPADMIN")) {
+		$shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
+		if(!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
 			Security::permissionFailure($this, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
 		}
 		parent::init();

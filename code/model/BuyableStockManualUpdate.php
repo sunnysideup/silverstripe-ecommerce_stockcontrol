@@ -58,7 +58,8 @@ class BuyableStockManualUpdate extends DataObject {
 	public function canDelete() {return false;}
 
 	protected function canDoAnything($member = null) {
-		if(!Permission::check("ADMIN") && !Permission::check("SHOPADMIN")) {
+		$shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
+		if(!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
 			Security::permissionFailure($this, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
 		}
 		return true;

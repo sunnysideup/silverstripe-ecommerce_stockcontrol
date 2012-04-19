@@ -170,6 +170,11 @@ class BuyableStockCalculatedQuantity extends DataObject {
 		}
 	}
 
+	/**
+	 * TODO: change to submitted from CustomerCanEdit criteria
+	 */
+
+
 	protected function workoutActualQuantity() {
 		$actualQuantity = 0;
 		if($buyable = $this->getBuyable()) {
@@ -181,6 +186,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 					Sum(\"OrderItem\".\"Quantity\")+0 \"QuantitySum\",
 					\"Order\".\"ID\" \"OrderID\",
 					\"OrderAttribute\".\"ClassName\",
+					\"OrderItem\".\"BuyableClassName\",
 					\"OrderStep\".\"CustomerCanEdit\"
 				FROM
 					\"Order\"
@@ -190,9 +196,9 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				GROUP BY
 					\"Order\".\"ID\", \"BuyableID\"
 				HAVING
-					(\"OrderItem\".\"BuyableID\" = ".(intval($this->BuyableID) - 0).")
+					\"OrderItem\".\"BuyableID\" = ".(intval($this->BuyableID) - 0)."
 					AND
-					\"OrderAttribute\".\"ClassName\" = '".$buyable->classNameForOrderItem()."'
+					\"OrderItem\".\"BuyableClassName\" = '".$this->BuyableClassName."'
 					AND
 					\"OrderStep\".\"CustomerCanEdit\" = 0
 			");

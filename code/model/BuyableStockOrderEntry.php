@@ -62,7 +62,8 @@ class BuyableStockOrderEntry extends DataObject {
 	public function canView() {return $this->canDoAnything();}
 
 	protected function canDoAnything() {
-		if(!Permission::check("ADMIN") && !Permission::check("SHOPADMIN")) {
+		EcommerceConfig::get("EcommerceRole", "admin_permission_code");
+		if(!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
 			Security::permissionFailure($this, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
 		}
 		return true;
