@@ -46,11 +46,17 @@ class StockControlController extends ContentController {
 		$buyableStockCalculatedQuantities = DataObject::get("BuyableStockCalculatedQuantity", "", "", "", "10");
 		if($buyableStockCalculatedQuantities) {
 			foreach($buyableStockCalculatedQuantities as $buyableStockCalculatedQuantity) {
-				if($buyableStockCalculatedQuantity->Buyable()->UnlimitedStock) {
-					$buyableStockCalculatedQuantities->remove($buyableStockCalculatedQuantity);
+				$buyable = $buyableStockCalculatedQuantity->Buyable();
+				if($buyable) {
+					if($buyable->UnlimitedStock) {
+						$buyableStockCalculatedQuantities->remove($buyableStockCalculatedQuantity);
+					}
+					else {
+						$buyableStockCalculatedQuantity->calculatedBaseQuantity();
+					}
 				}
 				else {
-					$buyableStockCalculatedQuantity->calculatedBaseQuantity();
+					//user_error("Buyable can not be found!", E_USER_NOTICE);
 				}
 			}
 			return $buyableStockCalculatedQuantities;
