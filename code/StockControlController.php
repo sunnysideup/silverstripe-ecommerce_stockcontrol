@@ -33,6 +33,8 @@ class StockControlController extends ContentController {
 
 		Requirements::themedCSS("StockControlPage");
 		Requirements::javascript(THIRDPARTY_DIR."/jquery/jquery.js");
+		//Requirements::block(THIRDPARTY_DIR."/jquery/jquery.js");
+		//Requirements::javascript(Director::protocol()."ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
 		Requirements::javascript("ecommerce_stockcontrol/javascript/StockControlPage.js");
 		$url = Director::absoluteURL($this->Link()."update/");
 		Requirements::customScript("StockControlPage.set_url('".$url."');", "StockControlPage.set_url");
