@@ -131,7 +131,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 			$obj->BuyableClassName = $buyable->ClassName;
 		}
 		if($obj) {
-			if(isset($obj->ID) && $obj->ID && $obj->UnlimitedStock == $buyable->UnlimitedStock) {
+			if(isset($obj->ID) && $obj->exists() && $obj->UnlimitedStock == $buyable->UnlimitedStock) {
 				//do nothing
 			}
 			else {

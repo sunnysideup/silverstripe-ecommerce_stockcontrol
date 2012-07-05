@@ -16,7 +16,7 @@ class BuyableStockManualUpdate extends DataObject {
 		"Quantity" => "Int",
 		"ExternalUpdate" => "Boolean"
 	);
-	
+
 	static $has_one = array(
 		"Parent" => "BuyableStockCalculatedQuantity",
 		"Member" => "Member"
@@ -40,9 +40,9 @@ class BuyableStockManualUpdate extends DataObject {
 		"Member.FirstName" => "Updater",
 		"Quantity" => "Quantity"
 	);
-	
+
 	public static $api_access = true;
-	
+
 	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
 
 	public static $singular_name = "Stock Manual Update Entry";
@@ -67,14 +67,6 @@ class BuyableStockManualUpdate extends DataObject {
 		return true;
 	}
 
-
-	/**
-	 *
-	 *
-	 * TO DO: change Member ID checks to Validate method
-	 *
-	 *
-	 **/
 
 
 }
