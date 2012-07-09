@@ -226,7 +226,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 			$latestManualUpdate = DataObject::get_one("BuyableStockManualUpdate","\"ParentID\" = ".$this->ID, "\"LastEdited\" DESC");
 			//nullify order quantities that were entered before last adjustment
 			if($latestManualUpdate) {
-				$latestManualUpdateQTY = $latestManualUpdate->Quantity;
+				$latestManualUpdateQuantity = $latestManualUpdate->Quantity;
 				DB::query("
 					UPDATE \"BuyableStockOrderEntry\"
 					SET \"IncludeInCurrentCalculation\" = 0
@@ -237,7 +237,7 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				);
 			}
 			else {
-				$latestManualUpdateQTY = 0;
+				$latestManualUpdateQuantity = 0;
 			}
 			//work out additional purchases
 			$sqlQuery = new SQLQuery(
@@ -250,11 +250,11 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				$orderQuantityToDeduct = 0;
 			}
 			//work out base total
-			$actualQuantity = $latestManualUpdateQTY - $orderQuantityToDeduct;
+			$actualQuantity = $latestManualUpdateQuantity - $orderQuantityToDeduct;
 			if(isset($_GET["debug"])) {
 				echo "<hr />";
 				echo $this->Name;
-				echo " | Manual SUM: ".$latestManualUpdateQTY;
+				echo " | Manual SUM: ".$latestManualUpdateQuantity;
 				echo " | Order SUM: ".$orderQuantityToDeduct;
 				echo " | Total SUM: ".$this->BaseQuantity;
 				echo "<hr />";
