@@ -198,7 +198,7 @@ class StockControlPing_IncomingUpdate extends DataObject {
 		"Actioned" => "Boolean"
 	);
 
-	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
+	public static $default_sort = "\"LastEdited\" DESC";
 
 	public static $singular_name = "External Update to Product Availability";
 		function i18n_singular_name() { return _t("StockControlPing.EXTERNALUPDATETOPRODUCTAVAILABILITY", "External Update to Product Availability");}
