@@ -15,10 +15,18 @@ Director::addRules(50, array(
 
 
 Object::add_extension('Product_Controller', 'BuyableStockDecorator_Extension');
-//Order::add_modifier('MinMaxModifier');
 
 //copy the lines between the START AND END line to your /mysite/_config.php file and choose the right settings
 //===================---------------- START ecommerc_stockcontrol MODULE ----------------===================
+/**
+ * ADD TO ECOMMERCE.YAML:
+Order:
+	modifiers: [
+		...
+		MinMaxModifier
+	]
+*/
+
 //SET BUYABLES
 //Object::add_extension('Product', 'BuyableStockDecorator');
 //BuyableStockDecorator::add_buyable("Product");
@@ -27,9 +35,15 @@ Object::add_extension('Product_Controller', 'BuyableStockDecorator_Extension');
 
 //HIGHLY RECOMMENDED
 //MinMaxModifier::set_use_stock_quantities(true); //make use of the stock quantity tables to keep track of them
-//ProductsAndGroupsModelAdmin::add_managed_model("BuyableStockManualUpdate");
-//ProductsAndGroupsModelAdmin::add_managed_model("BuyableStockOrderEntry");
-
+/**
+ * ADD TO ECOMMERCE.YAML:
+ProductsAndGroupsModelAdmin:
+	managed_modules: [
+		...
+		BuyableStockManualUpdate,
+		BuyableStockOrderEntry
+	]
+*/
 
 //MAY SET
 //MinMaxModifier::set_default_min_quantity(1);
