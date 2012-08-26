@@ -44,4 +44,4 @@ width: auto!important;
 	#StockProductObjects .loadHistoryHere h3 {margin-top: 0px; padding-top: 0px; border-bottom: 1px solid #fff; color: brown;}
 	#StockProductObjects .loadHistoryHere h4 {margin-bottom: 0px; padding-bottom: 3px;}
 
-.loading {background-image: url(../images/loading.gif); background-repeat: no-repeat; background-position: right middle;}
+.loading {background-image: url(/ecommerce/images/loading.gif); background-repeat: no-repeat; background-position: right middle;}
