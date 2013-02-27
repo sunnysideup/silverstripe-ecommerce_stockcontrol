@@ -1,5 +1,5 @@
 {
-	"name": "silverstripe/ecommerce_stockcontrol",
+	"name": "sunnysideup/ecommerce_stockcontrol",
 	"type": "silverstripe-module",
 	"description": "adds stock control (how many you can sell of what product) to the Silverstripe e-commerce application",
 	"homepage": "http://www.silverstripe-ecommerce.com",
