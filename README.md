@@ -1,7 +1,5 @@
-###############################################
 E-commerce Stock Control
-version 0.2alpha
-###############################################
+================================================================================
 
 This module stores stock levels seperate from the products themsleves. This means that a history of stock levels can be
 produced. The module also stores the type of update for each stock update - manual (adding more stock) or order based (sales).
