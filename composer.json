@@ -3,7 +3,7 @@
 	"type": "silverstripe-module",
 	"description": "adds stock control (how many you can sell of what product) to the Silverstripe e-commerce application",
 	"homepage": "http://www.silverstripe-ecommerce.com",
-	"keywords": ["ecommerce", "e-commerce", "shop", "stock control", "silverstripe"],
+	"keywords": ["ecommerce", "e-commerce", "shop", "stock control", "silverstripe", "quantity", "limit", "stock", "minimum", "maximum"],
 	"license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
 	"authors":[
 		{
@@ -14,8 +14,6 @@
 		}
 	],
 	"require":{
-		"php": ">=5.3.2",
-		"silverstripe/framework": "~2.4",
-		"sunnysideup/ecommerce": "~2.4"
+		"sunnysideup/ecommerce": "*"
 	}
 }
