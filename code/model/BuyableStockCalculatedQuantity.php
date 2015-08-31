@@ -11,67 +11,67 @@
 
 class BuyableStockCalculatedQuantity extends DataObject {
 
-	static $db = array(
+	private static $db = array(
 		"BaseQuantity" => "Int",
 		"BuyableID" => "Int",
 		"BuyableClassName" => "Varchar"
 	);
 
-	static $has_many = array(
+	private static $has_many = array(
 		"BuyableStockOrderEntry" => "BuyableStockOrderEntry",
 		"BuyableStockManualUpdate" => "BuyableStockManualUpdate"
 	);
 
-	static $defaults = array(
+	private static $defaults = array(
 		"BaseQuantity" => 0
 	);
 
-	static $casting = array(
+	private static $casting = array(
 		"Name" => "Varchar",
 		"Buyable" => "DataObject",
 		"UnlimitedStock" => "Boolean"
 	);
 
 	//MODEL ADMIN STUFF
-	public static $searchable_fields = array(
+	private static $searchable_fields = array(
 		"BaseQuantity"
 	);
 
-	public static $field_labels = array(
+	private static $field_labels = array(
 		"BaseQuantity" => "Calculated Quantity On Hand",
 		"BuyableID" => "Buyable ID",
 		"LastEdited" => "Last Calculated"
 	);
 
-	public static $summary_fields = array(
+	private static $summary_fields = array(
 		"Name",
 		"BaseQuantity",
 		"LastEdited"
 	);
 
-	static $indexes = array(
+	private static $indexes = array(
 		"BuyableID" => true,
 		"BuyableClassName" => true
 	);
 
-	public static $default_sort = "\"BuyableClassName\", \"BaseQuantity\" DESC";
+	private static $default_sort = "\"BuyableClassName\", \"BaseQuantity\" DESC";
 
-	public static $singular_name = "Stock Calculated Quantity";
+	private static $singular_name = "Stock Calculated Quantity";
 
-	public static $plural_name = "Stock Calculated Quantities";
+	private static $plural_name = "Stock Calculated Quantities";
 
-	protected static $calculation_done = array();
+	private static $calculation_done = array();
 
-	public function canCreate() {return false;}
+	public function canCreate($member = null) {return false;}
 
-	public function canEdit() {return false;}
+	public function canEdit($member = null) {return false;}
 
-	public function canDelete() {return false;}
+	public function canDelete($member = null) {return false;}
 
-	public function canView() {return $this->canDoAnything();}
+	public function canView($member = null) {return $this->canDoAnything();}
 
 	function Link($action = "update") {
-		return "/".StockControlController::get_url_segment()."/".$action."/".$this->ID."/";
+		return "/update-stock/".$action."/".$this->ID."/";
 	}
 
 	function HistoryLink() {
@@ -81,7 +81,8 @@ class BuyableStockCalculatedQuantity extends DataObject {
 	function Buyable() {return $this->getBuyable();}
 	function getBuyable() {
 		if($this->BuyableID && class_exists($this->BuyableClassName)) {
-			return DataObject::get_by_id($this->BuyableClassName, $this->BuyableID);
+			$className = $this->BuyableClassName;
+			return $className::get()->byID($this->BuyableID);
 		}
 	}
 
@@ -122,7 +123,15 @@ class BuyableStockCalculatedQuantity extends DataObject {
 	}
 
 	public static function get_by_buyable($buyable) {
-		if($obj = DataObject::get_one("BuyableStockCalculatedQuantity", "\"BuyableID\" = ".$buyable->ID." AND \"BuyableClassName\" = '".$buyable->ClassName."'")) {
+		$obj = BuyableStockCalculatedQuantity::get()
+						->filter(
+							array(
+								'BuyableID' => $buyable->ID,
+								'BuyableClassName' => $buyable->ClassName
+							)
+						)
+						->First();
+		if($obj) {
 			//do nothing
 		}
 		else {
@@ -205,7 +214,15 @@ class BuyableStockCalculatedQuantity extends DataObject {
 			if($data) {
 				foreach($data as $row) {
 					if($row["OrderID"] && $this->ID && $row["QuantitySum"]) {
-						if($buyableStockOrderEntry = DataObject::get_one("BuyableStockOrderEntry", "\"OrderID\" = ".$row["OrderID"]." AND \"ParentID\" = ".$this->ID)) {
+						$buyableStockOrderEntry = BuyableStockOrderEntry::get()
+																				->filter(
+																					array(
+																						'OrderID' => $row["OrderID"],
+																						'ParentID' => $this->ID
+																					)
+																				)
+																				->First();
+						if($buyableStockOrderEntry) {
 							//do nothing
 						}
 						else {
@@ -223,7 +240,10 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				}
 			}
 			//find last adjustment
-			$latestManualUpdate = DataObject::get_one("BuyableStockManualUpdate","\"ParentID\" = ".$this->ID, "\"LastEdited\" DESC");
+			$latestManualUpdate = BuyableStockManualUpdate::get()
+															->filter(array('ParentID' => $this->ID))
+															->sort(array('LastEdited' => 'DESC'))
+															->First();
 			//nullify order quantities that were entered before last adjustment
 			if($latestManualUpdate) {
 				$latestManualUpdateQuantity = $latestManualUpdate->Quantity;
@@ -240,12 +260,13 @@ class BuyableStockCalculatedQuantity extends DataObject {
 				$latestManualUpdateQuantity = 0;
 			}
 			//work out additional purchases
-			$sqlQuery = new SQLQuery(
-				 "SUM(\"Quantity\")", // Select
-				 "\"BuyableStockOrderEntry\"", // From
-				 "\"ParentID\" = ".$this->ID." AND \"IncludeInCurrentCalculation\" = 1" // Where (optional)
-			);
-			$orderQuantityToDeduct = $sqlQuery->execute()->value();
+			$orderQuantityToDeduct = BuyableStockOrderEntry::get()
+										->filter(
+											array(
+												'ParentID' => $this->ID,
+												'IncludeInCurrentCalculation' => 1
+											)
+										)->sum('Quantity');
 			if(!$orderQuantityToDeduct) {
 				$orderQuantityToDeduct = 0;
 			}

@@ -4,13 +4,13 @@
 
 class StockControlPing_OrderStep extends OrderStep {
 
-	static $db = array(
+	private static $db = array(
 		"URLToPing" => "Varchar(200)",
 		"Username" => "Varchar(30)",
 		"Password" => "Varchar(30)"
 	);
 
-	static $defaults = array(
+	private static $defaults = array(
 		"CustomerCanEdit" => 0,
 		"CustomerCanPay" => 0,
 		"CustomerCanCancel" => 0,
@@ -31,7 +31,7 @@ class StockControlPing_OrderStep extends OrderStep {
 	 * @param DataObject - $order Order
 	 * @return Boolean
 	 **/
-	public function initStep($order) {
+	public function initStep(Order $order) {
 		return true;
 	}
 
@@ -40,8 +40,15 @@ class StockControlPing_OrderStep extends OrderStep {
 	 * @param DataObject - $order Order
 	 * @return Boolean
 	 **/
-	public function doStep($order) {
-		if(!DataObject::get_one("StockControlPing_OrderStatusLog", "\"OrderID\" = ".$order->ID)) {
+	public function doStep(Order $order) {
+		$stockControlPing = StockControlPing_OrderStatusLog::get()
+													->filter(
+														array(
+															'OrderID' => $order->ID
+														)
+													)
+													->First();
+		if(!$stockControlPing) {
 			if($this->Username && $this->Password) {
 				$authentication = array(
 					CURLOPT_USERPWD =>
@@ -73,7 +80,7 @@ class StockControlPing_OrderStep extends OrderStep {
 	 *@param DataObject - $order Order
 	 *@return DataObject | Null	(next step OrderStep)
 	 **/
-	public function nextStep($order) {
+	public function nextStep(Order $order) {
 		if($order->IsSubmitted()) {
 			return parent::nextStep($order);
 		}
@@ -128,13 +135,13 @@ class StockControlPing_OrderStep extends OrderStep {
 class StockControlPing_OrderStatusLog extends OrderStatusLog {
 
 
-	public static $singular_name = "Stock Control External Ping";
+	private static $singular_name = "Stock Control External Ping";
 		function i18n_singular_name() { return _t("OrderStatusLog.STOCKCONTROLEXTERNALPING", "Stock Control External Ping");}
 
-	public static $plural_name = "Stock Control External Pings";
+	private static $plural_name = "Stock Control External Pings";
 		function i18n_plural_name() { return _t("OrderStatusLog.STOCKCONTROLEXTERNALPINGS", "Stock Control External Pings");}
 
-	static $defaults = array(
+	private static $defaults = array(
 		'Title' => 'Ping External Service',
 		'Note' => 'HTMLText',
 		'InternalUseOnly' => 1
@@ -184,13 +191,13 @@ class StockControlPing_OrderStatusLog extends OrderStatusLog {
  */
 class StockControlPing_IncomingUpdate extends DataObject {
 
-	public static $api_access = array(
+	private static $api_access = array(
 		'create' => array('InternalItemID', 'BuyableClassName', 'BuyableID', 'AllowPurchase'),
 		'add' => array('InternalItemID', 'BuyableClassName', 'BuyableID', 'AllowPurchase'),
 		'view' => array('InternalItemID', 'BuyableClassName', 'BuyableID', 'AllowPurchase')
 	);
 
-	public static $db = array(
+	private static $db = array(
 		"InternalItemID" => "Varchar(30)",
 		"BuyableClassName" => "Varchar(50)",
 		"BuyableID" => "Int",
@@ -198,12 +205,12 @@ class StockControlPing_IncomingUpdate extends DataObject {
 		"Actioned" => "Boolean"
 	);
 
-	public static $default_sort = "\"LastEdited\" DESC";
+	private static $default_sort = "\"LastEdited\" DESC";
 
-	public static $singular_name = "External Update to Product Availability";
+	private static $singular_name = "External Update to Product Availability";
 		function i18n_singular_name() { return _t("StockControlPing.EXTERNALUPDATETOPRODUCTAVAILABILITY", "External Update to Product Availability");}
 
-	public static $plural_name = "External Updates to Product Availability";
+	private static $plural_name = "External Updates to Product Availability";
 		function i18n_plural_name() { return _t("StockControlPing.EXTERNALUPDATESTOPRODUCTAVAILABILITY", "External Updates to Product Availability");}
 
 	public function canView($member = null) {return $this->canDoAnything($member);}
@@ -212,7 +219,7 @@ class StockControlPing_IncomingUpdate extends DataObject {
 
 	public function canEdit($member = null) {return false;}
 
-	public function canDelete() {return false;}
+	public function canDelete($member = null) {return false;}
 
 	protected function canDoAnything($member = null) {
 		$shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
@@ -233,10 +240,10 @@ class StockControlPing_IncomingUpdate extends DataObject {
 			$allowPurchase = $this->AllowPurchase ? 1 : 0;
 			if($className) {
 				if($className && $id) {
-					$buyable = DataObject::get_by_id($className, $id);
+					$buyable = $className::get()->byID($id);
 				}
 				else {
-					$buyable = DataObject::get_one($className, "\"InternalItemID\" = '$internalItemID'");
+					$buyable = $className::get()->filter(array('InternalItemID' => $internalItemID))->First();
 				}
 			}
 			else {
@@ -244,7 +251,8 @@ class StockControlPing_IncomingUpdate extends DataObject {
 				if(is_array($buyablesArray)) {
 					if(count($buyablesArray)) {
 						foreach($buyablesArray as $className) {
-							if($buyable = DataObject::get_one($className, "\"InternalItemID\" = '$internalItemID'")) {
+							$buyable = $className::get()->filter(array('InternalItemID' => $internalItemID))->First();
+							if($buyable) {
 								break;
 							}
 						}

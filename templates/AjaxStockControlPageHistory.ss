@@ -3,14 +3,14 @@
 <% if OrderEntries %>
 <h4>Sales</h4>
 <ul class="entries">
-	<% control OrderEntries %>
+	<% with/loop OrderEntries %>
 	<li>
 		<span class="quantity">$Quantity</span>
 		<span class="date">on $LastEdited.Nice</span>
 		<span class="explanation"> - Order # $OrderID</span>
 		<span class="small"><% if IncludeInCurrentCalculation %>included in current calculations<% else %>no longer relevant to calculations<% end_if %></span>
 	</li>
-	<% end_control %>
+	<% end_loop/with %>
 </ul>
 <% else %>
 <h4>There are no sales yet.</h4>
@@ -19,13 +19,13 @@
 <% if ManualUpdates %>
 <h4>Manual Adjustments</h4>
 <ul class="entries">
-	<% control ManualUpdates %>
+	<% with/loop ManualUpdates %>
 	<li>
 		<span class="quantity">$Quantity</span>
 		<span class="date">on $LastEdited.Nice</span>
 		<span class="explanation"> - updated by $Member.FirstName $Member.Surname</span>
 	</li>
-	<% end_control %>
+	<% end_loop/with %>
 </ul>
 <% else %>
 <h4>There are no manual adjustments yet.</h4>

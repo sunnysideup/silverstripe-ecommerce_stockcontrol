@@ -16,13 +16,6 @@
 
 class StockControlController extends ContentController {
 
-
-	protected static  $url_segment ="update-stock";
-	public static function get_url_segment(){return self::$url_segment;}
-	public static function set_url_segment($s){self::$url_segment = $s;}
-	//TODO: move all this to CMS
-
-
 	function init() {
 		// Only administrators can run this method
 		$shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
@@ -31,7 +24,7 @@ class StockControlController extends ContentController {
 		}
 		parent::init();
 
-		Requirements::themedCSS("StockControlPage");
+		Requirements::themedCSS("StockControlPage", 'ecommerce_stockcontrol');
 		Requirements::javascript(THIRDPARTY_DIR."/jquery/jquery.js");
 		//Requirements::block(THIRDPARTY_DIR."/jquery/jquery.js");
 		//Requirements::javascript(Director::protocol()."ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
@@ -40,13 +33,13 @@ class StockControlController extends ContentController {
 		Requirements::customScript("StockControlPage.set_url('".$url."');", "StockControlPage.set_url");
 	}
 
-	function Link(){
-		return "/".self::get_url_segment()."/";
+	function Link($action = NULL){
+		return "/update-stock/";
 	}
 
 	function StockProductObjects() {
-		$buyableStockCalculatedQuantities = DataObject::get("BuyableStockCalculatedQuantity", "", "", "", "10");
-		if($buyableStockCalculatedQuantities) {
+		$buyableStockCalculatedQuantities = BuyableStockCalculatedQuantity::get()->limit(10);
+		if($buyableStockCalculatedQuantities->count()) {
 			foreach($buyableStockCalculatedQuantities as $buyableStockCalculatedQuantity) {
 				$buyable = $buyableStockCalculatedQuantity->Buyable();
 				if($buyable) {
@@ -69,7 +62,8 @@ class StockControlController extends ContentController {
 		$id = intval($request->param("ID"));
 		$newValue = intval($request->param("OtherID"));
 		if($newValue || $newValue === 0) {
-			if($obj = DataObject::get_by_id("BuyableStockCalculatedQuantity", $id)) {
+			$obj = BuyableStockCalculatedQuantity::get()->byID($id);
+			if($obj) {
 				if($buyable = $obj->getBuyable()) {
 					$buyable->setActualQuantity($newValue);
 					$msg = "<em>".$obj->Name . "</em> quantity updated to <strong>".$newValue."</strong>";
@@ -90,10 +84,10 @@ class StockControlController extends ContentController {
 
  	function history($request = null) {
 		$id = intval($request->param("ID"));
-		$buyableStockCalculatedQuantity = DataObject::get_by_id("BuyableStockCalculatedQuantity", $id);
+		$buyableStockCalculatedQuantity = BuyableStockCalculatedQuantity::get()->byID($id);
 		if($buyableStockCalculatedQuantity) {
-			$buyableStockCalculatedQuantity->ManualUpdates = DataObject::get("BuyableStockManualUpdate", "\"ParentID\" = ".$buyableStockCalculatedQuantity->ID);
-			$buyableStockCalculatedQuantity->OrderEntries = DataObject::get("BuyableStockOrderEntry", "\"ParentID\" = ".$buyableStockCalculatedQuantity->ID);
+			$buyableStockCalculatedQuantity->ManualUpdates = BuyableStockManualUpdate::get()->filter(array('ParentID' => $buyableStockCalculatedQuantity->ID));
+			$buyableStockCalculatedQuantity->OrderEntries = BuyableStockOrderEntry::get()->filter(array('ParentID' => $buyableStockCalculatedQuantity->ID));
 			/*
 			$graphArray = array();
 			if($buyableStockCalculatedQuantity->ManualUpdates) {

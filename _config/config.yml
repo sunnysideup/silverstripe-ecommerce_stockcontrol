@@ -1,0 +1,9 @@
+---
+Name: ecommerce_stockcontrol
+Before: 'mysite/*'
+After: 'framework/*','cms/*', 'ecommerce/*'
+---
+
+Product_Controller:
+  extensions:
+    - BuyableStockDecorator_Extension

@@ -5,7 +5,7 @@
  * Extension for any buyable - adding stock level capabilities.
  */
 
-class BuyableStockDecorator extends DataObjectDecorator{
+class BuyableStockDecorator extends DataExtension{
 
 	/**
 	 * Array of Class Names of classes that are buyables
@@ -13,7 +13,7 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	 * @var Array
 	 *
 	 */
-	protected static $buyables = array();
+	private static $buyables = array();
 		public static function set_buyables($a) {self::$buyables = $a;}
 		public static function get_buyables() {return self::$buyables;}
 		public static function add_buyable($s) {self::$buyables[] = $s;}
@@ -25,7 +25,7 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	 * @var String
 	 *
 	 */
-	protected static $quantity_field_selector = "";
+	private static $quantity_field_selector = "";
 		public static function set_quantity_field_selector($s) {self::$quantity_field_selector = $s;}
 		public static function get_quantity_field_selector() {return self::$quantity_field_selector;}
 
@@ -34,30 +34,28 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	 *
 	 * @return Array
 	 */
-	public function extraStatics() {
-		return array (
-			'db' => array(
-				'MinQuantity' => 'Int',
-				'MaxQuantity' => 'Int',
-				'UnlimitedStock' => 'Boolean'
-			),
-			'casting' => array(
-				'ActualQuantity' => 'Int'
-			),
-			'defaults' => array(
-				'UnlimitedStock' => 1,
-				'MinQuantity' => 0,
-				'MaxQuantity' => 0
-			)
-		);
-	}
+	private static $db = array(
+		'MinQuantity' => 'Int',
+		'MaxQuantity' => 'Int',
+		'UnlimitedStock' => 'Boolean'
+	);
+
+	private static $casting = array(
+		'ActualQuantity' => 'Int'
+	);
+
+	private static $defaults = array(
+		'UnlimitedStock' => 1,
+		'MinQuantity' => 0,
+		'MaxQuantity' => 0
+	);
 
 	/*
 	 * Allow setting stock level in CMS
 	 */
-	function updateCMSFields(&$fields){
+	function updateCMSFields(FieldList $fields){
 		if($this->owner instanceOf SiteTree) {
-			$tabName = 'Root.Content.Stock';
+			$tabName = 'Root.Stock';
 		}
 		else {
 			$tabName = 'Root.Stock';
@@ -68,11 +66,11 @@ class BuyableStockDecorator extends DataObjectDecorator{
 				new HeaderField('MinMaxHeader','Minimum and Maximum Quantities per Order', 3),
 				new NumericField('MinQuantity','Minimum Quantity'),
 				new NumericField('MaxQuantity','Maximum Quantity'),
-				new HeaderField('ActualQantityHeader','Stock available', 3),
+				new HeaderField('ActualQuantityHeader','Stock available', 3),
 				new CheckboxField('UnlimitedStock','Unlimited Stock'),
-				new NumericField('ActualQantity','Actual Stock Available', $this->getActualQuantity()),
-				new HeaderField('ActualQantityAdjustmentHeader','Adjust all stock', 3),
-				new LiteralField('ActualQantityAdjustmentLink','This CMS also provides a <a href="/'.StockControlController::get_url_segment().'/" target="_blank">quick stock adjuster</a>.')
+				new NumericField('ActualQuantity','Actual Stock Available', $this->getActualQuantity()),
+				new HeaderField('ActualQuantityAdjustmentHeader','Adjust all stock', 3),
+				new LiteralField('ActualQuantityAdjustmentLink','This CMS also provides a <a href="/update-stock/" target="_blank">quick stock adjuster</a>.')
 			)
 		);
 	}
@@ -113,14 +111,14 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	 * This is a pivotal method.
 	 * Only allow purchase if stock levels allow
 	 * TODO: customise this to a certain stock level, on, or off
+	 * @return null (equals TRUE!), true or false
 	 */
 	function canPurchase($member = null){
-		if($this->owner->MinQuantity > 0) {
-			if($this->owner->getActualQuantity() <= $this->owner->MinQuantity){
-				if(!$this->owner->UnlimitedStock) {
-					return false;
-				}
-			}
+		if($this->owner->UnlimitedStock) {
+			return null;
+		}
+		if($this->owner->getActualQuantity() <= $this->owner->MinQuantity){
+			return false;
 		}
 		return null; //returning null ensures that the value from this method is ignored.
 	}
@@ -129,11 +127,12 @@ class BuyableStockDecorator extends DataObjectDecorator{
 	 * stanard SS metehod
 	 */
 	function onAfterWrite(){
+		
 		BuyableStockCalculatedQuantity::get_by_buyable($this->owner);
-		if(isset($_REQUEST["ActualQantity"])) {
-			$actualQantity = intval($_REQUEST["ActualQantity"]);
-			if($actualQantity != $this->owner->getActualQuantity() && ($actualQantity === 0 || $actualQantity) ) {
-				$this->owner->setActualQuantity($actualQantity);
+		if(isset($_REQUEST["ActualQuantity"])) {
+			$actualQuantity = intval($_REQUEST["ActualQuantity"]);
+			if($actualQuantity != $this->owner->getActualQuantity() && ($actualQuantity === 0 || $actualQuantity) ) {
+				$this->owner->setActualQuantity($actualQuantity);
 			}
 		}
 	}
@@ -152,12 +151,12 @@ class BuyableStockDecorator_Extension extends Extension {
 	function index() {
 		$min = 0;
 		$max = 0;
-		$msg = MinMaxModifier::get_sorry_message();
-		$fieldSelector = BuyableStockDecorator::get_quantity_field_selector() ;
-		if($minField = MinMaxModifier::get_min_field()) {
+		$msg = Config::inst()->get("MinMaxModifier", "sorry_message");
+		$fieldSelector = Config::inst()->get("BuyableStockDecorator", "quantity_field_selector");
+		if($minField = Config::inst()->get("MinMaxModifier", "min_field")) {
 			$min = $this->owner->$minField;
 		}
-		if($maxField = MinMaxModifier::get_max_field()) {
+		if($maxField = Config::inst()->get("MinMaxModifier", "max_field")) {
 			$max = $this->owner->$maxField;
 		}
 		$js = 'MinMaxModifier.add_item("'.$fieldSelector.'", '.intval($min).', '.intval($max).', "'.addslashes($msg).'");';

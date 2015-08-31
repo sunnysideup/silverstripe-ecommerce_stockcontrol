@@ -10,45 +10,35 @@ class MinMaxModifier extends OrderModifier {
 
 //--------------------------------------------------------------------*** static variables
 
-	static $db = array(
+	private static $db = array(
 		"Adjustments" => "HTMLText"
 	);
 
-
-	public static $singular_name = "Stock Adjustment";
+	private static $singular_name = "Stock Adjustment";
 		function i18n_singular_name() { return _t("MinMaxModifier.MINMAXMODIFIER", "Stock Adjustment");}
 
-	public static $plural_name = "Stock Adjustments";
+	private static $plural_name = "Stock Adjustments";
 		function i18n_plural_name() { return _t("MinMaxModifier.MINMAXMODIFIER", "Stock Adjustments");}
 
-	protected static $title = "MinMaxModifier";
+	private static $title = "MinMaxModifier";
 
-	protected static $default_min_quantity = 1;
+	private static $default_min_quantity = 1;
 		static function set_default_min_quantity($i) { self::$default_min_quantity = $i;}
 
-	protected static $default_max_quantity = 9999;
+	private static $default_max_quantity = 9999;
 		static function set_default_max_quantity($i) { self::$default_max_quantity = $i;}
 
-	protected static $min_field = "MinQuantity";
-		static function set_min_field($s) { self::$min_field = $s;}
-		static function get_min_field() { return self::$min_field;}
+	private static $min_field = "MinQuantity";
 
-	protected static $max_field = "MaxQuantity";
-		static function set_max_field($s) { self::$max_field = $s;}
-		static function get_max_field() { return self::$max_field;}
+	private static $max_field = "MaxQuantity";
 
-	protected static $adjustment_message = "Based on stock availability, quantities have been adjusted as follows: ";
-		static function set_adjustment_message($s) { self::$adjustment_message = $s;}
+	private static $adjustment_message = "Based on stock availability, quantities have been adjusted as follows: ";
 
-	protected static $sorry_message = "Sorry, your selected value not is available.";
-		static function set_sorry_message($s) {self::$sorry_message = $s;}
-		static function get_sorry_message() {return self::$sorry_message;}
+	private static $sorry_message = "Sorry, your selected value not is available.";
 
-	protected static $use_stock_quantities = false;
-		static function set_use_stock_quantities($b) {self::$use_stock_quantities = $b;}
-		static function get_use_stock_quantities() {return self::$use_stock_quantities;}
+	private static $use_stock_quantities = true;
 
-	protected static $ids_of_items_adjusted = array();
+	private static $ids_of_items_adjusted = array();
 
 //-------------------------------------------------------------------- *** static functions
 
@@ -108,9 +98,6 @@ class MinMaxModifier extends OrderModifier {
 					$buyable = $item->Buyable();
 					if($buyable) {
 						$quantity = $item->Quantity;
-						//THIS IS A BIT OF A HACK - NEED TO WORK OUT CURRENT ADJUSTMENTS>>>
-
-						//END OF HACK
 						$absoluteMin = self::$default_min_quantity;
 						$absoluteMax = self::$default_max_quantity;
 						if($minFieldName) {
@@ -188,12 +175,17 @@ class MinMaxModifier extends OrderModifier {
 		}
 	}
 
-	function updateForAjax(&$js) {
+	function updateForAjax(array $js) {
 		parent::updateForAjax($js);
 		self::apply_min_max();
 		if(is_array(self::$ids_of_items_adjusted) && count(self::$ids_of_items_adjusted)) {
-			$items = DataObject::get("OrderItem", "OrderItem.ID IN (".implode(",", self::$ids_of_items_adjusted) .")");
-			if($items) {
+			$items = OrderItem::get()
+								->filter(
+									array(
+										'OrderItem.ID' => self::$ids_of_items_adjusted
+									)
+								);
+			if($items->count()) {
 				foreach($items as $item) {
 					$item->updateForAjax($js);
 				}

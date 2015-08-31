@@ -1,0 +1,36 @@
+---
+Name: ecommerce_stockcontrol
+Before: 'mysite/*'
+After: 'framework/*','cms/*', 'ecommerce/*'
+---
+
+Product:
+  extensions:
+    - BuyableStockDecorator
+
+ProductVariation:
+  extensions:
+    - BuyableStockDecorator
+
+BuyableStockDecorator:
+  buyables:
+    - Product
+    - ProductVariation
+
+ProductsAndGroupsModelAdmin:
+  managed_modules:
+    - BuyableStockManualUpdate
+    - BuyableStockOrderEntry
+
+Order:
+  modifiers:
+    - MinMaxModifier
+
+MinMaxModifier:
+  use_stock_quantities: true
+  default_min_quantity: 1
+  default_max_quantity: 99
+  min_field: 'MinQuantity'
+  max_field: 'MaxQuantity'
+  adjustment_message: 'Based on stock availability, quantities have been adjusted as follows:'
+  sorry_message: 'Sorry, your selected value not is available'

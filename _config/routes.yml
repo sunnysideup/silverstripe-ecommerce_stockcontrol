@@ -1,0 +1,3 @@
+Director:
+  rules:
+    'update-stock//$Action/$ID/$OtherID/$Value': 'StockControlController'

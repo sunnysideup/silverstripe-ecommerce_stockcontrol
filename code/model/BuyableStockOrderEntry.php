@@ -9,57 +9,57 @@
 
 class BuyableStockOrderEntry extends DataObject {
 
-	static $db = array(
+	private static $db = array(
 		"Quantity" => "Int",
 		"IncludeInCurrentCalculation" => "Boolean"
 	);
 
-	static $has_one = array(
+	private static $has_one = array(
 		"Parent" => "BuyableStockCalculatedQuantity",
 		"Order" => "Order",
 	);
 
-	static $defaults = array(
+	private static $defaults = array(
 		"IncludeInCurrentCalculation" => 1
 	);
 
 
 	//MODEL ADMIN STUFF
-	public static $searchable_fields = array(
+	private static $searchable_fields = array(
 		"Quantity",
 		"IncludeInCurrentCalculation",
 		"ParentID",
 		"OrderID",
 	);
 
-	public static $field_labels = array(
+	private static $field_labels = array(
 		"Quantity" => "Calculated Quantity On Hand",
 		"IncludeInCurrentCalculation" => "Include in Calculation",
 		"ParentID" => "Buyable Calculation",
 		"OrderID" => "Order"
 	);
 
-	public static $summary_fields = array(
+	private static $summary_fields = array(
 		"OrderID",
 		"ParentID",
 		"Quantity"
 	);
 
-	public static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
+	private static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
 
-	public static $singular_name = "Stock Sale Entry";
+	private static $singular_name = "Stock Sale Entry";
 		function i18n_singular_name() { return _t("BuyableStockOrderEntry.STOCKSALEENTRY", "Stock Sale Entry");}
 
-	public static $plural_name = "Stock Sale Entries";
+	private static $plural_name = "Stock Sale Entries";
 		function i18n_plural_name() { return _t("BuyableStockOrderEntry.STOCKSALEENTRIES", "Stock Sale Entries");}
 
-	public function canCreate() {return false;}
+	public function canCreate($member = null) {return false;}
 
-	public function canEdit() {return false;}
+	public function canEdit($member = null) {return false;}
 
-	public function canDelete() {return false;}
+	public function canDelete($member = null) {return false;}
 
-	public function canView() {return $this->canDoAnything();}
+	public function canView($member = null) {return $this->canDoAnything();}
 
 	protected function canDoAnything() {
 		EcommerceConfig::get("EcommerceRole", "admin_permission_code");
@@ -71,7 +71,6 @@ class BuyableStockOrderEntry extends DataObject {
 
 	function onAfterWrite() {
 		parent::onAfterWrite();
-		$bt = defined('DB::USE_ANSI_SQL') ? "\"" : "`";
 		if($this->ID) {
 			//basic checks
 			if(!$this->ParentID) {
@@ -83,10 +82,13 @@ class BuyableStockOrderEntry extends DataObject {
 				user_error("Can not create record without order.", E_USER_ERROR);
 			}
 			//make sure no duplicates are created
-			while($tobeDeleted = DataObject::get_one("BuyableStockOrderEntry", "{$bt}OrderID{$bt} = ".$this->OrderID." AND \"ParentID\" = ".$this->ParentID." AND {$bt}ID{$bt} <> ".$this->ID, false, "\"LastEdited\" ASC")) {
-				$toBeDeleted = DataObject::get_one("BuyableStockOrderEntry", "\"OrderID\" = ".$this->OrderID, false, "\"LastEdited\" ASC");
-				$toBeDeleted->delete();
-				$toBeDeleted->destroy();
+			$toBeDeleted = BuyableStockOrderEntry::get()
+											->filter(array('OrderID' => $this->OrderID, 'ParentID' => $this->ParentID))
+											->exclude(array("ID"=> $this->ID))
+											->sort(array('LastEdited' => 'ASC'));
+			foreach($toBeDeleted as $youAreDodo) {
+				$youAreDodo->delete();
+				$youAreDodo->destroy();
 				user_error("deleting BuyableStockOrderEntry because there are multiples!", E_USER_ERROR);
 			}
 		}
