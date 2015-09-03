@@ -16,6 +16,10 @@
 
 class StockControlController extends ContentController {
 
+	private static $allowed_actions = array(
+		"update" => "SHOPADMIN"
+	);
+
 	function init() {
 		// Only administrators can run this method
 		$shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
