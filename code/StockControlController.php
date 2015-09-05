@@ -17,7 +17,8 @@
 class StockControlController extends ContentController {
 
 	private static $allowed_actions = array(
-		"update" => "SHOPADMIN"
+		"update" => "SHOPADMIN",
+		"history" => "SHOPADMIN"
 	);
 
 	function init() {
@@ -38,11 +39,15 @@ class StockControlController extends ContentController {
 	}
 
 	function Link($action = NULL){
-		return "/update-stock/";
+		$link =  "/update-stock/";
+		if($action) {
+			$link .=  $action ."/";
+		}
+		return $link;
 	}
 
 	function StockProductObjects() {
-		$buyableStockCalculatedQuantities = BuyableStockCalculatedQuantity::get()->limit(10);
+		$buyableStockCalculatedQuantities = BuyableStockCalculatedQuantity::get()->limit(1000);
 		if($buyableStockCalculatedQuantities->count()) {
 			foreach($buyableStockCalculatedQuantities as $buyableStockCalculatedQuantity) {
 				$buyable = $buyableStockCalculatedQuantity->Buyable();
@@ -92,7 +97,6 @@ class StockControlController extends ContentController {
 		if($buyableStockCalculatedQuantity) {
 			$buyableStockCalculatedQuantity->ManualUpdates = BuyableStockManualUpdate::get()->filter(array('ParentID' => $buyableStockCalculatedQuantity->ID));
 			$buyableStockCalculatedQuantity->OrderEntries = BuyableStockOrderEntry::get()->filter(array('ParentID' => $buyableStockCalculatedQuantity->ID));
-			/*
 			$graphArray = array();
 			if($buyableStockCalculatedQuantity->ManualUpdates) {
 				foreach($buyableStockCalculatedQuantity->ManualUpdates as $obj) {
@@ -102,7 +106,6 @@ class StockControlController extends ContentController {
 				foreach($buyableStockCalculatedQuantity->OrderEntries as $obj) {
 				}
 			}
-			*/
 			return $this->customise($buyableStockCalculatedQuantity)->renderWith("AjaxStockControlPageHistory");
 		}
 		else {

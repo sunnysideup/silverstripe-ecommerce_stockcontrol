@@ -61,7 +61,7 @@ class BuyableStockManualUpdate extends DataObject {
 
 	protected function canDoAnything($member = null) {
 		$shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
-		if(!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
+		if(!Permission::check($shopAdminCode)) {
 			Security::permissionFailure($this, _t('Security.PERMFAILURE',' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
 		}
 		return true;

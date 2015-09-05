@@ -4,6 +4,11 @@ Before: 'mysite/*'
 After: 'framework/*','cms/*', 'ecommerce/*'
 ---
 
-Product_Controller:
+Product:
   extensions:
-    - BuyableStockDecorator_Extension
+    - BuyableStockDecorator
+
+
+BuyableStockDecorator:
+  buyables:
+    - Product

@@ -3,7 +3,7 @@
 
 var MinMaxModifier = {
 
-	show_message: false,
+	show_message: true,
 
 	add_item: function (fieldSelector, min, max, msg) {
 		jQuery(fieldSelector).blur(
@@ -36,5 +36,5 @@ var MinMaxModifier = {
 			jQuery(fieldSelector).change();
 		}
 	}
-	
+
 }

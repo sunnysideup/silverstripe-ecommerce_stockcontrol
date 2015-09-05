@@ -15,18 +15,16 @@ class MinMaxModifier extends OrderModifier {
 	);
 
 	private static $singular_name = "Stock Adjustment";
-		function i18n_singular_name() { return _t("MinMaxModifier.MINMAXMODIFIER", "Stock Adjustment");}
+		function i18n_singular_name() { self::$singular_name;}
 
 	private static $plural_name = "Stock Adjustments";
-		function i18n_plural_name() { return _t("MinMaxModifier.MINMAXMODIFIER", "Stock Adjustments");}
+		function i18n_plural_name() { return self::$plural_name;}
 
 	private static $title = "MinMaxModifier";
 
 	private static $default_min_quantity = 1;
-		static function set_default_min_quantity($i) { self::$default_min_quantity = $i;}
 
 	private static $default_max_quantity = 9999;
-		static function set_default_max_quantity($i) { self::$default_max_quantity = $i;}
 
 	private static $min_field = "MinQuantity";
 
@@ -91,7 +89,12 @@ class MinMaxModifier extends OrderModifier {
 			$msgArray = array();
 			$minFieldName = self::$min_field;
 			$maxFieldName = self::$max_field;
-			$items = ShoppingCart::current_order()->Items();
+			$currentOrder = ShoppingCart::current_order();
+			if($currentOrder->IsSubmitted()) {
+				//too late!
+				return;
+			}
+			$items = $currentOrder->Items();
 			$i = 0;
 			if($items) {
 				foreach($items as $item) {
@@ -100,13 +103,15 @@ class MinMaxModifier extends OrderModifier {
 						$quantity = $item->Quantity;
 						$absoluteMin = self::$default_min_quantity;
 						$absoluteMax = self::$default_max_quantity;
+						$parent = $buyable->Parent();
 						if($minFieldName) {
 							if(isset($buyable->$minFieldName) && $buyable->$minFieldName > 0) {
 								$absoluteMin = $buyable->$minFieldName;
 							}
+							//product variations
 							elseif(!isset($buyable->$minFieldName)) {
-								if($buyable->Parent() && isset($buyable->Parent()->$minFieldName) && $buyable->Parent()->$minFieldName > 0) {
-									$absoluteMin = $buyable->Parent()->$minFieldName;
+								if($parent && isset($parent->$minFieldName) && $parent->$minFieldName > 0) {
+									$absoluteMin = $parent->$minFieldName;
 								}
 							}
 						}
@@ -114,13 +119,17 @@ class MinMaxModifier extends OrderModifier {
 							if(isset($buyable->$maxFieldName) && $buyable->$maxFieldName > 0) {
 								$absoluteMax = $buyable->$maxFieldName;
 							}
+							//product variations
 							elseif(!isset($buyable->$maxFieldName)) {
-								if($buyable->Parent() && isset($buyable->Parent()->$maxFieldName) && $buyable->Parent()->$maxFieldName > 0) {
-									$absoluteMax = $buyable->Parent()->$maxFieldName;
+								if($parent && isset($parent->$maxFieldName) && $parent->$maxFieldName > 0) {
+									$absoluteMax = $parent->$maxFieldName;
 								}
 							}
 						}
-						if(self::$use_stock_quantities && !$buyable->UnlimitedStock) {
+						if($buyable->UnlimitedStock) {
+							//nothing more to do
+						}
+						elseif(self::$use_stock_quantities) {
 							$maxStockQuantity = $buyable->getActualQuantity();
 							if($absoluteMax > $maxStockQuantity) {
 								$absoluteMax = $maxStockQuantity;
@@ -134,11 +143,11 @@ class MinMaxModifier extends OrderModifier {
 						$absoluteMax = intval($absoluteMax) - 0;
 						$newValue = $quantity;
 						if($quantity < $absoluteMin && $absoluteMin > 0) {
-							//echo "adjusting for MIN: $quantity < $absoluteMin";
+							debug::log("adjusting for MIN: $quantity < $absoluteMin");
 							$newValue = $absoluteMin;
 						}
 						if($quantity > $absoluteMax && $absoluteMax > 0) {
-							//echo "adjusting for MAX: $quantity > $absoluteMax";
+							debug::log("adjusting for MAX: $quantity > $absoluteMax");
 							$newValue = $absoluteMax;
 						}
 						if($quantity != $newValue) {
@@ -153,13 +162,12 @@ class MinMaxModifier extends OrderModifier {
 							//do nothing
 						}
 						else {
-							//IS THIS WORKING
+							//IS THIS WORKING?
 							$fieldName = $item->AJAXDefinitions()->QuantityFieldName();
 							$js = 'MinMaxModifier.add_item("input[name=\''.$fieldName.'\']", '.intval($absoluteMin).', '.intval($absoluteMax).', "'.addslashes(self::$sorry_message).'");';
 							Requirements::javascript("ecommerce_stockcontrol/javascript/MinMaxModifier.js");
 							Requirements::customScript($js,$fieldName);
 						}
-
 					}
 				}
 			}
@@ -179,12 +187,7 @@ class MinMaxModifier extends OrderModifier {
 		parent::updateForAjax($js);
 		self::apply_min_max();
 		if(is_array(self::$ids_of_items_adjusted) && count(self::$ids_of_items_adjusted)) {
-			$items = OrderItem::get()
-								->filter(
-									array(
-										'OrderItem.ID' => self::$ids_of_items_adjusted
-									)
-								);
+			$items = OrderItem::get()->filter(array('ID' => self::$ids_of_items_adjusted));
 			if($items->count()) {
 				foreach($items as $item) {
 					$item->updateForAjax($js);

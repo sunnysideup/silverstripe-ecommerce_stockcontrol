@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * connection with external stock setting systems
+ * as an orderstep
+ *
+ *
+ */
 
 
 class StockControlPing_OrderStep extends OrderStep {
@@ -42,12 +48,7 @@ class StockControlPing_OrderStep extends OrderStep {
 	 **/
 	public function doStep(Order $order) {
 		$stockControlPing = StockControlPing_OrderStatusLog::get()
-													->filter(
-														array(
-															'OrderID' => $order->ID
-														)
-													)
-													->First();
+			->filter(array('OrderID' => $order->ID))->First();
 		if(!$stockControlPing) {
 			if($this->Username && $this->Password) {
 				$authentication = array(

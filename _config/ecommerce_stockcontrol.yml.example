@@ -1,12 +1,12 @@
 ---
-Name: ecommerce_stockcontrol
+Name: ecommerce_stockcontrol_extras
 Before: 'mysite/*'
 After: 'framework/*','cms/*', 'ecommerce/*'
 ---
 
-Product:
+Product_Controller:
   extensions:
-    - BuyableStockDecorator
+    - BuyableStockDecorator_Extension
 
 ProductVariation:
   extensions:

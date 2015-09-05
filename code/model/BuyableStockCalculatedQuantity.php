@@ -210,6 +210,8 @@ class BuyableStockCalculatedQuantity extends DataObject {
 					\"OrderItem\".\"BuyableClassName\" = '".$this->BuyableClassName."'
 					AND
 					\"OrderStep\".\"CustomerCanEdit\" = 0
+					AND
+					\"Order\".\"ID\" <> ".ShoppingCart::current_order()->ID."
 			");
 			if($data) {
 				foreach($data as $row) {
