@@ -3,11 +3,13 @@
     "type": "silverstripe-module",
     "description": "adds stock control (how many you can sell of what product) to the Silverstripe e-commerce application",
     "keywords": [
+        "Silverstripe-CMS",
+        "CMS",
+        "Silverstripe",
         "ecommerce",
         "e-commerce",
         "shop",
         "stock control",
-        "silverstripe",
         "quantity",
         "limit",
         "stock",
@@ -23,6 +25,8 @@
         }
     ],
     "require": {
-        "sunnysideup/ecommerce": "*"
+        "sunnysideup/ecommerce": "*",
+        "silverstripe/framework": "~3.1",
+        "silverstripe/cms": "~3.1"
     }
 }
