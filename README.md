@@ -1,68 +1,72 @@
-E-commerce Stock Control
-================================================================================
+# Silverstripe ecommerce stockcontrol module
+[![Build Status](https://travis-ci.org/sunnysideup/silverstripe-ecommerce_stockcontrol.svg?branch=master)](https://travis-ci.org/sunnysideup/silverstripe-ecommerce_stockcontrol)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-ecommerce_stockcontrol/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-ecommerce_stockcontrol/?branch=master)
+[![codecov.io](https://codecov.io/github/sunnysideup/silverstripe-ecommerce_stockcontrol/coverage.svg?branch=master)](https://codecov.io/github/sunnysideup/silverstripe-ecommerce_stockcontrol?branch=master)
+![helpfulrobot](https://helpfulrobot.io/sunnysideup/ecommerce_stockcontrol/badge)
 
-This module stores stock levels seperate from the products themsleves. This means that a history of stock levels can be
-produced. The module also stores the type of update for each stock update - manual (adding more stock) or order based (sales).
-
-The module also includes a MinMaxModifier, which will make sure that a product quantity in cart stays between a min and a max.
-
-The MinMaxModifier can also be used on its own.
-
-This module provides a stock control page for quick updating of stock levels.
-
-About the model classes:
-
-ProductStockOrderEntry: keeps a record of the quantity deduction made for each sale. That is, if we sell 10 items
-in an order then an entry is made in this dataclass for a reduction of ten widgets in the available quantity.
-
-ProductStockManualUpdate: at any stage, the product available quantity can be changed (manually overridden) using this class.
-
-ProductStockCalculatedQuantity: works out the quantity available for each product based on the the number of items
-sold (recorded in ProductStockOrderEntry) and manual corrections, recorded in ProductStockManualUpdate.
-
-ProductStockVariationCalculatedQuantity: calculates quantities available for product variations
+[![Latest Stable Version](https://poser.pugx.org/sunnysideup/ecommerce_stockcontrol/version)](https://packagist.org/packages/sunnysideup/ecommerce_stockcontrol)
+[![License](https://poser.pugx.org/sunnysideup/ecommerce_stockcontrol/license)](https://packagist.org/packages/sunnysideup/ecommerce_stockcontrol)
+[![Monthly Downloads](https://poser.pugx.org/sunnysideup/ecommerce_stockcontrol/d/monthly)](https://packagist.org/packages/sunnysideup/ecommerce_stockcontrol)
 
 
-Developers
------------------------------------------------
-
-- Nicolaas Francken [at] sunnysideup.co.nz
-- Jeremy Shipman [at] burnbright.co.nz
+## Documentation
 
 
-Documentation
------------------------------------------------
-Please contact author for more details.
 
-Any bug reports and/or feature requests will be
-looked at
+ * [Developer Docs](docs/en/INDEX.md)
+ * [User Guide](docs/en/userguide.md)
+ * [API](http://ssmods.com/apis/ecommerce_stockcontrol/docs/en/api/)
 
-We are also very happy to provide personalised support
-for this module in exchange for a small donation.
+## Requirements
 
 
-Requirements
------------------------------------------------
-see composer.json
+
+see [composer.json](composer.json) for details
+
+### Suggested Modules
 
 
-Project Home
------------------------------------------------
-See http://code.google.com/p/silverstripe-ecommerce
 
-Demo
------------------------------------------------
-See http://www.silverstripe-ecommerce.com
+see [composer.json](composer.json) for details
 
 
-Installation Instructions
------------------------------------------------
-
-1. Find out how to add modules to SS and add module as per usual.
-
-2. Review configs and add entries to mysite/_config/config.yml
-(or similar) as necessary.
-In the _config/ folder of this module
-you can usually find some examples of config options (if any).
+## Installation
 
 
+```
+composer require sunnysideup/ecommerce_stockcontrol
+```
+
+### Configuration
+
+
+
+In the `_config` folder you will find the `ecommerce_stockcontrol.yml.example`
+file that shows options for the configuration of this module.
+
+We recommend that you:
+
+  1. copy these `ecommerce_stockcontrol.yml.example` files into your
+`mysite/_config` folder
+  2. remove the .example extension
+  3. delete the lines you not care about, and
+  4. adjust the configurations that you would like to use.
+
+
+## Contributing
+
+
+
+We welcome any contributions. See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+
+## Paid assistance
+
+
+
+You can pay us to create an improved / adapted version of this module for your own projects.  Please contact us if you like to find out more: [www.sunnysideup.co.nz](http://www.sunnysideup.co.nz)
+
+## Author
+
+
+
+Sunny Side Up Ltd.
