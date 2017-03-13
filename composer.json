@@ -28,5 +28,8 @@
         "sunnysideup/ecommerce": "*",
         "silverstripe/framework": "~3.1",
         "silverstripe/cms": "~3.1"
+    },
+    "extra": {
+        "installer-name": "ecommerce_stockcontrol"
     }
 }
