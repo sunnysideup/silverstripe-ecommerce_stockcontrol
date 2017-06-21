@@ -219,29 +219,29 @@ class BuyableStockCalculatedQuantity extends DataObject
             //set name
             //add total order quantities
             $data = DB::query("
-				SELECT
-					\"OrderItem\".\"BuyableID\",
-					Sum(\"OrderItem\".\"Quantity\")+0 \"QuantitySum\",
-					\"Order\".\"ID\" \"OrderID\",
-					\"OrderAttribute\".\"ClassName\",
-					\"OrderItem\".\"BuyableClassName\",
-					\"OrderStep\".\"CustomerCanEdit\"
-				FROM
-					\"Order\"
-					INNER JOIN \"OrderAttribute\" ON \"OrderAttribute\".\"OrderID\" = \"Order\".\"ID\"
-					INNER JOIN \"OrderItem\" ON \"OrderAttribute\".\"ID\" = \"OrderItem\".\"ID\"
-					INNER JOIN \"OrderStep\" ON \"OrderStep\".\"ID\" = \"Order\".\"StatusID\"
-				GROUP BY
-					\"Order\".\"ID\", \"BuyableID\"
-				HAVING
-					\"OrderItem\".\"BuyableID\" = ".(intval($this->BuyableID) - 0)."
-					AND
-					\"OrderItem\".\"BuyableClassName\" = '".$this->BuyableClassName."'
-					AND
-					\"OrderStep\".\"CustomerCanEdit\" = 0
-					AND
-					\"Order\".\"ID\" <> ".ShoppingCart::current_order()->ID."
-			");
+                SELECT
+                    \"OrderItem\".\"BuyableID\",
+                    Sum(\"OrderItem\".\"Quantity\")+0 \"QuantitySum\",
+                    \"Order\".\"ID\" \"OrderID\",
+                    \"OrderAttribute\".\"ClassName\",
+                    \"OrderItem\".\"BuyableClassName\",
+                    \"OrderStep\".\"CustomerCanEdit\"
+                FROM
+                    \"Order\"
+                    INNER JOIN \"OrderAttribute\" ON \"OrderAttribute\".\"OrderID\" = \"Order\".\"ID\"
+                    INNER JOIN \"OrderItem\" ON \"OrderAttribute\".\"ID\" = \"OrderItem\".\"ID\"
+                    INNER JOIN \"OrderStep\" ON \"OrderStep\".\"ID\" = \"Order\".\"StatusID\"
+                GROUP BY
+                    \"Order\".\"ID\", \"BuyableID\"
+                HAVING
+                    \"OrderItem\".\"BuyableID\" = ".(intval($this->BuyableID) - 0)."
+                    AND
+                    \"OrderItem\".\"BuyableClassName\" = '".$this->BuyableClassName."'
+                    AND
+                    \"OrderStep\".\"CustomerCanEdit\" = 0
+                    AND
+                    \"Order\".\"ID\" <> ".ShoppingCart::current_order()->ID."
+            ");
             if ($data) {
                 foreach ($data as $row) {
                     if ($row["OrderID"] && $this->ID && $row["QuantitySum"]) {
@@ -278,12 +278,12 @@ class BuyableStockCalculatedQuantity extends DataObject
             if ($latestManualUpdate) {
                 $latestManualUpdateQuantity = $latestManualUpdate->Quantity;
                 DB::query("
-					UPDATE \"BuyableStockOrderEntry\"
-					SET \"IncludeInCurrentCalculation\" = 0
-					WHERE
-					\"LastEdited\" < '".$latestManualUpdate->LastEdited."'
-						AND
-						\"ParentID\" = ".$this->ID
+                    UPDATE \"BuyableStockOrderEntry\"
+                    SET \"IncludeInCurrentCalculation\" = 0
+                    WHERE
+                    \"LastEdited\" < '".$latestManualUpdate->LastEdited."'
+                        AND
+                        \"ParentID\" = ".$this->ID
                 );
             } else {
                 $latestManualUpdateQuantity = 0;
