@@ -216,54 +216,48 @@ class BuyableStockCalculatedQuantity extends DataObject
     {
         $actualQuantity = 0;
         if ($buyable = $this->getBuyable()) {
-            //set name
-            //add total order quantities
-            $data = DB::query("
-                SELECT
-                    \"OrderItem\".\"BuyableID\",
-                    Sum(\"OrderItem\".\"Quantity\")+0 \"QuantitySum\",
-                    \"Order\".\"ID\" \"OrderID\",
-                    \"OrderAttribute\".\"ClassName\",
-                    \"OrderItem\".\"BuyableClassName\",
-                    \"OrderStep\".\"CustomerCanEdit\"
-                FROM
-                    \"Order\"
-                    INNER JOIN \"OrderAttribute\" ON \"OrderAttribute\".\"OrderID\" = \"Order\".\"ID\"
-                    INNER JOIN \"OrderItem\" ON \"OrderAttribute\".\"ID\" = \"OrderItem\".\"ID\"
-                    INNER JOIN \"OrderStep\" ON \"OrderStep\".\"ID\" = \"Order\".\"StatusID\"
-                GROUP BY
-                    \"Order\".\"ID\", \"BuyableID\"
-                HAVING
-                    \"OrderItem\".\"BuyableID\" = ".(intval($this->BuyableID) - 0)."
+            $query = Order::get()
+                ->where('
+                    "OrderItem"."BuyableID" = '.(intval($this->BuyableID) - 0).'
                     AND
-                    \"OrderItem\".\"BuyableClassName\" = '".$this->BuyableClassName."'
+                    "OrderItem"."BuyableClassName" = \''.$this->BuyableClassName.'\'
                     AND
-                    \"OrderStep\".\"CustomerCanEdit\" = 0
+                    "OrderStep"."CustomerCanEdit" = 0
                     AND
-                    \"Order\".\"ID\" <> ".ShoppingCart::current_order()->ID."
-            ");
-            if ($data) {
-                foreach ($data as $row) {
-                    if ($row["OrderID"] && $this->ID && $row["QuantitySum"]) {
+                    "Order"."ID" <> '.ShoppingCart::current_order()->ID.'
+                ')
+                ->innerJoin('OrderAttribute', '"OrderAttribute"."OrderID" = "Order"."ID"')
+                ->innerJoin('OrderItem', '"OrderAttribute"."ID" = "OrderItem"."ID"')
+                ->innerJoin('OrderStep', '"OrderStep"."ID" = "Order"."StatusID"');
+            $amountPerOrder = array();
+            if($query->count()) {
+                foreach ($query as $row) {
+                    if(!isset($amountPerOrder[$row->OrderID])) {
+                        $amountPerOrder[$row->OrderID] = 0;
+                    }
+                    $amountPerOrder[$row->OrderID] += $row->Quantity;
+                }
+                foreach($amountPerOrder as $orderID => $sum) {
+                    if ($orderID && $sum) {
                         $buyableStockOrderEntry = BuyableStockOrderEntry::get()
-                                                                                ->filter(
-                                                                                    array(
-                                                                                        'OrderID' => $row["OrderID"],
-                                                                                        'ParentID' => $this->ID
-                                                                                    )
-                                                                                )
-                                                                                ->First();
+                            ->filter(
+                                array(
+                                    'OrderID' => $orderID,
+                                    'ParentID' => $this->ID
+                                )
+                            )
+                            ->First();
                         if ($buyableStockOrderEntry) {
                             //do nothing
                         } else {
                             $buyableStockOrderEntry = new BuyableStockOrderEntry();
-                            $buyableStockOrderEntry->OrderID = $row["OrderID"];
+                            $buyableStockOrderEntry->OrderID = $orderID;
                             $buyableStockOrderEntry->ParentID = $this->ID;
                             $buyableStockOrderEntry->IncludeInCurrentCalculation = 1;
                             $buyableStockOrderEntry->Quantity = 0;
                         }
-                        if ($buyableStockOrderEntry->Quantity != $row["QuantitySum"]) {
-                            $buyableStockOrderEntry->Quantity = $row["QuantitySum"];
+                        if ($buyableStockOrderEntry->Quantity != $sum) {
+                            $buyableStockOrderEntry->Quantity = $sum;
                             $buyableStockOrderEntry->write();
                         }
                     }
