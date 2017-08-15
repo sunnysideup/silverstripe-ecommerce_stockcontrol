@@ -215,7 +215,7 @@ class StockControlPing_IncomingUpdate extends DataObject
     );
 
     private static $indexes = [
-        'LastEdited' => 'DESC'
+        'LastEdited' => true
     ];
 
     private static $default_sort = [

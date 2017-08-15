@@ -50,9 +50,9 @@ class BuyableStockCalculatedQuantity extends DataObject
     );
 
     private static $indexes = array(
+        "BuyableClassName" => true,
         "BuyableID" => true,
-        'BaseQuantity' => true,
-        "BuyableClassName" => true
+        'BaseQuantity' => true
     );
 
     private static $default_sort = [
