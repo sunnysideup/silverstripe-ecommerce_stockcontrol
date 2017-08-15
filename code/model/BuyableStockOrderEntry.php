@@ -45,7 +45,16 @@ class BuyableStockOrderEntry extends DataObject
         "Quantity"
     );
 
-    private static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
+
+    private static $default_sort = [
+        'LastEdited' => true
+    ];
+
+    private static $default_sort = [
+        'LastEdited' => 'DESC',
+        'ParentID' => 'ASC',
+        'ID' => 'DESC'
+    ];
 
     private static $singular_name = "Stock Sale Entry";
     public function i18n_singular_name()

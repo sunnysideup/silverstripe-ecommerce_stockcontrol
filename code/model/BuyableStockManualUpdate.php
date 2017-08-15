@@ -43,7 +43,16 @@ class BuyableStockManualUpdate extends DataObject
 
     private static $api_access = true;
 
-    private static $default_sort = "\"LastEdited\" DESC, \"ParentID\" ASC";
+
+    private static $indexes = [
+        'LastEdited' =>  true
+    ];
+
+    private static $default_sort = [
+        'LastEdited' =>  'DESC',
+        'ParentID' => 'ASC',
+        'ID' => 'DESC'
+    ];
 
     private static $singular_name = "Stock Manual Update Entry";
     public function i18n_singular_name()

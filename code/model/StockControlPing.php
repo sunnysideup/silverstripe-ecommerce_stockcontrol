@@ -214,7 +214,14 @@ class StockControlPing_IncomingUpdate extends DataObject
         "Actioned" => "Boolean"
     );
 
-    private static $default_sort = "\"LastEdited\" DESC";
+    private static $indexes = [
+        'LastEdited' => 'DESC'
+    ];
+
+    private static $default_sort = [
+        'LastEdited' => 'DESC',
+        'ID' => 'DESC'
+    ];
 
     private static $singular_name = "External Update to Product Availability";
     public function i18n_singular_name()
