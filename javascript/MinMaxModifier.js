@@ -1,40 +1,58 @@
 
-
+jQuery(document).ready(
+    function()
+    {
+        if(typeof MinMaxModifierData !== 'undefined') {
+            for(i = 0; i < MinMaxModifierData.length; i++) {
+                MinMaxModifier.add_item(
+                    MinMaxModifierData[i]
+                );
+            }
+        }
+    }
+)
 
 var MinMaxModifier = {
 
-	show_message: true,
+    show_message: true,
 
-	add_item: function (fieldSelector, min, max, msg) {
-		jQuery(fieldSelector).blur(
-			function() {
-				MinMaxModifier.update_field(fieldSelector, min, max, msg);
-			}
-		);
-		jQuery(fieldSelector).blur();
-		//MinMaxModifier.show_message = true;
-	},
+    /**
+     * object requires:
+     * - selector
+     * - min
+     * - max
+     * - msg
+     * @param {[type]} object [description]
+     */
+    add_item: function (object) {
+        jQuery(object.selector).blur(
+            function() {
+                MinMaxModifier.update_field(object);
+            }
+        );
+        jQuery(object.selector).blur();
+        //MinMaxModifier.show_message = true;
+    },
 
-	update_field: function(fieldSelector, min, max, msg) {
-		var updated = false;
-		if(max > 0) {
-			if(jQuery(fieldSelector).val() > max) {
-				jQuery(fieldSelector).val(max);
-				updated = true;
-			}
-		}
-		if(min > 0) {
-			if(jQuery(fieldSelector).val() < min) {
-				jQuery(fieldSelector).val(min);
-				updated = true;
-			}
-		}
-		if(updated) {
-			if(MinMaxModifier.show_message) {
-				alert(msg);
-			}
-			jQuery(fieldSelector).change();
-		}
-	}
-
+    update_field: function(object) {
+        var updated = false;
+        if(object.max > 0) {
+            if(jQuery(object.selector).val() > object.max) {
+                jQuery(object.selector).val(object.max);
+                updated = true;
+            }
+        }
+        if(object.min > 0) {
+            if(jQuery(object.selector).val() < object.min) {
+                jQuery(object.selector).val(object.min);
+                updated = true;
+            }
+        }
+        if(updated) {
+            if(this.show_message) {
+                alert(object.msg);
+            }
+            jQuery(object.selector).change();
+        }
+    }
 }

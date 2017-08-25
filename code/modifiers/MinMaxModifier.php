@@ -178,7 +178,16 @@ class MinMaxModifier extends OrderModifier
                         } else {
                             //IS THIS WORKING?
                             $fieldName = $item->AJAXDefinitions()->QuantityFieldName();
-                            $js = 'MinMaxModifier.add_item("input[name=\''.$fieldName.'\']", '.intval($absoluteMin).', '.intval($absoluteMax).', "'.addslashes(self::$sorry_message).'");';
+                            $js = '
+                                MinMaxModifierData = [];
+                                MinMaxModifierData.push(
+                                    {
+                                        selector: "input[name=\''.$fieldName.'\']",
+                                        min: '.intval($absoluteMin).',
+                                        max: '.intval($absoluteMax).',
+                                        msg: "'.addslashes(self::$sorry_message).'"
+                                    }
+                                );';
                             Requirements::javascript("ecommerce_stockcontrol/javascript/MinMaxModifier.js");
                             Requirements::customScript($js, $fieldName);
                         }
