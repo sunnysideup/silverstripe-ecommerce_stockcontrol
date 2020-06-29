@@ -3,7 +3,7 @@ jQuery(document).ready(
     function()
     {
         if(typeof MinMaxModifierData !== 'undefined') {
-            for(i = 0; i < MinMaxModifierData.length; i++) {
+            for(var i = 0; i < MinMaxModifierData.length; i++) {
                 MinMaxModifier.add_item(
                     MinMaxModifierData[i]
                 );
