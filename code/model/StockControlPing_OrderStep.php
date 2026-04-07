@@ -10,6 +10,16 @@
 
 class StockControlPing_OrderStep extends OrderStep
 {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * OLD: private static $db
+  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+    
+    private static $table_name = 'StockControlPing_OrderStep';
+
     private static $db = array(
         "URLToPing" => "Varchar(200)",
         "Username" => "Varchar(30)",

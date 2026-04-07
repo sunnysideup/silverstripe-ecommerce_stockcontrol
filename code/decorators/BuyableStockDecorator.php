@@ -29,6 +29,16 @@ class BuyableStockDecorator extends DataExtension
      *
      * @return Array
      */
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * OLD: private static $db
+  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+    
+    private static $table_name = 'BuyableStockDecorator';
+
     private static $db = array(
         'MinQuantity' => 'Int',
         'MaxQuantity' => 'Int',
