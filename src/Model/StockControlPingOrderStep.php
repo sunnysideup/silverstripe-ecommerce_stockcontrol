@@ -2,62 +2,52 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
-
-
-
 use SilverStripe\Forms\HeaderField;
 use Sunnysideup\Ecommerce\Model\Order;
 use Sunnysideup\Ecommerce\Model\Process\OrderStep;
 
-
-
 /**
  * connection with external stock setting systems
  * as an orderstep
- *
- *
  */
-
 
 class StockControlPingOrderStep extends OrderStep
 {
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * OLD: private static $db
-  * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    
+    /**
+     * ### @@@@ START REPLACEMENT @@@@ ###
+     * OLD: private static $db
+     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
+     * ### @@@@ STOP REPLACEMENT @@@@ ###
+     */
     private static $table_name = 'StockControlPingOrderStep';
 
-    private static $db = array(
-        "URLToPing" => "Varchar(200)",
-        "Username" => "Varchar(30)",
-        "Password" => "Varchar(30)"
-    );
+    private static $db = [
+        'URLToPing' => 'Varchar(200)',
+        'Username' => 'Varchar(30)',
+        'Password' => 'Varchar(30)',
+    ];
 
-    private static $defaults = array(
-        "CustomerCanEdit" => 0,
-        "CustomerCanPay" => 0,
-        "CustomerCanCancel" => 0,
-        "Name" => "StockControlPing",
-        "Code" => "STOCKCONTROLPING",
-        "Sort" => 23,
-        "ShowAsInProcessOrder" => 1
-    );
+    private static $defaults = [
+        'CustomerCanEdit' => 0,
+        'CustomerCanPay' => 0,
+        'CustomerCanCancel' => 0,
+        'Name' => 'StockControlPing',
+        'Code' => 'STOCKCONTROLPING',
+        'Sort' => 23,
+        'ShowAsInProcessOrder' => 1,
+    ];
 
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        $fields->addFieldToTab("Root.Main", new HeaderField("HowToSaveSubmittedOrder", _t("OrderStep.STOCKCONTROLPING", "Please enter details below"), 3), "URLToPing");
+        $fields->addFieldToTab('Root.Main', new HeaderField('HowToSaveSubmittedOrder', _t('OrderStep.STOCKCONTROLPING', 'Please enter details below'), 3), 'URLToPing');
         return $fields;
     }
 
     /**
      * Can run this step once any items have been submitted.
      * @param DataObject - $order Order
-     * @return Boolean
+     * @return boolean
      **/
     public function initStep(Order $order)
     {
@@ -67,27 +57,23 @@ class StockControlPingOrderStep extends OrderStep
     /**
      * Add a member to the order - in case he / she is not a shop admin.
      * @param DataObject - $order Order
-     * @return Boolean
+     * @return boolean
      **/
     public function doStep(Order $order)
     {
         $stockControlPing = StockControlPingOrderStatusLog::get()
-            ->filter(array('OrderID' => $order->ID))->First();
-        if (!$stockControlPing) {
-            if ($this->Username && $this->Password) {
-                $authentication = array(
-                    CURLOPT_USERPWD =>
-                    $this->Username.":".$this->Password
-                );
-            } else {
-                $authentication = array();
-            }
+            ->filter(['OrderID' => $order->ID])->First();
+        if (! $stockControlPing) {
+            $authentication = $this->Username && $this->Password ? [
+                CURLOPT_USERPWD =>
+                $this->Username . ':' . $this->Password,
+            ] : [];
             $outcome = $this->curlGet(
                 $this->URLToPing,
-                array(
-                    "id" => $order->ID,
-                    "link" => urlencode($order->APILink())
-                ),
+                [
+                    'id' => $order->ID,
+                    'link' => urlencode($order->APILink()),
+                ],
                 $authentication
             );
             //create record
@@ -102,7 +88,7 @@ class StockControlPingOrderStep extends OrderStep
     /**
      * go to next step if order has been submitted.
      *@param DataObject - $order Order
-     *@return DataObject | Null	(next step OrderStep)
+     *@return DataObject | null	(next step OrderStep)
      **/
     public function nextStep(Order $order)
     {
@@ -113,8 +99,7 @@ class StockControlPingOrderStep extends OrderStep
     }
 
     /**
-     *
-     * @return Boolean
+     * @return boolean
      */
     protected function hasCustomerMessage()
     {
@@ -123,13 +108,12 @@ class StockControlPingOrderStep extends OrderStep
 
     /**
      * Explains the current order step.
-     * @return String
+     * @return string
      */
     protected function myDescription()
     {
-        return _t("OrderStep.STOCKCONTROLPING_DESCRIPTION", "Sends a 'ping' to a third-party stock control system.");
+        return _t('OrderStep.STOCKCONTROLPING_DESCRIPTION', "Sends a 'ping' to a third-party stock control system.");
     }
-
 
     /**
      * Send a GET requst using cURL
@@ -139,14 +123,14 @@ class StockControlPingOrderStep extends OrderStep
      * @param array $options for cURL
      * @return string
      */
-    protected function curlGet($url, array $get = null, array $options = array())
+    protected function curlGet($url, array $get = null, array $options = [])
     {
-        $defaults = array(
-            CURLOPT_URL => $url. (strpos($url, '?') === false ? '?' : ''). http_build_query($get),
+        $defaults = [
+            CURLOPT_URL => $url . (strpos($url, '?') === false ? '?' : '') . http_build_query($get),
             CURLOPT_HEADER => 0,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 4
-        );
+            CURLOPT_TIMEOUT => 4,
+        ];
         $ch = curl_init();
         curl_setopt_array($ch, ($options + $defaults));
         if (! $result = curl_exec($ch)) {
@@ -156,5 +140,3 @@ class StockControlPingOrderStep extends OrderStep
         return $result;
     }
 }
-
-

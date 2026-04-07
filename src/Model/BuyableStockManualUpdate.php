@@ -2,18 +2,12 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
-
-
-
-
-use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
-use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
-use Sunnysideup\Ecommerce\Config\EcommerceConfig;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
-use SilverStripe\ORM\DataObject;
-
+use Sunnysideup\Ecommerce\Config\EcommerceConfig;
+use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
 
 /**
  *@author: Nicolaas [at] Sunny Side Up . Co . Nz
@@ -28,58 +22,59 @@ use SilverStripe\ORM\DataObject;
 
 class BuyableStockManualUpdate extends DataObject
 {
-    private static $db = array(
-        "Quantity" => "Int",
-        "ExternalUpdate" => "Boolean"
-    );
+    private static $db = [
+        'Quantity' => 'Int',
+        'ExternalUpdate' => 'Boolean',
+    ];
 
-    private static $has_one = array(
-        "Parent" => BuyableStockCalculatedQuantity::class,
-        "Member" => Member::class
-    );
+    private static $has_one = [
+        'Parent' => BuyableStockCalculatedQuantity::class,
+        'Member' => Member::class,
+    ];
 
     //MODEL ADMIN STUFF
 
-    private static $searchable_fields = array(
-        "Quantity",
-        "MemberID"
-    );
+    private static $searchable_fields = [
+        'Quantity',
+        'MemberID',
+    ];
 
-    private static $field_labels = array(
-        "Quantity",
-        "ParentID"  => "Buyable",
-        "MemberID"  => "Updated by ..."
-    );
+    private static $field_labels = [
+        'Quantity',
+        'ParentID' => 'Buyable',
+        'MemberID' => 'Updated by ...',
+    ];
 
-    private static $summary_fields = array(
-        "Parent.Name" => "Buyable",
-        "Member.FirstName" => "Updater",
-        "Quantity" => "Quantity"
-    );
+    private static $summary_fields = [
+        'Parent.Name' => 'Buyable',
+        'Member.FirstName' => 'Updater',
+        'Quantity' => 'Quantity',
+    ];
 
     private static $api_access = true;
 
-
     private static $indexes = [
-        'LastEdited' =>  true
+        'LastEdited' => true,
     ];
 
     private static $default_sort = [
-        'LastEdited' =>  'DESC',
+        'LastEdited' => 'DESC',
         'ParentID' => 'ASC',
-        'ID' => 'DESC'
+        'ID' => 'DESC',
     ];
 
-    private static $singular_name = "Stock Manual Update Entry";
+    private static $singular_name = 'Stock Manual Update Entry';
+
     public function i18n_singular_name()
     {
-        return _t("BuyableStockManualUpdate.STOCKUPDATEENTRY", "Stock Manual Update Entry");
+        return _t('BuyableStockManualUpdate.STOCKUPDATEENTRY', 'Stock Manual Update Entry');
     }
 
-    private static $plural_name = "Stock Manual Update Entries";
+    private static $plural_name = 'Stock Manual Update Entries';
+
     public function i18n_plural_name()
     {
-        return _t("BuyableStockManualUpdate.STOCKUPDATEENTRIES", "Stock Manual Update Entries");
+        return _t('BuyableStockManualUpdate.STOCKUPDATEENTRIES', 'Stock Manual Update Entries');
     }
 
     public function canView($member = null)
@@ -104,12 +99,10 @@ class BuyableStockManualUpdate extends DataObject
 
     protected function canDoAnything($member = null)
     {
-        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
-        if (!Permission::check($shopAdminCode)) {
+        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, 'admin_permission_code');
+        if (! Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }
         return true;
     }
 }
-
-
