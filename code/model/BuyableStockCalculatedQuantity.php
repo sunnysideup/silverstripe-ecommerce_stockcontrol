@@ -312,3 +312,4 @@ class BuyableStockCalculatedQuantity extends DataObject
         return $actualQuantity;
     }
 }
+
