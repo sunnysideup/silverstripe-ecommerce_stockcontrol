@@ -28,7 +28,13 @@
         "sunnysideup/ecommerce": "*",
         "silverstripe/recipe-cms": "*"
     },
-    "extra": [],
+    "extra": {
+        "expose": [
+            "client/javascript",
+            "client/images",
+            "client/css"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "Sunnysideup\\EcommerceStockControl\\": "src/"
