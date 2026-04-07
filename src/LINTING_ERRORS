@@ -1,0 +1,1267 @@
+fatal: not a git repository (or any of the parent directories): .git
+ [0;33m# remove origs[0m
+warning: Not a git repository. Use --no-index to compare two paths outside a working tree
+usage: git diff --no-index [<options>] <path> <path>
+
+Diff output format options
+    -p, --patch           generate patch
+    -s, --no-patch        suppress diff output
+    -u                    generate patch
+    -U, --unified[=<n>]   generate diffs with <n> lines context
+    -W, --function-context
+                          generate diffs with <n> lines context
+    --raw                 generate the diff in raw format
+    --patch-with-raw      synonym for '-p --raw'
+    --patch-with-stat     synonym for '-p --stat'
+    --numstat             machine friendly --stat
+    --shortstat           output only the last line of --stat
+    -X, --dirstat[=<param1,param2>...]
+                          output the distribution of relative amount of changes for each sub-directory
+    --cumulative          synonym for --dirstat=cumulative
+    --dirstat-by-file[=<param1,param2>...]
+                          synonym for --dirstat=files,param1,param2...
+    --check               warn if changes introduce conflict markers or whitespace errors
+    --summary             condensed summary such as creations, renames and mode changes
+    --name-only           show only names of changed files
+    --name-status         show only names and status of changed files
+    --stat[=<width>[,<name-width>[,<count>]]]
+                          generate diffstat
+    --stat-width <width>  generate diffstat with a given width
+    --stat-name-width <width>
+                          generate diffstat with a given name width
+    --stat-graph-width <width>
+                          generate diffstat with a given graph width
+    --stat-count <count>  generate diffstat with limited lines
+    --compact-summary     generate compact summary in diffstat
+    --binary              output a binary diff that can be applied
+    --full-index          show full pre- and post-image object names on the "index" lines
+    --color[=<when>]      show colored diff
+    --ws-error-highlight <kind>
+                          highlight whitespace errors in the 'context', 'old' or 'new' lines in the diff
+    -z                    do not munge pathnames and use NULs as output field terminators in --raw or --numstat
+    --abbrev[=<n>]        use <n> digits to display object names
+    --src-prefix <prefix>
+                          show the given source prefix instead of "a/"
+    --dst-prefix <prefix>
+                          show the given destination prefix instead of "b/"
+    --line-prefix <prefix>
+                          prepend an additional prefix to every line of output
+    --no-prefix           do not show any source or destination prefix
+    --inter-hunk-context <n>
+                          show context between diff hunks up to the specified number of lines
+    --output-indicator-new <char>
+                          specify the character to indicate a new line instead of '+'
+    --output-indicator-old <char>
+                          specify the character to indicate an old line instead of '-'
+    --output-indicator-context <char>
+                          specify the character to indicate a context instead of ' '
+
+Diff rename options
+    -B, --break-rewrites[=<n>[/<m>]]
+                          break complete rewrite changes into pairs of delete and create
+    -M, --find-renames[=<n>]
+                          detect renames
+    -D, --irreversible-delete
+                          omit the preimage for deletes
+    -C, --find-copies[=<n>]
+                          detect copies
+    --find-copies-harder  use unmodified files as source to find copies
+    --no-renames          disable rename detection
+    --rename-empty        use empty blobs as rename source
+    --follow              continue listing the history of a file beyond renames
+    -l <n>                prevent rename/copy detection if the number of rename/copy targets exceeds given limit
+
+Diff algorithm options
+    --minimal             produce the smallest possible diff
+    -w, --ignore-all-space
+                          ignore whitespace when comparing lines
+    -b, --ignore-space-change
+                          ignore changes in amount of whitespace
+    --ignore-space-at-eol
+                          ignore changes in whitespace at EOL
+    --ignore-cr-at-eol    ignore carrier-return at the end of line
+    --ignore-blank-lines  ignore changes whose lines are all blank
+    -I, --ignore-matching-lines <regex>
+                          ignore changes whose all lines match <regex>
+    --indent-heuristic    heuristic to shift diff hunk boundaries for easy reading
+    --patience            generate diff using the "patience diff" algorithm
+    --histogram           generate diff using the "histogram diff" algorithm
+    --diff-algorithm <algorithm>
+                          choose a diff algorithm
+    --anchored <text>     generate diff using the "anchored diff" algorithm
+    --word-diff[=<mode>]  show word diff, using <mode> to delimit changed words
+    --word-diff-regex <regex>
+                          use <regex> to decide what a word is
+    --color-words[=<regex>]
+                          equivalent to --word-diff=color --word-diff-regex=<regex>
+    --color-moved[=<mode>]
+                          moved lines of code are colored differently
+    --color-moved-ws <mode>
+                          how white spaces are ignored in --color-moved
+
+Other diff options
+    --relative[=<prefix>]
+                          when run from subdir, exclude changes outside and show relative paths
+    -a, --text            treat all files as text
+    -R                    swap two inputs, reverse the diff
+    --exit-code           exit with 1 if there were differences, 0 otherwise
+    --quiet               disable all output of the program
+    --ext-diff            allow an external diff helper to be executed
+    --textconv            run external text conversion filters when comparing binary files
+    --ignore-submodules[=<when>]
+                          ignore changes to submodules in the diff generation
+    --submodule[=<format>]
+                          specify how differences in submodules are shown
+    --ita-invisible-in-index
+                          hide 'git add -N' entries from the index
+    --ita-visible-in-index
+                          treat 'git add -N' entries as real in the index
+    -S <string>           look for differences that change the number of occurrences of the specified string
+    -G <regex>            look for differences that change the number of occurrences of the specified regex
+    --pickaxe-all         show all changes in the changeset with -S or -G
+    --pickaxe-regex       treat <string> in -S as extended POSIX regular expression
+    -O <file>             control the order in which files appear in the output
+    --rotate-to <path>    show the change in the specified path first
+    --skip-to <path>      skip the output to the specified path
+    --find-object <object-id>
+                          look for differences that change the number of occurrences of the specified object
+    --diff-filter [(A|C|D|M|R|T|U|X|B)...[*]]
+                          select files by diff type
+    --output <file>       Output to a specific file
+
+fatal: not a git repository (or any of the parent directories): .git
+[1;32;44m ---------------------------------------- [0m
+[1;32;44m ❌: /home/sdgm/projects/upgrades/upgradeto4/app/src IS NOT A GIT REPO so I can not commit the changes. [0m
+[1;32;44m ---------------------------------------- [0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# check git status[0m
+ [0;33m----------------------------------------[0m
+On branch upgrades/automatedbranch/3to4
+Your branch is up to date with 'origin/upgrades/automatedbranch/3to4'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	LINTING_ERRORS
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# current commit[0m
+ [0;33m----------------------------------------[0m
+d640131
+Fetching origin
+Already up to date.
+ [0;33m----------------------------------------[0m
+ [0;33mjq is installed.[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Looking for repositories using get_my_repos function[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Scanning for git repositories in /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/./[0m
+ [0;33m----------------------------------------[0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m----------------------------------------[0m
+ [0;33mNo changes detected. Nothing to commit.[0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+warning: Not a git repository. Use --no-index to compare two paths outside a working tree
+usage: git diff --no-index [<options>] <path> <path>
+
+Diff output format options
+    -p, --patch           generate patch
+    -s, --no-patch        suppress diff output
+    -u                    generate patch
+    -U, --unified[=<n>]   generate diffs with <n> lines context
+    -W, --function-context
+                          generate diffs with <n> lines context
+    --raw                 generate the diff in raw format
+    --patch-with-raw      synonym for '-p --raw'
+    --patch-with-stat     synonym for '-p --stat'
+    --numstat             machine friendly --stat
+    --shortstat           output only the last line of --stat
+    -X, --dirstat[=<param1,param2>...]
+                          output the distribution of relative amount of changes for each sub-directory
+    --cumulative          synonym for --dirstat=cumulative
+    --dirstat-by-file[=<param1,param2>...]
+                          synonym for --dirstat=files,param1,param2...
+    --check               warn if changes introduce conflict markers or whitespace errors
+    --summary             condensed summary such as creations, renames and mode changes
+    --name-only           show only names of changed files
+    --name-status         show only names and status of changed files
+    --stat[=<width>[,<name-width>[,<count>]]]
+                          generate diffstat
+    --stat-width <width>  generate diffstat with a given width
+    --stat-name-width <width>
+                          generate diffstat with a given name width
+    --stat-graph-width <width>
+                          generate diffstat with a given graph width
+    --stat-count <count>  generate diffstat with limited lines
+    --compact-summary     generate compact summary in diffstat
+    --binary              output a binary diff that can be applied
+    --full-index          show full pre- and post-image object names on the "index" lines
+    --color[=<when>]      show colored diff
+    --ws-error-highlight <kind>
+                          highlight whitespace errors in the 'context', 'old' or 'new' lines in the diff
+    -z                    do not munge pathnames and use NULs as output field terminators in --raw or --numstat
+    --abbrev[=<n>]        use <n> digits to display object names
+    --src-prefix <prefix>
+                          show the given source prefix instead of "a/"
+    --dst-prefix <prefix>
+                          show the given destination prefix instead of "b/"
+    --line-prefix <prefix>
+                          prepend an additional prefix to every line of output
+    --no-prefix           do not show any source or destination prefix
+    --inter-hunk-context <n>
+                          show context between diff hunks up to the specified number of lines
+    --output-indicator-new <char>
+                          specify the character to indicate a new line instead of '+'
+    --output-indicator-old <char>
+                          specify the character to indicate an old line instead of '-'
+    --output-indicator-context <char>
+                          specify the character to indicate a context instead of ' '
+
+Diff rename options
+    -B, --break-rewrites[=<n>[/<m>]]
+                          break complete rewrite changes into pairs of delete and create
+    -M, --find-renames[=<n>]
+                          detect renames
+    -D, --irreversible-delete
+                          omit the preimage for deletes
+    -C, --find-copies[=<n>]
+                          detect copies
+    --find-copies-harder  use unmodified files as source to find copies
+    --no-renames          disable rename detection
+    --rename-empty        use empty blobs as rename source
+    --follow              continue listing the history of a file beyond renames
+    -l <n>                prevent rename/copy detection if the number of rename/copy targets exceeds given limit
+
+Diff algorithm options
+    --minimal             produce the smallest possible diff
+    -w, --ignore-all-space
+                          ignore whitespace when comparing lines
+    -b, --ignore-space-change
+                          ignore changes in amount of whitespace
+    --ignore-space-at-eol
+                          ignore changes in whitespace at EOL
+    --ignore-cr-at-eol    ignore carrier-return at the end of line
+    --ignore-blank-lines  ignore changes whose lines are all blank
+    -I, --ignore-matching-lines <regex>
+                          ignore changes whose all lines match <regex>
+    --indent-heuristic    heuristic to shift diff hunk boundaries for easy reading
+    --patience            generate diff using the "patience diff" algorithm
+    --histogram           generate diff using the "histogram diff" algorithm
+    --diff-algorithm <algorithm>
+                          choose a diff algorithm
+    --anchored <text>     generate diff using the "anchored diff" algorithm
+    --word-diff[=<mode>]  show word diff, using <mode> to delimit changed words
+    --word-diff-regex <regex>
+                          use <regex> to decide what a word is
+    --color-words[=<regex>]
+                          equivalent to --word-diff=color --word-diff-regex=<regex>
+    --color-moved[=<mode>]
+                          moved lines of code are colored differently
+    --color-moved-ws <mode>
+                          how white spaces are ignored in --color-moved
+
+Other diff options
+    --relative[=<prefix>]
+                          when run from subdir, exclude changes outside and show relative paths
+    -a, --text            treat all files as text
+    -R                    swap two inputs, reverse the diff
+    --exit-code           exit with 1 if there were differences, 0 otherwise
+    --quiet               disable all output of the program
+    --ext-diff            allow an external diff helper to be executed
+    --textconv            run external text conversion filters when comparing binary files
+    --ignore-submodules[=<when>]
+                          ignore changes to submodules in the diff generation
+    --submodule[=<format>]
+                          specify how differences in submodules are shown
+    --ita-invisible-in-index
+                          hide 'git add -N' entries from the index
+    --ita-visible-in-index
+                          treat 'git add -N' entries as real in the index
+    -S <string>           look for differences that change the number of occurrences of the specified string
+    -G <regex>            look for differences that change the number of occurrences of the specified regex
+    --pickaxe-all         show all changes in the changeset with -S or -G
+    --pickaxe-regex       treat <string> in -S as extended POSIX regular expression
+    -O <file>             control the order in which files appear in the output
+    --rotate-to <path>    show the change in the specified path first
+    --skip-to <path>      skip the output to the specified path
+    --find-object <object-id>
+                          look for differences that change the number of occurrences of the specified object
+    --diff-filter [(A|C|D|M|R|T|U|X|B)...[*]]
+                          select files by diff type
+    --output <file>       Output to a specific file
+
+fatal: not a git repository (or any of the parent directories): .git
+[1;32;44m ---------------------------------------- [0m
+[1;32;44m ❌: /home/sdgm/projects/upgrades/upgradeto4/. IS NOT A GIT REPO so I can not commit the changes. [0m
+[1;32;44m ---------------------------------------- [0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run php check[0m
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+Config value "installed_paths" updated successfully; old value was "/home/sdgm/.config/composer/vendor/bin/../phpcompatibility/php-compatibility"
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+Config value "colors" updated successfully; old value was "1"
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+Config value "severity" updated successfully; old value was "1,2"
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+colors:          1
+installed_paths: /home/sdgm/.config/composer/vendor/bin/../phpcompatibility/php-compatibility
+severity:        1,2
+.......... 10 / 10 (100%)
+
+
+Time: 80ms; Memory: 14MB
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run linter ide annotator #1[0m
+Unknown option: -a
+
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# PHP IDE-ANNOTATOR[0m
+ [0;33m----------------------------------------[0m
+ [0;33mDirectory of script:          /home/sdgm/.config/composer/vendor/bin[0m
+ [0;33mDirectory to analyse:         /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Current settings:[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available settings:[0m
+ [0;33m----------------------------------------[0m
+ [0;33m-h, --help                    show help information[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Example usage:[0m
+ [0;33m----------------------------------------[0m
+ [0;33msake-lint-ide-annotator  app [0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available Functions? Run ...[0m
+ [0;33m----------------------------------------[0m
+ [0;32m✅ sake-help[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run linter ecs #1[0m
+  0/10 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ 10/10 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors found. Great job - your code is shiny in style!                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run rector #1[0m
+PHP Deprecated:  SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+Deprecated: SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+PHP Deprecated:  Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+Deprecated: Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+PHP Deprecated:  Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+Deprecated: Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+
+
+ [OK] Rector is done!                                                                                                   
+
+PHP Deprecated:  SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+Deprecated: SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+PHP Deprecated:  Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+Deprecated: Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+PHP Deprecated:  Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+Deprecated: Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Decorators/BuyableStockDecorator.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Decorators/BuyableStockDecoratorExtension.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/BuyableStockCalculatedQuantity.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/BuyableStockManualUpdate.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/BuyableStockOrderEntry.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/StockControlPingIncomingUpdate.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/StockControlPingOrderStatusLog.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/StockControlPingOrderStep.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Modifiers/MinMaxModifier.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/StockControlController.php
+
+ [OK] Rector is done!                                                                                                   
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+warning: Not a git repository. Use --no-index to compare two paths outside a working tree
+usage: git diff --no-index [<options>] <path> <path>
+
+Diff output format options
+    -p, --patch           generate patch
+    -s, --no-patch        suppress diff output
+    -u                    generate patch
+    -U, --unified[=<n>]   generate diffs with <n> lines context
+    -W, --function-context
+                          generate diffs with <n> lines context
+    --raw                 generate the diff in raw format
+    --patch-with-raw      synonym for '-p --raw'
+    --patch-with-stat     synonym for '-p --stat'
+    --numstat             machine friendly --stat
+    --shortstat           output only the last line of --stat
+    -X, --dirstat[=<param1,param2>...]
+                          output the distribution of relative amount of changes for each sub-directory
+    --cumulative          synonym for --dirstat=cumulative
+    --dirstat-by-file[=<param1,param2>...]
+                          synonym for --dirstat=files,param1,param2...
+    --check               warn if changes introduce conflict markers or whitespace errors
+    --summary             condensed summary such as creations, renames and mode changes
+    --name-only           show only names of changed files
+    --name-status         show only names and status of changed files
+    --stat[=<width>[,<name-width>[,<count>]]]
+                          generate diffstat
+    --stat-width <width>  generate diffstat with a given width
+    --stat-name-width <width>
+                          generate diffstat with a given name width
+    --stat-graph-width <width>
+                          generate diffstat with a given graph width
+    --stat-count <count>  generate diffstat with limited lines
+    --compact-summary     generate compact summary in diffstat
+    --binary              output a binary diff that can be applied
+    --full-index          show full pre- and post-image object names on the "index" lines
+    --color[=<when>]      show colored diff
+    --ws-error-highlight <kind>
+                          highlight whitespace errors in the 'context', 'old' or 'new' lines in the diff
+    -z                    do not munge pathnames and use NULs as output field terminators in --raw or --numstat
+    --abbrev[=<n>]        use <n> digits to display object names
+    --src-prefix <prefix>
+                          show the given source prefix instead of "a/"
+    --dst-prefix <prefix>
+                          show the given destination prefix instead of "b/"
+    --line-prefix <prefix>
+                          prepend an additional prefix to every line of output
+    --no-prefix           do not show any source or destination prefix
+    --inter-hunk-context <n>
+                          show context between diff hunks up to the specified number of lines
+    --output-indicator-new <char>
+                          specify the character to indicate a new line instead of '+'
+    --output-indicator-old <char>
+                          specify the character to indicate an old line instead of '-'
+    --output-indicator-context <char>
+                          specify the character to indicate a context instead of ' '
+
+Diff rename options
+    -B, --break-rewrites[=<n>[/<m>]]
+                          break complete rewrite changes into pairs of delete and create
+    -M, --find-renames[=<n>]
+                          detect renames
+    -D, --irreversible-delete
+                          omit the preimage for deletes
+    -C, --find-copies[=<n>]
+                          detect copies
+    --find-copies-harder  use unmodified files as source to find copies
+    --no-renames          disable rename detection
+    --rename-empty        use empty blobs as rename source
+    --follow              continue listing the history of a file beyond renames
+    -l <n>                prevent rename/copy detection if the number of rename/copy targets exceeds given limit
+
+Diff algorithm options
+    --minimal             produce the smallest possible diff
+    -w, --ignore-all-space
+                          ignore whitespace when comparing lines
+    -b, --ignore-space-change
+                          ignore changes in amount of whitespace
+    --ignore-space-at-eol
+                          ignore changes in whitespace at EOL
+    --ignore-cr-at-eol    ignore carrier-return at the end of line
+    --ignore-blank-lines  ignore changes whose lines are all blank
+    -I, --ignore-matching-lines <regex>
+                          ignore changes whose all lines match <regex>
+    --indent-heuristic    heuristic to shift diff hunk boundaries for easy reading
+    --patience            generate diff using the "patience diff" algorithm
+    --histogram           generate diff using the "histogram diff" algorithm
+    --diff-algorithm <algorithm>
+                          choose a diff algorithm
+    --anchored <text>     generate diff using the "anchored diff" algorithm
+    --word-diff[=<mode>]  show word diff, using <mode> to delimit changed words
+    --word-diff-regex <regex>
+                          use <regex> to decide what a word is
+    --color-words[=<regex>]
+                          equivalent to --word-diff=color --word-diff-regex=<regex>
+    --color-moved[=<mode>]
+                          moved lines of code are colored differently
+    --color-moved-ws <mode>
+                          how white spaces are ignored in --color-moved
+
+Other diff options
+    --relative[=<prefix>]
+                          when run from subdir, exclude changes outside and show relative paths
+    -a, --text            treat all files as text
+    -R                    swap two inputs, reverse the diff
+    --exit-code           exit with 1 if there were differences, 0 otherwise
+    --quiet               disable all output of the program
+    --ext-diff            allow an external diff helper to be executed
+    --textconv            run external text conversion filters when comparing binary files
+    --ignore-submodules[=<when>]
+                          ignore changes to submodules in the diff generation
+    --submodule[=<format>]
+                          specify how differences in submodules are shown
+    --ita-invisible-in-index
+                          hide 'git add -N' entries from the index
+    --ita-visible-in-index
+                          treat 'git add -N' entries as real in the index
+    -S <string>           look for differences that change the number of occurrences of the specified string
+    -G <regex>            look for differences that change the number of occurrences of the specified regex
+    --pickaxe-all         show all changes in the changeset with -S or -G
+    --pickaxe-regex       treat <string> in -S as extended POSIX regular expression
+    -O <file>             control the order in which files appear in the output
+    --rotate-to <path>    show the change in the specified path first
+    --skip-to <path>      skip the output to the specified path
+    --find-object <object-id>
+                          look for differences that change the number of occurrences of the specified object
+    --diff-filter [(A|C|D|M|R|T|U|X|B)...[*]]
+                          select files by diff type
+    --output <file>       Output to a specific file
+
+fatal: not a git repository (or any of the parent directories): .git
+[1;32;44m ---------------------------------------- [0m
+[1;32;44m ❌: /home/sdgm/projects/upgrades/upgradeto4/. IS NOT A GIT REPO so I can not commit the changes. [0m
+[1;32;44m ---------------------------------------- [0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run linter ide annotator #2[0m
+Unknown option: -a
+
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# PHP IDE-ANNOTATOR[0m
+ [0;33m----------------------------------------[0m
+ [0;33mDirectory of script:          /home/sdgm/.config/composer/vendor/bin[0m
+ [0;33mDirectory to analyse:         /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Current settings:[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available settings:[0m
+ [0;33m----------------------------------------[0m
+ [0;33m-h, --help                    show help information[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Example usage:[0m
+ [0;33m----------------------------------------[0m
+ [0;33msake-lint-ide-annotator  app [0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available Functions? Run ...[0m
+ [0;33m----------------------------------------[0m
+ [0;32m✅ sake-help[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run ecs #2[0m
+  0/10 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ 10/10 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors found. Great job - your code is shiny in style!                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run rector #2[0m
+PHP Deprecated:  SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+Deprecated: SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+PHP Deprecated:  Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+Deprecated: Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+PHP Deprecated:  Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+Deprecated: Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%[1G[2K 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] Rector is done!                                                                                                   
+
+PHP Deprecated:  SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+Deprecated: SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+PHP Deprecated:  Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+Deprecated: Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+PHP Deprecated:  Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+Deprecated: Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Decorators/BuyableStockDecorator.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Decorators/BuyableStockDecoratorExtension.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/BuyableStockCalculatedQuantity.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/BuyableStockManualUpdate.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/BuyableStockOrderEntry.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/StockControlPingIncomingUpdate.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/StockControlPingOrderStatusLog.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Model/StockControlPingOrderStep.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/Modifiers/MinMaxModifier.php
+[file] /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol/src/StockControlController.php
+
+ [OK] Rector is done!                                                                                                   
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run ecs #3[0m
+  0/10 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ 10/10 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors found. Great job - your code is shiny in style!                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run stan[0m
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%[1G[2K 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+ [OK] No errors                                                                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+  0/10 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%[1G[2K 10/10 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ ------ ------------------------------------ 
+  Line   Model/BuyableStockOrderEntry.php    
+ ------ ------------------------------------ 
+  104    Undefined variable: $shopAdminCode  
+         🪪  variable.undefined              
+ ------ ------------------------------------ 
+
+ ------ -------------------------------------------------- 
+  Line   Model/StockControlPingIncomingUpdate.php          
+ ------ -------------------------------------------------- 
+  170    Cannot call static method get() on array|string.  
+         🪪  staticMethod.nonObject                        
+  181    Cannot call static method get() on array|string.  
+         🪪  staticMethod.nonObject                        
+  220    Variable $buyable might not be defined.           
+         🪪  variable.undefined                            
+ ------ -------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+  Line   Model/StockControlPingOrderStep.php                                                                                                                               
+ ------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+  49     PHPDoc tag @param has invalid value (DataObject - $order Order): Unexpected token "-", expected variable at offset 90 on line 3                                   
+         🪪  phpDoc.parseError                                                                                                                                             
+  59     PHPDoc tag @param has invalid value (DataObject - $order Order): Unexpected token "-", expected variable at offset 102 on line 3                                  
+         🪪  phpDoc.parseError                                                                                                                                             
+  90     PHPDoc tag @param has invalid value (DataObject - $order Order): Unexpected token "-", expected variable at offset 80 on line 3                                   
+         🪪  phpDoc.parseError                                                                                                                                             
+  93     Method Sunnysideup\EcommerceStockControl\Model\StockControlPingOrderStep::nextStep() has invalid return type Sunnysideup\EcommerceStockControl\Model\DataObject.  
+         🪪  class.notFound                                                                                                                                                
+ ------ ------------------------------------------------------------------------------------------------------------------------------------------------------------------ 
+
+ ------ ----------------------------------------------------------------------------------------------------------------------------------------------- 
+  Line   Modifiers/MinMaxModifier.php                                                                                                                   
+ ------ ----------------------------------------------------------------------------------------------------------------------------------------------- 
+  38     Method Sunnysideup\EcommerceStockControl\Modifiers\MinMaxModifier::i18n_singular_name() should return string but return statement is missing.  
+         🪪  return.missing                                                                                                                             
+  179    Call to static method log() on an unknown class debug.                                                                                         
+         🪪  class.notFound                                                                                                                             
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols                                                                           
+  183    Call to static method log() on an unknown class debug.                                                                                         
+         🪪  class.notFound                                                                                                                             
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols                                                                           
+  216    Variable $msgArray might not be defined.                                                                                                       
+         🪪  variable.undefined                                                                                                                         
+ ------ ----------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ -- ------------------------------------------------------------------------------------------------------------- 
+     Error                                                                                                        
+ -- ------------------------------------------------------------------------------------------------------------- 
+     Ignored error pattern #but returns SilverStripe\\ORM\\DataObject\|null# was not matched in reported errors.  
+ -- ------------------------------------------------------------------------------------------------------------- 
+
+ [ERROR] Found 13 errors                                                                                                
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# run the above on app/_config.php[0m
+ [0;33m----------------------------------------[0m
+fatal: not a git repository (or any of the parent directories): .git
+ [0;33m# remove origs[0m
+[1;32;44m ---------------------------------------- [0m
+[1;32;44m ❌: Could not change directory to /home/sdgm/projects/upgrades/upgradeto4/app/_config.php [0m
+[1;32;44m ---------------------------------------- [0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Git commit and push[0m
+ [0;33m----------------------------------------[0m
+ [0;33mdirectory of script:           /home/sdgm/.config/composer/vendor/bin[0m
+ [0;33mdirectory to commit:           app/_config.php (relative to /home/sdgm/projects/upgrades/upgradeto4)[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Current settings:[0m
+ [0;33m----------------------------------------[0m
+ [0;33mCommit and Push (-c):          yes[0m
+ [0;33mMessage (-m):                  MNT: removing orig files[0m
+ [0;33mNew Version (-v):              yes[0m
+ [0;33mAlso check (-a):               nothing-here-hopefully (relative to /home/sdgm/projects/upgrades/upgradeto4)[0m
+ [0;33mQuiet Mode (-q):               no[0m
+ [0;33mStatus Only (-s):              no[0m
+ [0;33mReview First (-r):             yes[0m
+ [0;33mAlso include themes (-t):      no[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available settings:[0m
+ [0;33m----------------------------------------[0m
+ [0;33m-c, --commit-and-push          commit and push also? default: yes !!![0m
+ [0;33m-m, --message                  commit message, defaults to last message used[0m
+ [0;33m-v, --new-version              create new tag (no|patch|minor|major), default: yes[0m
+ [0;33m-a, --also                     also do vendor - e.g. vendor/silverstripe OR vendor/sunnysideup[0m
+ [0;33m-n, --no-build                 do not run build script[0m
+ [0;33m-t, --themes-also              include folders in themes, default: no[0m
+ [0;33m-q, --quiet                    quiet mode, default: no[0m
+ [0;33m-s, --status-only              status only, default: no !!![0m
+ [0;33m-r, --review                   review first, default: yes[0m
+ [0;33m-h, --help                     show help information[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Example usage:[0m
+ [0;33m----------------------------------------[0m
+ [0;33me.g. sake-git-commit-and-push  -m 'FIX: something' -v patch -a 'vendor/silverstripe'   -t yes  app/src [0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available Functions? Run ...[0m
+ [0;33m----------------------------------------[0m
+ [0;32m✅ sake-help[0m
+ [0;33m----------------------------------------[0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+warning: Not a git repository. Use --no-index to compare two paths outside a working tree
+usage: git diff --no-index [<options>] <path> <path>
+
+Diff output format options
+    -p, --patch           generate patch
+    -s, --no-patch        suppress diff output
+    -u                    generate patch
+    -U, --unified[=<n>]   generate diffs with <n> lines context
+    -W, --function-context
+                          generate diffs with <n> lines context
+    --raw                 generate the diff in raw format
+    --patch-with-raw      synonym for '-p --raw'
+    --patch-with-stat     synonym for '-p --stat'
+    --numstat             machine friendly --stat
+    --shortstat           output only the last line of --stat
+    -X, --dirstat[=<param1,param2>...]
+                          output the distribution of relative amount of changes for each sub-directory
+    --cumulative          synonym for --dirstat=cumulative
+    --dirstat-by-file[=<param1,param2>...]
+                          synonym for --dirstat=files,param1,param2...
+    --check               warn if changes introduce conflict markers or whitespace errors
+    --summary             condensed summary such as creations, renames and mode changes
+    --name-only           show only names of changed files
+    --name-status         show only names and status of changed files
+    --stat[=<width>[,<name-width>[,<count>]]]
+                          generate diffstat
+    --stat-width <width>  generate diffstat with a given width
+    --stat-name-width <width>
+                          generate diffstat with a given name width
+    --stat-graph-width <width>
+                          generate diffstat with a given graph width
+    --stat-count <count>  generate diffstat with limited lines
+    --compact-summary     generate compact summary in diffstat
+    --binary              output a binary diff that can be applied
+    --full-index          show full pre- and post-image object names on the "index" lines
+    --color[=<when>]      show colored diff
+    --ws-error-highlight <kind>
+                          highlight whitespace errors in the 'context', 'old' or 'new' lines in the diff
+    -z                    do not munge pathnames and use NULs as output field terminators in --raw or --numstat
+    --abbrev[=<n>]        use <n> digits to display object names
+    --src-prefix <prefix>
+                          show the given source prefix instead of "a/"
+    --dst-prefix <prefix>
+                          show the given destination prefix instead of "b/"
+    --line-prefix <prefix>
+                          prepend an additional prefix to every line of output
+    --no-prefix           do not show any source or destination prefix
+    --inter-hunk-context <n>
+                          show context between diff hunks up to the specified number of lines
+    --output-indicator-new <char>
+                          specify the character to indicate a new line instead of '+'
+    --output-indicator-old <char>
+                          specify the character to indicate an old line instead of '-'
+    --output-indicator-context <char>
+                          specify the character to indicate a context instead of ' '
+
+Diff rename options
+    -B, --break-rewrites[=<n>[/<m>]]
+                          break complete rewrite changes into pairs of delete and create
+    -M, --find-renames[=<n>]
+                          detect renames
+    -D, --irreversible-delete
+                          omit the preimage for deletes
+    -C, --find-copies[=<n>]
+                          detect copies
+    --find-copies-harder  use unmodified files as source to find copies
+    --no-renames          disable rename detection
+    --rename-empty        use empty blobs as rename source
+    --follow              continue listing the history of a file beyond renames
+    -l <n>                prevent rename/copy detection if the number of rename/copy targets exceeds given limit
+
+Diff algorithm options
+    --minimal             produce the smallest possible diff
+    -w, --ignore-all-space
+                          ignore whitespace when comparing lines
+    -b, --ignore-space-change
+                          ignore changes in amount of whitespace
+    --ignore-space-at-eol
+                          ignore changes in whitespace at EOL
+    --ignore-cr-at-eol    ignore carrier-return at the end of line
+    --ignore-blank-lines  ignore changes whose lines are all blank
+    -I, --ignore-matching-lines <regex>
+                          ignore changes whose all lines match <regex>
+    --indent-heuristic    heuristic to shift diff hunk boundaries for easy reading
+    --patience            generate diff using the "patience diff" algorithm
+    --histogram           generate diff using the "histogram diff" algorithm
+    --diff-algorithm <algorithm>
+                          choose a diff algorithm
+    --anchored <text>     generate diff using the "anchored diff" algorithm
+    --word-diff[=<mode>]  show word diff, using <mode> to delimit changed words
+    --word-diff-regex <regex>
+                          use <regex> to decide what a word is
+    --color-words[=<regex>]
+                          equivalent to --word-diff=color --word-diff-regex=<regex>
+    --color-moved[=<mode>]
+                          moved lines of code are colored differently
+    --color-moved-ws <mode>
+                          how white spaces are ignored in --color-moved
+
+Other diff options
+    --relative[=<prefix>]
+                          when run from subdir, exclude changes outside and show relative paths
+    -a, --text            treat all files as text
+    -R                    swap two inputs, reverse the diff
+    --exit-code           exit with 1 if there were differences, 0 otherwise
+    --quiet               disable all output of the program
+    --ext-diff            allow an external diff helper to be executed
+    --textconv            run external text conversion filters when comparing binary files
+    --ignore-submodules[=<when>]
+                          ignore changes to submodules in the diff generation
+    --submodule[=<format>]
+                          specify how differences in submodules are shown
+    --ita-invisible-in-index
+                          hide 'git add -N' entries from the index
+    --ita-visible-in-index
+                          treat 'git add -N' entries as real in the index
+    -S <string>           look for differences that change the number of occurrences of the specified string
+    -G <regex>            look for differences that change the number of occurrences of the specified regex
+    --pickaxe-all         show all changes in the changeset with -S or -G
+    --pickaxe-regex       treat <string> in -S as extended POSIX regular expression
+    -O <file>             control the order in which files appear in the output
+    --rotate-to <path>    show the change in the specified path first
+    --skip-to <path>      skip the output to the specified path
+    --find-object <object-id>
+                          look for differences that change the number of occurrences of the specified object
+    --diff-filter [(A|C|D|M|R|T|U|X|B)...[*]]
+                          select files by diff type
+    --output <file>       Output to a specific file
+
+fatal: not a git repository (or any of the parent directories): .git
+[1;32;44m ---------------------------------------- [0m
+[1;32;44m ❌: /home/sdgm/projects/upgrades/upgradeto4/. IS NOT A GIT REPO so I can not commit the changes. [0m
+[1;32;44m ---------------------------------------- [0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run php check[0m
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+Config value "installed_paths" updated successfully; old value was "/home/sdgm/.config/composer/vendor/bin/../phpcompatibility/php-compatibility"
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+Config value "colors" updated successfully; old value was "1"
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+Config value "severity" updated successfully; old value was "1,2"
+Using config file: /home/sdgm/.config/composer/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
+
+colors:          1
+installed_paths: /home/sdgm/.config/composer/vendor/bin/../phpcompatibility/php-compatibility
+severity:        1,2
+. 1 / 1 (100%)
+
+
+Time: 25ms; Memory: 12MB
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run linter ide annotator #1[0m
+Unknown option: -a
+
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# PHP IDE-ANNOTATOR[0m
+ [0;33m----------------------------------------[0m
+ [0;33mDirectory of script:          /home/sdgm/.config/composer/vendor/bin[0m
+ [0;33mDirectory to analyse:         /home/sdgm/projects/upgrades/upgradeto4/app/_config.php[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Current settings:[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available settings:[0m
+ [0;33m----------------------------------------[0m
+ [0;33m-h, --help                    show help information[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Example usage:[0m
+ [0;33m----------------------------------------[0m
+ [0;33msake-lint-ide-annotator  app [0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available Functions? Run ...[0m
+ [0;33m----------------------------------------[0m
+ [0;32m✅ sake-help[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run linter ecs #1[0m
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors found. Great job - your code is shiny in style!                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run rector #1[0m
+PHP Deprecated:  SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+Deprecated: SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+PHP Deprecated:  Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+Deprecated: Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+PHP Deprecated:  Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+Deprecated: Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+[file] /home/sdgm/projects/upgrades/upgradeto4/app/_config.php
+
+ [OK] Rector is done!                                                                                                   
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+warning: Not a git repository. Use --no-index to compare two paths outside a working tree
+usage: git diff --no-index [<options>] <path> <path>
+
+Diff output format options
+    -p, --patch           generate patch
+    -s, --no-patch        suppress diff output
+    -u                    generate patch
+    -U, --unified[=<n>]   generate diffs with <n> lines context
+    -W, --function-context
+                          generate diffs with <n> lines context
+    --raw                 generate the diff in raw format
+    --patch-with-raw      synonym for '-p --raw'
+    --patch-with-stat     synonym for '-p --stat'
+    --numstat             machine friendly --stat
+    --shortstat           output only the last line of --stat
+    -X, --dirstat[=<param1,param2>...]
+                          output the distribution of relative amount of changes for each sub-directory
+    --cumulative          synonym for --dirstat=cumulative
+    --dirstat-by-file[=<param1,param2>...]
+                          synonym for --dirstat=files,param1,param2...
+    --check               warn if changes introduce conflict markers or whitespace errors
+    --summary             condensed summary such as creations, renames and mode changes
+    --name-only           show only names of changed files
+    --name-status         show only names and status of changed files
+    --stat[=<width>[,<name-width>[,<count>]]]
+                          generate diffstat
+    --stat-width <width>  generate diffstat with a given width
+    --stat-name-width <width>
+                          generate diffstat with a given name width
+    --stat-graph-width <width>
+                          generate diffstat with a given graph width
+    --stat-count <count>  generate diffstat with limited lines
+    --compact-summary     generate compact summary in diffstat
+    --binary              output a binary diff that can be applied
+    --full-index          show full pre- and post-image object names on the "index" lines
+    --color[=<when>]      show colored diff
+    --ws-error-highlight <kind>
+                          highlight whitespace errors in the 'context', 'old' or 'new' lines in the diff
+    -z                    do not munge pathnames and use NULs as output field terminators in --raw or --numstat
+    --abbrev[=<n>]        use <n> digits to display object names
+    --src-prefix <prefix>
+                          show the given source prefix instead of "a/"
+    --dst-prefix <prefix>
+                          show the given destination prefix instead of "b/"
+    --line-prefix <prefix>
+                          prepend an additional prefix to every line of output
+    --no-prefix           do not show any source or destination prefix
+    --inter-hunk-context <n>
+                          show context between diff hunks up to the specified number of lines
+    --output-indicator-new <char>
+                          specify the character to indicate a new line instead of '+'
+    --output-indicator-old <char>
+                          specify the character to indicate an old line instead of '-'
+    --output-indicator-context <char>
+                          specify the character to indicate a context instead of ' '
+
+Diff rename options
+    -B, --break-rewrites[=<n>[/<m>]]
+                          break complete rewrite changes into pairs of delete and create
+    -M, --find-renames[=<n>]
+                          detect renames
+    -D, --irreversible-delete
+                          omit the preimage for deletes
+    -C, --find-copies[=<n>]
+                          detect copies
+    --find-copies-harder  use unmodified files as source to find copies
+    --no-renames          disable rename detection
+    --rename-empty        use empty blobs as rename source
+    --follow              continue listing the history of a file beyond renames
+    -l <n>                prevent rename/copy detection if the number of rename/copy targets exceeds given limit
+
+Diff algorithm options
+    --minimal             produce the smallest possible diff
+    -w, --ignore-all-space
+                          ignore whitespace when comparing lines
+    -b, --ignore-space-change
+                          ignore changes in amount of whitespace
+    --ignore-space-at-eol
+                          ignore changes in whitespace at EOL
+    --ignore-cr-at-eol    ignore carrier-return at the end of line
+    --ignore-blank-lines  ignore changes whose lines are all blank
+    -I, --ignore-matching-lines <regex>
+                          ignore changes whose all lines match <regex>
+    --indent-heuristic    heuristic to shift diff hunk boundaries for easy reading
+    --patience            generate diff using the "patience diff" algorithm
+    --histogram           generate diff using the "histogram diff" algorithm
+    --diff-algorithm <algorithm>
+                          choose a diff algorithm
+    --anchored <text>     generate diff using the "anchored diff" algorithm
+    --word-diff[=<mode>]  show word diff, using <mode> to delimit changed words
+    --word-diff-regex <regex>
+                          use <regex> to decide what a word is
+    --color-words[=<regex>]
+                          equivalent to --word-diff=color --word-diff-regex=<regex>
+    --color-moved[=<mode>]
+                          moved lines of code are colored differently
+    --color-moved-ws <mode>
+                          how white spaces are ignored in --color-moved
+
+Other diff options
+    --relative[=<prefix>]
+                          when run from subdir, exclude changes outside and show relative paths
+    -a, --text            treat all files as text
+    -R                    swap two inputs, reverse the diff
+    --exit-code           exit with 1 if there were differences, 0 otherwise
+    --quiet               disable all output of the program
+    --ext-diff            allow an external diff helper to be executed
+    --textconv            run external text conversion filters when comparing binary files
+    --ignore-submodules[=<when>]
+                          ignore changes to submodules in the diff generation
+    --submodule[=<format>]
+                          specify how differences in submodules are shown
+    --ita-invisible-in-index
+                          hide 'git add -N' entries from the index
+    --ita-visible-in-index
+                          treat 'git add -N' entries as real in the index
+    -S <string>           look for differences that change the number of occurrences of the specified string
+    -G <regex>            look for differences that change the number of occurrences of the specified regex
+    --pickaxe-all         show all changes in the changeset with -S or -G
+    --pickaxe-regex       treat <string> in -S as extended POSIX regular expression
+    -O <file>             control the order in which files appear in the output
+    --rotate-to <path>    show the change in the specified path first
+    --skip-to <path>      skip the output to the specified path
+    --find-object <object-id>
+                          look for differences that change the number of occurrences of the specified object
+    --diff-filter [(A|C|D|M|R|T|U|X|B)...[*]]
+                          select files by diff type
+    --output <file>       Output to a specific file
+
+fatal: not a git repository (or any of the parent directories): .git
+[1;32;44m ---------------------------------------- [0m
+[1;32;44m ❌: /home/sdgm/projects/upgrades/upgradeto4/. IS NOT A GIT REPO so I can not commit the changes. [0m
+[1;32;44m ---------------------------------------- [0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run linter ide annotator #2[0m
+Unknown option: -a
+
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# PHP IDE-ANNOTATOR[0m
+ [0;33m----------------------------------------[0m
+ [0;33mDirectory of script:          /home/sdgm/.config/composer/vendor/bin[0m
+ [0;33mDirectory to analyse:         /home/sdgm/projects/upgrades/upgradeto4/app/_config.php[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Current settings:[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available settings:[0m
+ [0;33m----------------------------------------[0m
+ [0;33m-h, --help                    show help information[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Example usage:[0m
+ [0;33m----------------------------------------[0m
+ [0;33msake-lint-ide-annotator  app [0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Available Functions? Run ...[0m
+ [0;33m----------------------------------------[0m
+ [0;32m✅ sake-help[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run ecs #2[0m
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors found. Great job - your code is shiny in style!                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run rector #2[0m
+PHP Deprecated:  SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+Deprecated: SilverStripe\Core\Manifest\Module implements the Serializable interface, which is deprecated. Implement __serialize() and __unserialize() instead (or in addition, if support for old PHP versions is necessary) in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/Core/Manifest/Module.php on line 15
+PHP Deprecated:  Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+Deprecated: Return type of SilverStripe\View\ViewableData::getIterator() should either be compatible with IteratorAggregate::getIterator(): Traversable, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/silverstripe/framework/src/View/ViewableData.php on line 579
+PHP Deprecated:  Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+Deprecated: Return type of PHPUnit_Framework_TestCase::count() should either be compatible with Countable::count(): int, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/sdgm/projects/upgrades/upgradeto4/vendor/sminnee/phpunit/src/Framework/TestCase.php on line 327
+[file] /home/sdgm/projects/upgrades/upgradeto4/app/_config.php
+
+ [OK] Rector is done!                                                                                                   
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run ecs #3[0m
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%
+ 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+ [OK] No errors found. Great job - your code is shiny in style!                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+ [0;33m# run stan[0m
+ 0/1 [░░░░░░░░░░░░░░░░░░░░░░░░░░░░]   0%[1G[2K 1/1 [▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓] 100%
+
+
+ [OK] No errors                                                                                                         
+
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Dont forget to to commit and push[0m
+ [0;33m----------------------------------------[0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+
+
+
+ [0;33m----------------------------------------[0m
+ [95m# Dont forget to to commit and push[0m
+ [0;33m----------------------------------------[0m
+
+ [0;33m----------------------------------------[0m
+ [0;32m✅ COMPLETED[0m
+ [0;33m----------------------------------------[0m
+sh: 1: sslint-stan: not found

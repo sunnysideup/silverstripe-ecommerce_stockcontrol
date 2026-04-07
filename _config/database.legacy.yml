@@ -1,0 +1,12 @@
+SilverStripe\ORM\DatabaseAdmin:
+  classname_value_remapping:
+    MinMaxModifier: Sunnysideup\EcommerceStockControl\Modifiers\MinMaxModifier
+    StockControlController: Sunnysideup\EcommerceStockControl\StockControlController
+    BuyableStockOrderEntry: Sunnysideup\EcommerceStockControl\Model\BuyableStockOrderEntry
+    BuyableStockCalculatedQuantity: Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity
+    StockControlPing_OrderStep: Sunnysideup\EcommerceStockControl\Model\StockControlPingOrderStep
+    StockControlPing_IncomingUpdate: Sunnysideup\EcommerceStockControl\Model\StockControlPingIncomingUpdate
+    StockControlPing_OrderStatusLog: Sunnysideup\EcommerceStockControl\Model\StockControlPingOrderStatusLog
+    BuyableStockManualUpdate: Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate
+    BuyableStockDecorator: Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator
+    BuyableStockDecorator_Extension: Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecoratorExtension
