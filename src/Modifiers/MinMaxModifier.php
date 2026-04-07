@@ -1,5 +1,17 @@
 <?php
 
+namespace Sunnysideup\EcommerceStockControl\Modifiers;
+
+use OrderModifier;
+use ReadonlyField;
+use ShoppingCart;
+use debug;
+use Director;
+use Requirements;
+use Convert;
+use OrderItem;
+
+
 /**
  * @author Nicolaas [at] sunnysideup.co.nz
  * @package: ecommerce

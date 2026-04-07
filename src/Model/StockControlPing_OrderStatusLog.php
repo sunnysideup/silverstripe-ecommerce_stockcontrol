@@ -1,5 +1,10 @@
 <?php
 
+namespace Sunnysideup\EcommerceStockControl\Model;
+
+use OrderStatusLog;
+
+
 class StockControlPing_OrderStatusLog extends OrderStatusLog
 {
     private static $singular_name = "Stock Control External Ping";

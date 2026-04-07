@@ -1,5 +1,15 @@
 <?php
 
+namespace Sunnysideup\EcommerceStockControl\Model;
+
+use DataObject;
+use EcommerceConfig;
+use Permission;
+use Security;
+use Convert;
+use SiteTree;
+
+
 /**
  *
  *

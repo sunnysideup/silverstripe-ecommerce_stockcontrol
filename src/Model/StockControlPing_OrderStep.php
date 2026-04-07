@@ -1,5 +1,12 @@
 <?php
 
+namespace Sunnysideup\EcommerceStockControl\Model;
+
+use OrderStep;
+use HeaderField;
+use Order;
+
+
 /**
  * connection with external stock setting systems
  * as an orderstep

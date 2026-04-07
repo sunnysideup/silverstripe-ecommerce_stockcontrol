@@ -1,5 +1,12 @@
 <?php
 
+namespace Sunnysideup\EcommerceStockControl\Decorators;
+
+use Extension;
+use Config;
+use Requirements;
+
+
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###

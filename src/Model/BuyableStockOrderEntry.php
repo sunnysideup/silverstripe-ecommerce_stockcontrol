@@ -1,4 +1,12 @@
 <?php
+
+namespace Sunnysideup\EcommerceStockControl\Model;
+
+use DataObject;
+use EcommerceConfig;
+use Permission;
+use Security;
+
 /**
  *@author: Nicolaas [at] Sunny Side Up . Co . Nz
  *@description:

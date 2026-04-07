@@ -1,0 +1,11 @@
+mappings:
+  MinMaxModifier: Sunnysideup\EcommerceStockControl\Modifiers\MinMaxModifier
+  StockControlController: Sunnysideup\EcommerceStockControl\StockControlController
+  BuyableStockOrderEntry: Sunnysideup\EcommerceStockControl\Model\BuyableStockOrderEntry
+  BuyableStockCalculatedQuantity: Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity
+  StockControlPing_OrderStep: Sunnysideup\EcommerceStockControl\Model\StockControlPing_OrderStep
+  StockControlPing_IncomingUpdate: Sunnysideup\EcommerceStockControl\Model\StockControlPing_IncomingUpdate
+  StockControlPing_OrderStatusLog: Sunnysideup\EcommerceStockControl\Model\StockControlPing_OrderStatusLog
+  BuyableStockManualUpdate: Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate
+  BuyableStockDecorator: Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator
+  BuyableStockDecorator_Extension: Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator_Extension

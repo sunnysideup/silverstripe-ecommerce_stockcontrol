@@ -1,4 +1,17 @@
 <?php
+
+namespace Sunnysideup\EcommerceStockControl;
+
+use ContentController;
+use EcommerceConfig;
+use Permission;
+use Security;
+use Requirements;
+use Director;
+use BuyableStockCalculatedQuantity;
+use BuyableStockManualUpdate;
+use BuyableStockOrderEntry;
+
 /**
  * @author Nicolaas [at] sunnysideup.co.nz
  * @package: ecommerce

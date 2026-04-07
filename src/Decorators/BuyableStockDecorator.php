@@ -1,5 +1,20 @@
 <?php
 
+namespace Sunnysideup\EcommerceStockControl\Decorators;
+
+use DataExtension;
+use FieldList;
+use HeaderField;
+use NumericField;
+use CheckboxField;
+use LiteralField;
+use BuyableStockCalculatedQuantity;
+use EcommerceConfig;
+use Permission;
+use Security;
+use BuyableStockManualUpdate;
+
+
 /**
  * BuyableStockDecorator
  * Extension for any buyable - adding stock level capabilities.
