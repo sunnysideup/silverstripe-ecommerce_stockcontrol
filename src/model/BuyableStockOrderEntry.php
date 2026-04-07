@@ -68,7 +68,7 @@ class BuyableStockOrderEntry extends DataObject
         return _t("BuyableStockOrderEntry.STOCKSALEENTRIES", "Stock Sale Entries");
     }
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return false;
     }

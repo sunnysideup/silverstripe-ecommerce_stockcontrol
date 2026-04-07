@@ -53,7 +53,7 @@ class MinMaxModifier extends OrderModifier
 
     private static $use_stock_quantities = true;
 
-    private static $ids_of_items_adjusted = array();
+    private static $ids_of_items_adjusted = [];
 
 //-------------------------------------------------------------------- *** static functions
 
@@ -112,7 +112,7 @@ class MinMaxModifier extends OrderModifier
     public static function apply_min_max()
     {
         if (self::$min_field || self::$max_field  || self::$default_min_quantity || self::$default_max_quantity) {
-            $msgArray = array();
+            $msgArray = [];
             $minFieldName = self::$min_field;
             $maxFieldName = self::$max_field;
             $currentOrder = ShoppingCart::current_order();

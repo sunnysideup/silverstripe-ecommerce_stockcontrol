@@ -71,7 +71,7 @@ class BuyableStockManualUpdate extends DataObject
         return $this->canDoAnything($member);
     }
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return $this->canDoAnything($member);
     }

@@ -92,7 +92,7 @@ class StockControlPing_IncomingUpdate extends DataObject
         return $this->canDoAnything($member);
     }
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return $this->canDoAnything($member);
     }
@@ -124,19 +124,91 @@ class StockControlPing_IncomingUpdate extends DataObject
         if (!$this->Actioned) {
             $internalItemID = Convert::raw2sql($this->InternalItemID);
             $id = intval($this->ID);
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             $className = Convert::raw2sql($this->BuyableClassName);
             $allowPurchase = $this->AllowPurchase ? 1 : 0;
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             if ($className) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                 if ($className && $id) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                     $buyable = $className::get()->byID($id);
                 } else {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                     $buyable = $className::get()->filter(array('InternalItemID' => $internalItemID))->First();
                 }
             } else {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                 $buyablesArray = EcommerceConfig::get($className = "EcommerceDBConfig", $identifier = "array_of_buyables");
                 if (is_array($buyablesArray)) {
                     if (count($buyablesArray)) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                         foreach ($buyablesArray as $className) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
                             $buyable = $className::get()->filter(array('InternalItemID' => $internalItemID))->First();
                             if ($buyable) {
                                 break;

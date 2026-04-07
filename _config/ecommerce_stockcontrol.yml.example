@@ -1,6 +1,6 @@
 ---
 Name: ecommerce_stockcontrol_extras
-Before: 'mysite/*'
+Before: 'app/*'
 After: 'framework/*','cms/*', 'ecommerce/*'
 ---
 

@@ -65,9 +65,9 @@ class BuyableStockCalculatedQuantity extends DataObject
 
     private static $plural_name = "Stock Calculated Quantities";
 
-    private static $calculation_done = array();
+    private static $calculation_done = [];
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return false;
     }
@@ -104,7 +104,25 @@ class BuyableStockCalculatedQuantity extends DataObject
     public function getBuyable()
     {
         if ($this->BuyableID && class_exists($this->BuyableClassName)) {
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             $className = $this->BuyableClassName;
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: $className
+  * NEW: $className ...  (COMPLEX)
+  * EXP: Check if the class name can still be used as such
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
             return $className::get()->byID($this->BuyableID);
         }
     }
@@ -135,7 +153,7 @@ class BuyableStockCalculatedQuantity extends DataObject
     protected function canDoAnything($member = null)
     {
         if ($buyable = $this->getBuyable()) {
-            if ($buyable->canEdit($member)) {
+            if ($buyable->canEdit($member = null)) {
                 return true;
             }
         }
@@ -234,7 +252,7 @@ class BuyableStockCalculatedQuantity extends DataObject
                 ->innerJoin('OrderAttribute', '"OrderAttribute"."OrderID" = "Order"."ID"')
                 ->innerJoin('OrderItem', '"OrderAttribute"."ID" = "OrderItem"."ID"')
                 ->innerJoin('OrderStep', '"OrderStep"."ID" = "Order"."StatusID"');
-            $amountPerOrder = array();
+            $amountPerOrder = [];
             if($query->count()) {
                 foreach ($query as $row) {
                     if(!isset($amountPerOrder[$row->OrderID])) {

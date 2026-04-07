@@ -5,6 +5,15 @@
  * Extension for any buyable - adding stock level capabilities.
  */
 
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD:  extends DataExtension (ignore case)
+  * NEW:  extends DataExtension ...  (COMPLEX)
+  * EXP: Check for use of $this->anyVar and replace with $this->anyVar[$this->owner->ID] or consider turning the class into a trait
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
 class BuyableStockDecorator extends DataExtension
 {
 
@@ -14,7 +23,7 @@ class BuyableStockDecorator extends DataExtension
      * @var Array
      *
      */
-    private static $buyables = array();
+    private static $buyables = [];
 
     /**
      * Selector for field in the HTML where quantities are set
@@ -65,11 +74,62 @@ class BuyableStockDecorator extends DataExtension
             $tabName,
             array(
                 new HeaderField('MinMaxHeader', 'Minimum and Maximum Quantities per Order', 3),
-                new NumericField('MinQuantity', 'Min. Qty per order'),
-                new NumericField('MaxQuantity', 'Max. Qty per order'),
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: new NumericField
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: NumericField::create
+  * NEW: NumericField::create ...  (COMPLEX)
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                NumericField::create('MinQuantity', 'Min. Qty per order'),
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: new NumericField
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: NumericField::create
+  * NEW: NumericField::create ...  (COMPLEX)
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                NumericField::create('MaxQuantity', 'Max. Qty per order'),
                 new HeaderField('ActualQuantityHeader', 'Stock available', 3),
                 new CheckboxField('UnlimitedStock', 'Unlimited Stock'),
-                new NumericField('ActualQuantity', 'Actual Stock Available', $this->getActualQuantity()),
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: new NumericField
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+
+/**
+  * ### @@@@ START REPLACEMENT @@@@ ###
+  * WHY: automated upgrade
+  * OLD: NumericField::create
+  * NEW: NumericField::create ...  (COMPLEX)
+  * EXP: check the number of decimals required and add as ->setScale(2)
+  * ### @@@@ STOP REPLACEMENT @@@@ ###
+  */
+                NumericField::create('ActualQuantity', 'Actual Stock Available', $this->getActualQuantity()),
                 new HeaderField('ActualQuantityAdjustmentHeader', 'Adjust all stock', 3),
                 new LiteralField('ActualQuantityAdjustmentLink', 'This CMS also provides a <a href="/update-stock/" target="_blank">quick stock adjuster</a>.')
             )
@@ -104,7 +164,7 @@ class BuyableStockDecorator extends DataExtension
                 if ($value != $this->owner->getActualQuantity()) {
                     $parent = BuyableStockCalculatedQuantity::get_by_buyable($this->owner);
                     if ($parent) {
-                        $member = Member::currentUser();
+                        $member = Security::getCurrentUser();
                         $obj = new BuyableStockManualUpdate();
                         $obj->ParentID = $parent->ID;
                         $obj->Quantity = (int)$value;
