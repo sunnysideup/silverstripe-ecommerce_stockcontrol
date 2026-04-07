@@ -225,3 +225,4 @@ class MinMaxModifier extends OrderModifier
 //--------------------------------------------------------------------*** database functions
 }
 
+

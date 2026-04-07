@@ -38,3 +38,4 @@ class BuyableStockDecorator_Extension extends Extension
     }
 }
 
+

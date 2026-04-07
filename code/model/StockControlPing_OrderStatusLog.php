@@ -21,3 +21,4 @@ class StockControlPing_OrderStatusLog extends OrderStatusLog
     );
 }
 
+

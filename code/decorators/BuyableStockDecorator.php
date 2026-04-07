@@ -146,3 +146,4 @@ class BuyableStockDecorator extends DataExtension
     }
 }
 
+

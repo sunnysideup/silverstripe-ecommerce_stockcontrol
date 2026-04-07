@@ -124,3 +124,4 @@ class BuyableStockOrderEntry extends DataObject
     }
 }
 
+

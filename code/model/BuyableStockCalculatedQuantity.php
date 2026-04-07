@@ -313,3 +313,4 @@ class BuyableStockCalculatedQuantity extends DataObject
     }
 }
 
+

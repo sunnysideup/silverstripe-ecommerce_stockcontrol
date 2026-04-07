@@ -154,3 +154,4 @@ class StockControlPing_IncomingUpdate extends DataObject
     }
 }
 
+

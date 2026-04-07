@@ -96,3 +96,4 @@ class BuyableStockManualUpdate extends DataObject
     }
 }
 
+
