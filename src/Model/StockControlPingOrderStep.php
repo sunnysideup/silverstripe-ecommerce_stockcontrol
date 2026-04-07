@@ -19,7 +19,7 @@ use Sunnysideup\Ecommerce\Model\Process\OrderStep;
  */
 
 
-class StockControlPing_OrderStep extends OrderStep
+class StockControlPingOrderStep extends OrderStep
 {
 
 /**
@@ -29,7 +29,7 @@ class StockControlPing_OrderStep extends OrderStep
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
     
-    private static $table_name = 'StockControlPing_OrderStep';
+    private static $table_name = 'StockControlPingOrderStep';
 
     private static $db = array(
         "URLToPing" => "Varchar(200)",
@@ -71,7 +71,7 @@ class StockControlPing_OrderStep extends OrderStep
      **/
     public function doStep(Order $order)
     {
-        $stockControlPing = StockControlPing_OrderStatusLog::get()
+        $stockControlPing = StockControlPingOrderStatusLog::get()
             ->filter(array('OrderID' => $order->ID))->First();
         if (!$stockControlPing) {
             if ($this->Username && $this->Password) {
@@ -91,7 +91,7 @@ class StockControlPing_OrderStep extends OrderStep
                 $authentication
             );
             //create record
-            $obj = new StockControlPing_OrderStatusLog();
+            $obj = new StockControlPingOrderStatusLog();
             $obj->OrderID = $order->ID;
             $obj->Note = $outcome;
             $obj->write();

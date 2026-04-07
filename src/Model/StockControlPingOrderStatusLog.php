@@ -7,7 +7,7 @@ use Sunnysideup\Ecommerce\Model\Process\OrderStatusLog;
 
 
 
-class StockControlPing_OrderStatusLog extends OrderStatusLog
+class StockControlPingOrderStatusLog extends OrderStatusLog
 {
     private static $singular_name = "Stock Control External Ping";
     public function i18n_singular_name()

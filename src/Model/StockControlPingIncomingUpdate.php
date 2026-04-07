@@ -59,7 +59,7 @@ use SilverStripe\ORM\DataObject;
  *
  *
  */
-class StockControlPing_IncomingUpdate extends DataObject
+class StockControlPingIncomingUpdate extends DataObject
 {
     private static $api_access = array(
         'create' => array('InternalItemID', 'BuyableClassName', 'BuyableID', 'AllowPurchase'),
@@ -75,7 +75,7 @@ class StockControlPing_IncomingUpdate extends DataObject
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
     
-    private static $table_name = 'StockControlPing_IncomingUpdate';
+    private static $table_name = 'StockControlPingIncomingUpdate';
 
     private static $db = array(
         "InternalItemID" => "Varchar(30)",

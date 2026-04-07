@@ -22,7 +22,7 @@ use SilverStripe\Core\Extension;
   * EXP: Check for use of $this->anyVar and replace with $this->anyVar[$this->owner->ID] or consider turning the class into a trait
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-class BuyableStockDecorator_Extension extends Extension
+class BuyableStockDecoratorExtension extends Extension
 {
     /**
      * TO DO: review method below
