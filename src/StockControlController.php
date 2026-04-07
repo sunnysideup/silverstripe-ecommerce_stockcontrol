@@ -30,7 +30,7 @@ class StockControlController extends ContentController
         }
         parent::init();
 
-        Requirements::themedCSS("StockControlPage", 'ecommerce_stockcontrol');
+        Requirements::themedCSS("sunnysideup/ecommerce_stockcontrol: StockControlPage", 'ecommerce_stockcontrol');
 
 /**
   * ### @@@@ START REPLACEMENT @@@@ ###
@@ -39,10 +39,10 @@ class StockControlController extends ContentController
   * EXP: Check for best usage and inclusion of Jquery
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-        Requirements::javascript('silverstripe/admin: thirdparty/jquery/jquery.js');
+        Requirements::javascript('sunnysideup/ecommerce_stockcontrol: silverstripe/admin: thirdparty/jquery/jquery.js');
         //Requirements::block(THIRDPARTY_DIR."/jquery/jquery.js");
         //Requirements::javascript(Director::protocol()."ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
-        Requirements::javascript("ecommerce_stockcontrol/javascript/StockControlPage.js");
+        Requirements::javascript("sunnysideup/ecommerce_stockcontrol: ecommerce_stockcontrol/javascript/StockControlPage.js");
         $url = Director::absoluteURL($this->Link()."update/");
         Requirements::customScript("StockControlPage.set_url('".$url."');", "StockControlPage.set_url");
     }

@@ -198,7 +198,7 @@ class MinMaxModifier extends OrderModifier
                                         msg: "'.addslashes(self::$sorry_message).'"
                                     }
                                 );';
-                            Requirements::javascript("ecommerce_stockcontrol/javascript/MinMaxModifier.js");
+                            Requirements::javascript("sunnysideup/ecommerce_stockcontrol: ecommerce_stockcontrol/javascript/MinMaxModifier.js");
                             Requirements::customScript($js, $fieldName);
                         }
                     }
