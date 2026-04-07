@@ -2,9 +2,15 @@
 
 namespace Sunnysideup\EcommerceStockControl\Decorators;
 
-use Extension;
-use Config;
-use Requirements;
+
+
+
+use SilverStripe\Core\Config\Config;
+use Sunnysideup\EcommerceStockControl\Modifiers\MinMaxModifier;
+use Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator;
+use SilverStripe\View\Requirements;
+use SilverStripe\Core\Extension;
+
 
 
 
@@ -30,12 +36,12 @@ class BuyableStockDecorator_Extension extends Extension
     {
         $min = 0;
         $max = 0;
-        $msg = Config::inst()->get("MinMaxModifier", "sorry_message");
-        $fieldSelector = Config::inst()->get("BuyableStockDecorator", "quantity_field_selector");
-        if ($minField = Config::inst()->get("MinMaxModifier", "min_field")) {
+        $msg = Config::inst()->get(MinMaxModifier::class, "sorry_message");
+        $fieldSelector = Config::inst()->get(BuyableStockDecorator::class, "quantity_field_selector");
+        if ($minField = Config::inst()->get(MinMaxModifier::class, "min_field")) {
             $min = $this->owner->$minField;
         }
-        if ($maxField = Config::inst()->get("MinMaxModifier", "max_field")) {
+        if ($maxField = Config::inst()->get(MinMaxModifier::class, "max_field")) {
             $max = $this->owner->$maxField;
         }
         $js = '

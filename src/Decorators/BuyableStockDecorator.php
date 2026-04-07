@@ -2,17 +2,30 @@
 
 namespace Sunnysideup\EcommerceStockControl\Decorators;
 
-use DataExtension;
-use FieldList;
-use HeaderField;
-use NumericField;
-use CheckboxField;
-use LiteralField;
-use BuyableStockCalculatedQuantity;
-use EcommerceConfig;
-use Permission;
-use Security;
-use BuyableStockManualUpdate;
+
+
+
+
+
+
+
+
+
+
+
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\HeaderField;
+use SilverStripe\Forms\NumericField;
+use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\LiteralField;
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
+use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
+use Sunnysideup\Ecommerce\Config\EcommerceConfig;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate;
+use SilverStripe\ORM\DataExtension;
+
 
 
 /**
@@ -173,7 +186,7 @@ class BuyableStockDecorator extends DataExtension
             $this->owner->write();
         }
         //only set stock level if it differs from previous
-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
+        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
         if ($this->owner->ID) {
             if ($shopAdminCode && Permission::check($shopAdminCode)) {
                 if ($value != $this->owner->getActualQuantity()) {

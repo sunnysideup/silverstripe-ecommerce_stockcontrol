@@ -2,9 +2,13 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
-use OrderStep;
-use HeaderField;
-use Order;
+
+
+
+use SilverStripe\Forms\HeaderField;
+use Sunnysideup\Ecommerce\Model\Order;
+use Sunnysideup\Ecommerce\Model\Process\OrderStep;
+
 
 
 /**

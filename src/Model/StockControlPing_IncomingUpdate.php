@@ -2,12 +2,21 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
-use DataObject;
-use EcommerceConfig;
-use Permission;
-use Security;
-use Convert;
-use SiteTree;
+
+
+
+
+
+
+use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
+use Sunnysideup\Ecommerce\Config\EcommerceConfig;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
+use SilverStripe\Core\Convert;
+use Sunnysideup\Ecommerce\Model\Config\EcommerceDBConfig;
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\ORM\DataObject;
+
 
 
 /**
@@ -119,7 +128,7 @@ class StockControlPing_IncomingUpdate extends DataObject
 
     protected function canDoAnything($member = null)
     {
-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
+        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
         if (!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }
@@ -197,7 +206,7 @@ class StockControlPing_IncomingUpdate extends DataObject
   * EXP: Check if the class name can still be used as such
   * ### @@@@ STOP REPLACEMENT @@@@ ###
   */
-                $buyablesArray = EcommerceConfig::get($className = "EcommerceDBConfig", $identifier = "array_of_buyables");
+                $buyablesArray = EcommerceConfig::get($className = EcommerceDBConfig::class, $identifier = "array_of_buyables");
                 if (is_array($buyablesArray)) {
                     if (count($buyablesArray)) {
 

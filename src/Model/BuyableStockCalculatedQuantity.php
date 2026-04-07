@@ -2,11 +2,22 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
-use DataObject;
-use Security;
-use Order;
-use ShoppingCart;
-use DB;
+
+
+
+
+
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockOrderEntry;
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate;
+use SilverStripe\Security\Security;
+use Sunnysideup\Ecommerce\Model\Order;
+use Sunnysideup\Ecommerce\Api\ShoppingCart;
+use Sunnysideup\Ecommerce\Model\OrderAttribute;
+use Sunnysideup\Ecommerce\Model\OrderItem;
+use Sunnysideup\Ecommerce\Model\Process\OrderStep;
+use SilverStripe\ORM\DB;
+use SilverStripe\ORM\DataObject;
+
 
 /**
  *@author: Nicolaas [at] Sunny Side Up . Co . Nz
@@ -27,8 +38,8 @@ class BuyableStockCalculatedQuantity extends DataObject
     );
 
     private static $has_many = array(
-        "BuyableStockOrderEntry" => "BuyableStockOrderEntry",
-        "BuyableStockManualUpdate" => "BuyableStockManualUpdate"
+        "BuyableStockOrderEntry" => BuyableStockOrderEntry::class,
+        "BuyableStockManualUpdate" => BuyableStockManualUpdate::class
     );
 
     private static $defaults = array(
@@ -258,9 +269,9 @@ class BuyableStockCalculatedQuantity extends DataObject
                     AND
                     "Order"."ID" <> '.ShoppingCart::current_order()->ID.'
                 ')
-                ->innerJoin('OrderAttribute', '"OrderAttribute"."OrderID" = "Order"."ID"')
-                ->innerJoin('OrderItem', '"OrderAttribute"."ID" = "OrderItem"."ID"')
-                ->innerJoin('OrderStep', '"OrderStep"."ID" = "Order"."StatusID"');
+                ->innerJoin(OrderAttribute::class, '"OrderAttribute"."OrderID" = "Order"."ID"')
+                ->innerJoin(OrderItem::class, '"OrderAttribute"."ID" = "OrderItem"."ID"')
+                ->innerJoin(OrderStep::class, '"OrderStep"."ID" = "Order"."StatusID"');
             $amountPerOrder = [];
             if($query->count()) {
                 foreach ($query as $row) {

@@ -2,10 +2,18 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
-use DataObject;
-use EcommerceConfig;
-use Permission;
-use Security;
+
+
+
+
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
+use SilverStripe\Security\Member;
+use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
+use Sunnysideup\Ecommerce\Config\EcommerceConfig;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
+use SilverStripe\ORM\DataObject;
+
 
 /**
  *@author: Nicolaas [at] Sunny Side Up . Co . Nz
@@ -26,8 +34,8 @@ class BuyableStockManualUpdate extends DataObject
     );
 
     private static $has_one = array(
-        "Parent" => "BuyableStockCalculatedQuantity",
-        "Member" => "Member"
+        "Parent" => BuyableStockCalculatedQuantity::class,
+        "Member" => Member::class
     );
 
     //MODEL ADMIN STUFF
@@ -96,7 +104,7 @@ class BuyableStockManualUpdate extends DataObject
 
     protected function canDoAnything($member = null)
     {
-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
+        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
         if (!Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }

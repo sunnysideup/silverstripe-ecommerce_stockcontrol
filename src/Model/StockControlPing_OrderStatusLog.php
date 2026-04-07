@@ -2,7 +2,9 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
-use OrderStatusLog;
+
+use Sunnysideup\Ecommerce\Model\Process\OrderStatusLog;
+
 
 
 class StockControlPing_OrderStatusLog extends OrderStatusLog

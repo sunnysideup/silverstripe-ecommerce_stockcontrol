@@ -2,15 +2,26 @@
 
 namespace Sunnysideup\EcommerceStockControl;
 
-use ContentController;
-use EcommerceConfig;
-use Permission;
-use Security;
-use Requirements;
-use Director;
-use BuyableStockCalculatedQuantity;
-use BuyableStockManualUpdate;
-use BuyableStockOrderEntry;
+
+
+
+
+
+
+
+
+
+use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
+use Sunnysideup\Ecommerce\Config\EcommerceConfig;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\Security;
+use SilverStripe\View\Requirements;
+use SilverStripe\Control\Director;
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate;
+use Sunnysideup\EcommerceStockControl\Model\BuyableStockOrderEntry;
+use SilverStripe\CMS\Controllers\ContentController;
+
 
 /**
  * @author Nicolaas [at] sunnysideup.co.nz
@@ -37,7 +48,7 @@ class StockControlController extends ContentController
     public function init()
     {
         // Only administrators can run this method
-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
+        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
         if (!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }

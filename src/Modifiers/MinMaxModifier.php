@@ -2,14 +2,23 @@
 
 namespace Sunnysideup\EcommerceStockControl\Modifiers;
 
-use OrderModifier;
-use ReadonlyField;
-use ShoppingCart;
+
+
+
 use debug;
-use Director;
-use Requirements;
-use Convert;
-use OrderItem;
+
+
+
+
+use Sunnysideup\EcommerceStockControl\Modifiers\MinMaxModifier;
+use SilverStripe\Forms\ReadonlyField;
+use Sunnysideup\Ecommerce\Api\ShoppingCart;
+use SilverStripe\Control\Director;
+use SilverStripe\View\Requirements;
+use SilverStripe\Core\Convert;
+use Sunnysideup\Ecommerce\Model\OrderItem;
+use Sunnysideup\Ecommerce\Model\OrderModifier;
+
 
 
 /**
@@ -49,7 +58,7 @@ class MinMaxModifier extends OrderModifier
         return self::$plural_name;
     }
 
-    private static $title = "MinMaxModifier";
+    private static $title = MinMaxModifier::class;
 
     private static $default_min_quantity = 1;
 
