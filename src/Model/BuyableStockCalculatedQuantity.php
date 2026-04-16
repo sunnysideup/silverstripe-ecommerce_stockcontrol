@@ -23,6 +23,9 @@ use Sunnysideup\Ecommerce\Model\Process\OrderStep;
 
 class BuyableStockCalculatedQuantity extends DataObject
 {
+
+    private static $table_name = 'BuyableStockCalculatedQuantity';
+
     private static $db = [
         'BaseQuantity' => 'Int',
         'BuyableID' => 'Int',
