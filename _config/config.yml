@@ -1,7 +1,10 @@
 ---
 Name: ecommerce_stockcontrol
 Before: 'app/*'
-After: 'framework/*','cms/*', 'ecommerce/*'
+After:
+  - 'framework/*'
+  - 'cms/*'
+  - 'ecommerce/*'
 ---
 Sunnysideup\Ecommerce\Pages\Product:
   extensions:
