@@ -20,13 +20,6 @@ use Sunnysideup\Ecommerce\Model\OrderModifier;
 class MinMaxModifier extends OrderModifier
 {
     //--------------------------------------------------------------------*** static variables
-
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'MinMaxModifier';
 
     private static $db = [
@@ -93,7 +86,7 @@ class MinMaxModifier extends OrderModifier
         return false;
     }
 
-    public function ShowInTable()
+    public function ShowInTable(): bool
     {
         return false;
     }

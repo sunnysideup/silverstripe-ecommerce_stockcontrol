@@ -117,25 +117,7 @@ class BuyableStockCalculatedQuantity extends DataObject
     public function getBuyable()
     {
         if ($this->BuyableID && class_exists($this->BuyableClassName)) {
-
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: $className
-             * NEW: $className ...  (COMPLEX)
-             * EXP: Check if the class name can still be used as such
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
             $className = $this->BuyableClassName;
-
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: $className
-             * NEW: $className ...  (COMPLEX)
-             * EXP: Check if the class name can still be used as such
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
             return $className::get()->byID($this->BuyableID);
         }
     }

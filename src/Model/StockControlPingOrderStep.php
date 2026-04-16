@@ -13,12 +13,6 @@ use Sunnysideup\Ecommerce\Model\Process\OrderStep;
 
 class StockControlPingOrderStep extends OrderStep
 {
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'StockControlPingOrderStep';
 
     private static $db = [
@@ -49,7 +43,7 @@ class StockControlPingOrderStep extends OrderStep
      * @param DataObject - $order Order
      * @return boolean
      **/
-    public function initStep(Order $order)
+    public function initStep(Order $order): bool
     {
         return true;
     }
@@ -59,7 +53,7 @@ class StockControlPingOrderStep extends OrderStep
      * @param DataObject - $order Order
      * @return boolean
      **/
-    public function doStep(Order $order)
+    public function doStep(Order $order): bool
     {
         $stockControlPing = StockControlPingOrderStatusLog::get()
             ->filter(['OrderID' => $order->ID])->First();
@@ -90,7 +84,7 @@ class StockControlPingOrderStep extends OrderStep
      *@param DataObject - $order Order
      *@return DataObject | null	(next step OrderStep)
      **/
-    public function nextStep(Order $order)
+    public function nextStep(Order $order): ?OrderStep
     {
         if ($order->IsSubmitted()) {
             return parent::nextStep($order);
@@ -101,7 +95,7 @@ class StockControlPingOrderStep extends OrderStep
     /**
      * @return boolean
      */
-    protected function hasCustomerMessage()
+    public function hasCustomerMessage(): bool
     {
         return false;
     }

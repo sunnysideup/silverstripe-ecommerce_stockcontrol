@@ -42,14 +42,6 @@ class StockControlController extends ContentController
         parent::init();
 
         Requirements::themedCSS('sunnysideup/ecommerce_stockcontrol: StockControlPage', 'ecommerce_stockcontrol');
-
-        /**
-         * ### @@@@ START REPLACEMENT @@@@ ###
-         * WHY: automated upgrade
-         * OLD: THIRDPARTY_DIR."/jquery/jquery.js"
-         * EXP: Check for best usage and inclusion of Jquery
-         * ### @@@@ STOP REPLACEMENT @@@@ ###
-         */
         Requirements::javascript('sunnysideup/ecommerce_stockcontrol: silverstripe/admin: thirdparty/jquery/jquery.js');
         //Requirements::block(THIRDPARTY_DIR."/jquery/jquery.js");
         //Requirements::javascript(Director::protocol()."ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js");
@@ -97,15 +89,6 @@ class StockControlController extends ContentController
                 if ($buyable = $obj->getBuyable()) {
                     $buyable->setActualQuantity($newValue);
                     $msg = '<em>' . $obj->Name . '</em> quantity updated to <strong>' . $newValue . '</strong>';
-
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: ->RenderWith( (ignore case)
-                     * NEW: ->RenderWith( ...  (COMPLEX)
-                     * EXP: Check that the template location is still valid!
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
                     return $this->customise(['Message' => $msg])->RenderWith('UpdateStockQuantity');
                 } else {
                     user_error('Could not create Calculation object', E_USER_NOTICE);
@@ -126,15 +109,6 @@ class StockControlController extends ContentController
             $buyableStockCalculatedQuantity->ManualUpdates = BuyableStockManualUpdate::get()->filter(['ParentID' => $buyableStockCalculatedQuantity->ID]);
             $buyableStockCalculatedQuantity->OrderEntries = BuyableStockOrderEntry::get()->filter(['ParentID' => $buyableStockCalculatedQuantity->ID]);
             $graphArray = [];
-
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: ->RenderWith( (ignore case)
-             * NEW: ->RenderWith( ...  (COMPLEX)
-             * EXP: Check that the template location is still valid!
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
             return $this->customise($buyableStockCalculatedQuantity)->RenderWith('AjaxStockControlPageHistory');
         } else {
             return ' could not find historical data';

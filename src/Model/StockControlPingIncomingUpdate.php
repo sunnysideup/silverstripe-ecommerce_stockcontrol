@@ -52,12 +52,6 @@ class StockControlPingIncomingUpdate extends DataObject
         'view' => ['InternalItemID', 'BuyableClassName', 'BuyableID', 'AllowPurchase'],
     ];
 
-    /**
-     * ### @@@@ START REPLACEMENT @@@@ ###
-     * OLD: private static $db
-     * EXP: Check that is class indeed extends DataObject and that it is not a data-extension!
-     * ### @@@@ STOP REPLACEMENT @@@@ ###
-     */
     private static $table_name = 'StockControlPingIncomingUpdate';
 
     private static $db = [
@@ -128,88 +122,18 @@ class StockControlPingIncomingUpdate extends DataObject
             $internalItemID = Convert::raw2sql($this->InternalItemID);
             $id = intval($this->ID);
 
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: $className
-             * NEW: $className ...  (COMPLEX)
-             * EXP: Check if the class name can still be used as such
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
             $className = Convert::raw2sql($this->BuyableClassName);
             $allowPurchase = $this->AllowPurchase ? 1 : 0;
-
-            /**
-             * ### @@@@ START REPLACEMENT @@@@ ###
-             * WHY: automated upgrade
-             * OLD: $className
-             * NEW: $className ...  (COMPLEX)
-             * EXP: Check if the class name can still be used as such
-             * ### @@@@ STOP REPLACEMENT @@@@ ###
-             */
             if ($className) {
-
-                /**
-                 * ### @@@@ START REPLACEMENT @@@@ ###
-                 * WHY: automated upgrade
-                 * OLD: $className
-                 * NEW: $className ...  (COMPLEX)
-                 * EXP: Check if the class name can still be used as such
-                 * ### @@@@ STOP REPLACEMENT @@@@ ###
-                 */
                 if ($className && $id) {
-
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: $className
-                     * NEW: $className ...  (COMPLEX)
-                     * EXP: Check if the class name can still be used as such
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
                     $buyable = $className::get()->byID($id);
                 } else {
-
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: $className
-                     * NEW: $className ...  (COMPLEX)
-                     * EXP: Check if the class name can still be used as such
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
                     $buyable = $className::get()->filter(['InternalItemID' => $internalItemID])->First();
                 }
             } else {
-
-                /**
-                 * ### @@@@ START REPLACEMENT @@@@ ###
-                 * WHY: automated upgrade
-                 * OLD: $className
-                 * NEW: $className ...  (COMPLEX)
-                 * EXP: Check if the class name can still be used as such
-                 * ### @@@@ STOP REPLACEMENT @@@@ ###
-                 */
                 $buyablesArray = EcommerceConfig::get($className = EcommerceDBConfig::class, $identifier = 'array_of_buyables');
                 if (is_array($buyablesArray) && count($buyablesArray)) {
-                    /**
-                     * ### @@@@ START REPLACEMENT @@@@ ###
-                     * WHY: automated upgrade
-                     * OLD: $className
-                     * NEW: $className ...  (COMPLEX)
-                     * EXP: Check if the class name can still be used as such
-                     * ### @@@@ STOP REPLACEMENT @@@@ ###
-                     */
                     foreach ($buyablesArray as $className) {
-
-                        /**
-                         * ### @@@@ START REPLACEMENT @@@@ ###
-                         * WHY: automated upgrade
-                         * OLD: $className
-                         * NEW: $className ...  (COMPLEX)
-                         * EXP: Check if the class name can still be used as such
-                         * ### @@@@ STOP REPLACEMENT @@@@ ###
-                         */
                         $buyable = $className::get()->filter(['InternalItemID' => $internalItemID])->First();
                         if ($buyable) {
                             break;
