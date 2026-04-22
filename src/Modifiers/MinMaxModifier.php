@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\EcommerceStockControl\Modifiers;
 
+use Override;
 use debug;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Convert;
@@ -28,13 +29,15 @@ class MinMaxModifier extends OrderModifier
 
     private static $singular_name = 'Stock Adjustment';
 
+    #[Override]
     public function i18n_singular_name()
     {
     }
 
     private static $plural_name = 'Stock Adjustments';
 
-    public function i18n_plural_name()
+    #[Override]
+    public function plural_name()
     {
         return self::$plural_name;
     }
@@ -72,39 +75,45 @@ class MinMaxModifier extends OrderModifier
 
     //-------------------------------------------------------------------- *** cms fuctions
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
         $fields->removeByName('Adjustments');
-        $fields->addFieldToTab('Root.Debug', new ReadonlyField('AdjustmentsShown', 'Adjustments', $this->Adjustments));
+        $fields->addFieldToTab('Root.Debug', ReadonlyField::create('AdjustmentsShown', 'Adjustments', $this->Adjustments));
         return $fields;
     }
 
     //-------------------------------------------------------------------- *** display functions
+    #[Override]
     public function CanBeRemoved()
     {
         return false;
     }
 
+    #[Override]
     public function ShowInTable(): bool
     {
         return false;
     }
 
     //--------------------------------------------------------------------*** table values
-    public function LiveCalculatedTotal()
+    #[Override]
+    protected function LiveCalculatedTotal()
     {
         self::apply_min_max();
         return 0;
     }
 
-    public function LiveTableValue()
+    #[Override]
+    protected function LiveTableValue()
     {
         return '';
     }
 
     //--------------------------------------------------------------------*** table titles
-    public function LiveName()
+    #[Override]
+    protected function LiveName()
     {
         return '';
     }
@@ -121,6 +130,7 @@ class MinMaxModifier extends OrderModifier
                 //too late!
                 return;
             }
+
             $items = $currentOrder->Items();
             $i = 0;
             if ($items) {
@@ -142,6 +152,7 @@ class MinMaxModifier extends OrderModifier
                                 }
                             }
                         }
+
                         if ($maxFieldName) {
                             if (isset($buyable->$maxFieldName) && $buyable->$maxFieldName > 0) {
                                 $absoluteMax = $buyable->$maxFieldName;
@@ -153,6 +164,7 @@ class MinMaxModifier extends OrderModifier
                                 }
                             }
                         }
+
                         if ($buyable->UnlimitedStock) {
                             //nothing more to do
                         } elseif (self::$use_stock_quantities) {
@@ -160,22 +172,26 @@ class MinMaxModifier extends OrderModifier
                             if ($absoluteMax > $maxStockQuantity) {
                                 $absoluteMax = $maxStockQuantity;
                             }
+
                             if ($absoluteMin > $maxStockQuantity) {
                                 $absoluteMax = 0;
                                 $maxStockQuantity = 0;
                             }
                         }
+
                         $absoluteMin = intval($absoluteMin);
                         $absoluteMax = intval($absoluteMax);
                         $newValue = $quantity;
                         if ($quantity < $absoluteMin && $absoluteMin > 0) {
-                            debug::log("adjusting for MIN: $quantity < $absoluteMin");
+                            debug::log(sprintf('adjusting for MIN: %s < %d', $quantity, $absoluteMin));
                             $newValue = $absoluteMin;
                         }
+
                         if ($quantity > $absoluteMax && $absoluteMax > 0) {
-                            debug::log("adjusting for MAX: $quantity > $absoluteMax");
+                            debug::log(sprintf('adjusting for MAX: %s > %d', $quantity, $absoluteMax));
                             $newValue = $absoluteMax;
                         }
+
                         if ($quantity != $newValue) {
                             $item->Quantity = $newValue;
                             ShoppingCart::singleton()->setQuantity($buyable, $newValue);
@@ -184,6 +200,7 @@ class MinMaxModifier extends OrderModifier
                             $quantity = $newValue;
                             self::$ids_of_items_adjusted[$item->ID] = $item->ID;
                         }
+
                         if (Director::is_ajax()) {
                             //do nothing
                         } else {
@@ -196,7 +213,7 @@ class MinMaxModifier extends OrderModifier
                                         selector: "input[name=\'' . $fieldName . '\']",
                                         min: ' . intval($absoluteMin) . ',
                                         max: ' . intval($absoluteMax) . ',
-                                        msg: "' . addslashes(self::$sorry_message) . '"
+                                        msg: "' . addslashes((string) self::$sorry_message) . '"
                                     }
                                 );';
                             Requirements::javascript('sunnysideup/ecommerce_stockcontrol: ecommerce_stockcontrol/javascript/MinMaxModifier.js');
@@ -206,15 +223,18 @@ class MinMaxModifier extends OrderModifier
                 }
             }
         }
+
         if (count($msgArray) && self::$adjustment_message) {
             $msg = self::$adjustment_message . "\n" . implode("\n", $msgArray);
             if ($msg && ! Director::is_ajax()) {
                 Requirements::customScript('alert("' . Convert::raw2js($msg) . '");', 'MinMaxModifierAlert');
             }
+
             //$this->Adjustments = $msg;
         }
     }
 
+    #[Override]
     public function updateForAjax(array $js)
     {
         parent::updateForAjax($js);
@@ -227,6 +247,7 @@ class MinMaxModifier extends OrderModifier
                 }
             }
         }
+
         return $js;
     }
 

@@ -2,12 +2,12 @@
 
 namespace Sunnysideup\EcommerceStockControl\Decorators;
 
+use SilverStripe\Core\Extension;
 use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\HeaderField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\NumericField;
-use SilverStripe\ORM\DataExtension;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
 use Sunnysideup\Ecommerce\Config\EcommerceConfig;
@@ -20,7 +20,7 @@ use Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate;
  * Extension for any buyable - adding stock level capabilities.
  */
 
-class BuyableStockDecorator extends DataExtension
+class BuyableStockDecorator extends Extension
 {
     /**
      * Array of Class Names of classes that are buyables
@@ -67,14 +67,14 @@ class BuyableStockDecorator extends DataExtension
         $fields->addFieldsToTab(
             $tabName,
             [
-                new HeaderField('MinMaxHeader', 'Minimum and Maximum Quantities per Order', 3),
+                HeaderField::create('MinMaxHeader', 'Minimum and Maximum Quantities per Order', 3),
                 NumericField::create('MinQuantity', 'Min. Qty per order'),
                 NumericField::create('MaxQuantity', 'Max. Qty per order'),
-                new HeaderField('ActualQuantityHeader', 'Stock available', 3),
-                new CheckboxField('UnlimitedStock', 'Unlimited Stock'),
+                HeaderField::create('ActualQuantityHeader', 'Stock available', 3),
+                CheckboxField::create('UnlimitedStock', 'Unlimited Stock'),
                 NumericField::create('ActualQuantity', 'Actual Stock Available', $this->getActualQuantity()),
-                new HeaderField('ActualQuantityAdjustmentHeader', 'Adjust all stock', 3),
-                new LiteralField('ActualQuantityAdjustmentLink', 'This CMS also provides a <a href="/update-stock/" target="_blank">quick stock adjuster</a>.'),
+                HeaderField::create('ActualQuantityAdjustmentHeader', 'Adjust all stock', 3),
+                LiteralField::create('ActualQuantityAdjustmentLink', 'This CMS also provides a <a href="/update-stock/" target="_blank">quick stock adjuster</a>.'),
             ]
         );
     }
@@ -101,6 +101,7 @@ class BuyableStockDecorator extends DataExtension
         if (! $this->owner->ID) {
             $this->owner->write();
         }
+
         //only set stock level if it differs from previous
         $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, 'admin_permission_code');
         if ($this->owner->ID) {
@@ -109,7 +110,7 @@ class BuyableStockDecorator extends DataExtension
                     $parent = BuyableStockCalculatedQuantity::get_by_buyable($this->owner);
                     if ($parent) {
                         $member = Security::getCurrentUser();
-                        $obj = new BuyableStockManualUpdate();
+                        $obj = BuyableStockManualUpdate::create();
                         $obj->ParentID = $parent->ID;
                         $obj->Quantity = (int) $value;
                         $obj->MemberID = $member->ID;
@@ -134,12 +135,15 @@ class BuyableStockDecorator extends DataExtension
         if ($this->owner->UnlimitedStock) {
             return null;
         }
+
         if ($this->owner->getActualQuantity() < $this->owner->MinQuantity) {
             return false;
         }
+
         if ($this->owner->getActualQuantity() <= 0) {
             return false;
         }
+
         return null; //returning null ensures that the value from this method is ignored.
     }
 

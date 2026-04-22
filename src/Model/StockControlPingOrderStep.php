@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
+use Override;
 use SilverStripe\Forms\HeaderField;
 use Sunnysideup\Ecommerce\Model\Order;
 use Sunnysideup\Ecommerce\Model\Process\OrderStep;
@@ -31,10 +32,11 @@ class StockControlPingOrderStep extends OrderStep
         'ShowAsInProcessOrder' => 1,
     ];
 
+    #[Override]
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        $fields->addFieldToTab('Root.Main', new HeaderField('HowToSaveSubmittedOrder', _t('OrderStep.STOCKCONTROLPING', 'Please enter details below'), 3), 'URLToPing');
+        $fields->addFieldToTab('Root.Main', HeaderField::create('HowToSaveSubmittedOrder', _t('OrderStep.STOCKCONTROLPING', 'Please enter details below'), 3), 'URLToPing');
         return $fields;
     }
 
@@ -43,6 +45,7 @@ class StockControlPingOrderStep extends OrderStep
      * @param DataObject - $order Order
      * @return boolean
      **/
+    #[Override]
     public function initStep(Order $order): bool
     {
         return true;
@@ -53,6 +56,7 @@ class StockControlPingOrderStep extends OrderStep
      * @param DataObject - $order Order
      * @return boolean
      **/
+    #[Override]
     public function doStep(Order $order): bool
     {
         $stockControlPing = StockControlPingOrderStatusLog::get()
@@ -71,11 +75,12 @@ class StockControlPingOrderStep extends OrderStep
                 $authentication
             );
             //create record
-            $obj = new StockControlPingOrderStatusLog();
+            $obj = StockControlPingOrderStatusLog::create();
             $obj->OrderID = $order->ID;
             $obj->Note = $outcome;
             $obj->write();
         }
+
         return true;
     }
 
@@ -84,17 +89,20 @@ class StockControlPingOrderStep extends OrderStep
      *@param DataObject - $order Order
      *@return DataObject | null	(next step OrderStep)
      **/
+    #[Override]
     public function nextStep(Order $order): ?OrderStep
     {
         if ($order->IsSubmitted()) {
             return parent::nextStep($order);
         }
+
         return null;
     }
 
     /**
      * @return boolean
      */
+    #[Override]
     public function hasCustomerMessage(): bool
     {
         return false;
@@ -104,6 +112,7 @@ class StockControlPingOrderStep extends OrderStep
      * Explains the current order step.
      * @return string
      */
+    #[Override]
     protected function myDescription()
     {
         return _t('OrderStep.STOCKCONTROLPING_DESCRIPTION', "Sends a 'ping' to a third-party stock control system.");
@@ -120,7 +129,7 @@ class StockControlPingOrderStep extends OrderStep
     protected function curlGet($url, array $get = null, array $options = [])
     {
         $defaults = [
-            CURLOPT_URL => $url . (strpos($url, '?') === false ? '?' : '') . http_build_query($get),
+            CURLOPT_URL => $url . (str_contains($url, '?') ? '' : '?') . http_build_query($get),
             CURLOPT_HEADER => 0,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 4,
@@ -130,6 +139,7 @@ class StockControlPingOrderStep extends OrderStep
         if (! $result = curl_exec($ch)) {
             return curl_error($ch);
         }
+
         curl_close($ch);
         return $result;
     }

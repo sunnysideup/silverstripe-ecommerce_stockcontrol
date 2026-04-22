@@ -1,43 +1,43 @@
 {
-    "name": "sunnysideup/ecommerce_stockcontrol",
-    "type": "silverstripe-vendormodule",
-    "description": "adds stock control (how many you can sell of what product) to the Silverstripe e-commerce application",
-    "keywords": [
-        "Silverstripe-CMS",
-        "CMS",
-        "Silverstripe",
-        "ecommerce",
-        "e-commerce",
-        "shop",
-        "stock control",
-        "quantity",
-        "limit",
-        "stock",
-        "minimum",
-        "maximum"
-    ],
-    "license": "BSD-3-Clause",
-    "authors": [
-        {
-            "name": "Nicolaas Francken",
-            "email": "modules@sunnysideup.co.nz",
-            "role": "lead developer"
-        }
-    ],
-    "require": {
-        "sunnysideup/ecommerce": "*",
-        "silverstripe/recipe-cms": "*"
-    },
-    "extra": {
-        "expose": [
-            "client/javascript",
-            "client/images",
-            "client/css"
-        ]
-    },
-    "autoload": {
-        "psr-4": {
-            "Sunnysideup\\EcommerceStockControl\\": "src/"
-        }
+  "name": "sunnysideup/ecommerce_stockcontrol",
+  "type": "silverstripe-vendormodule",
+  "description": "adds stock control (how many you can sell of what product) to the Silverstripe e-commerce application",
+  "keywords": [
+    "Silverstripe-CMS",
+    "CMS",
+    "Silverstripe",
+    "ecommerce",
+    "e-commerce",
+    "shop",
+    "stock control",
+    "quantity",
+    "limit",
+    "stock",
+    "minimum",
+    "maximum"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Nicolaas Francken",
+      "email": "modules@sunnysideup.co.nz",
+      "role": "lead developer"
     }
+  ],
+  "require": {
+    "sunnysideup/ecommerce": "5.x-dev",
+    "silverstripe/recipe-cms": "^5.0"
+  },
+  "extra": {
+    "expose": [
+      "client/javascript",
+      "client/images",
+      "client/css"
+    ]
+  },
+  "autoload": {
+    "psr-4": {
+      "Sunnysideup\\EcommerceStockControl\\": "src/"
+    }
+  }
 }

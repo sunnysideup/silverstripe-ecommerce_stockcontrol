@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\EcommerceStockControl;
 
+use Override;
 use SilverStripe\CMS\Controllers\ContentController;
 use SilverStripe\Control\Director;
 use SilverStripe\Security\Permission;
@@ -32,13 +33,15 @@ class StockControlController extends ContentController
         'history' => 'SHOPADMIN',
     ];
 
-    public function init()
+    #[Override]
+    protected function init()
     {
         // Only administrators can run this method
         $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, 'admin_permission_code');
         if (! Permission::check('ADMIN') && ! Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }
+
         parent::init();
 
         Requirements::themedCSS('sunnysideup/ecommerce_stockcontrol: StockControlPage', 'ecommerce_stockcontrol');
@@ -50,12 +53,14 @@ class StockControlController extends ContentController
         Requirements::customScript("StockControlPage.set_url('" . $url . "');", 'StockControlPage.set_url');
     }
 
+    #[Override]
     public function Link($action = null)
     {
         $link = '/update-stock/';
         if ($action) {
             $link .= $action . '/';
         }
+
         return $link;
     }
 
@@ -75,6 +80,7 @@ class StockControlController extends ContentController
                     //user_error("Buyable can not be found!", E_USER_NOTICE);
                 }
             }
+
             return $buyableStockCalculatedQuantities;
         }
     }
@@ -94,11 +100,12 @@ class StockControlController extends ContentController
                     user_error('Could not create Calculation object', E_USER_NOTICE);
                 }
             } else {
-                user_error("could not find record: $id ", E_USER_NOTICE);
+                user_error(sprintf('could not find record: %d ', $id), E_USER_NOTICE);
             }
         } else {
             user_error('new quantity specified is unknown', E_USER_NOTICE);
         }
+        return null;
     }
 
     public function history($request = null)
