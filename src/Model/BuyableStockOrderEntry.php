@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
+use Override;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\Security;
@@ -19,6 +20,8 @@ use Sunnysideup\Ecommerce\Model\Order;
 
 class BuyableStockOrderEntry extends DataObject
 {
+    private static $table_name = 'BuyableStockOrderEntry';
+
     private static $db = [
         'Quantity' => 'Int',
         'IncludeInCurrentCalculation' => 'Boolean',
@@ -54,11 +57,7 @@ class BuyableStockOrderEntry extends DataObject
         'Quantity',
     ];
 
-    private static $default_sort = [
-        'LastEdited' => 'DESC',
-        'ParentID' => 'ASC',
-        'ID' => 'DESC',
-    ];
+    private static $default_sort = 'LastEdited DESC, ParentID ASC, ID DESC';
 
     private static $indexes = [
         'LastEdited' => true,
@@ -66,6 +65,7 @@ class BuyableStockOrderEntry extends DataObject
 
     private static $singular_name = 'Stock Sale Entry';
 
+    #[Override]
     public function i18n_singular_name()
     {
         return _t('BuyableStockOrderEntry.STOCKSALEENTRY', 'Stock Sale Entry');
@@ -73,26 +73,31 @@ class BuyableStockOrderEntry extends DataObject
 
     private static $plural_name = 'Stock Sale Entries';
 
-    public function i18n_plural_name()
+    #[Override]
+    public function plural_name()
     {
         return _t('BuyableStockOrderEntry.STOCKSALEENTRIES', 'Stock Sale Entries');
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return false;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return false;
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return false;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return $this->canDoAnything();
@@ -104,10 +109,12 @@ class BuyableStockOrderEntry extends DataObject
         if (! Permission::check('ADMIN') && ! Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }
+
         return true;
     }
 
-    public function onAfterWrite()
+    #[Override]
+    protected function onAfterWrite()
     {
         parent::onAfterWrite();
         if ($this->ID) {
@@ -116,10 +123,12 @@ class BuyableStockOrderEntry extends DataObject
                 $this->delete();
                 user_error('Can not create record without associated buyable.', E_USER_ERROR);
             }
+
             if (! $this->OrderID) {
                 $this->delete();
                 user_error('Can not create record without order.', E_USER_ERROR);
             }
+
             //make sure no duplicates are created
             $toBeDeleted = BuyableStockOrderEntry::get()
                 ->filter(['OrderID' => $this->OrderID, 'ParentID' => $this->ParentID])

@@ -11,7 +11,7 @@ class EcommerceStockcontrolTest extends SapphireTest
     public function TestDevBuild()
     {
         $exitStatus = shell_exec('php vendor/bin/sake dev/build flush=all  > dev/null; echo $?');
-        $exitStatus = intval(trim($exitStatus));
+        $exitStatus = intval(trim((string) $exitStatus));
         $this->assertEquals(0, $exitStatus);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
+use Override;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\Security\Security;
@@ -70,11 +71,7 @@ class BuyableStockCalculatedQuantity extends DataObject
         'BaseQuantity' => true,
     ];
 
-    private static $default_sort = [
-        'BuyableClassName' => 'ASC',
-        'BaseQuantity' => 'DESC',
-        'ID' => 'ASC',
-    ];
+    private static $default_sort = 'BuyableClassName ASC, BaseQuantity DESC, ID ASC';
 
     private static $singular_name = 'Stock Calculated Quantity';
 
@@ -82,21 +79,25 @@ class BuyableStockCalculatedQuantity extends DataObject
 
     private static $calculation_done = [];
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return false;
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return false;
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return false;
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return $this->canDoAnything();
@@ -147,6 +148,7 @@ class BuyableStockCalculatedQuantity extends DataObject
         if ($buyable = $this->getBuyable()) {
             return $buyable->getTitle();
         }
+
         return 'no name';
     }
 
@@ -155,6 +157,7 @@ class BuyableStockCalculatedQuantity extends DataObject
         if (($buyable = $this->getBuyable()) && $buyable->canEdit($member = null)) {
             return true;
         }
+
         Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         return null;
     }
@@ -169,6 +172,7 @@ class BuyableStockCalculatedQuantity extends DataObject
                 $value = 0;
             }
         }
+
         return $value;
     }
 
@@ -185,10 +189,11 @@ class BuyableStockCalculatedQuantity extends DataObject
         if ($obj) {
             //do nothing
         } else {
-            $obj = new BuyableStockCalculatedQuantity();
+            $obj = BuyableStockCalculatedQuantity::create();
             $obj->BuyableID = $buyable->ID;
             $obj->BuyableClassName = $buyable->ClassName;
         }
+
         if ($obj) {
             if (isset($obj->ID) && $obj->exists() && $obj->UnlimitedStock == $buyable->UnlimitedStock) {
                 //do nothing
@@ -197,8 +202,10 @@ class BuyableStockCalculatedQuantity extends DataObject
                 //we must write here to calculate quantities
                 $obj->write();
             }
+
             return $obj;
         }
+
         user_error('Could not find / create BuyableStockCalculatedQuantity for buyable with ID / ClassName ' . $buyableID . '/' . $buyableClassName, E_WARNING);
     }
 
@@ -207,6 +214,7 @@ class BuyableStockCalculatedQuantity extends DataObject
         if (! $this->ID) {
             return 0;
         }
+
         $actualQuantity = $this->workoutActualQuantity();
         if ($actualQuantity != $this->BaseQuantity) {
             $this->BaseQuantity = $actualQuantity;
@@ -255,8 +263,10 @@ class BuyableStockCalculatedQuantity extends DataObject
                     if (! isset($amountPerOrder[$row->OrderID])) {
                         $amountPerOrder[$row->OrderID] = 0;
                     }
+
                     $amountPerOrder[$row->OrderID] += $row->Quantity;
                 }
+
                 foreach ($amountPerOrder as $orderID => $sum) {
                     if ($orderID && $sum) {
                         $buyableStockOrderEntry = BuyableStockOrderEntry::get()
@@ -270,12 +280,13 @@ class BuyableStockCalculatedQuantity extends DataObject
                         if ($buyableStockOrderEntry) {
                             //do nothing
                         } else {
-                            $buyableStockOrderEntry = new BuyableStockOrderEntry();
+                            $buyableStockOrderEntry = BuyableStockOrderEntry::create();
                             $buyableStockOrderEntry->OrderID = $orderID;
                             $buyableStockOrderEntry->ParentID = $this->ID;
                             $buyableStockOrderEntry->IncludeInCurrentCalculation = 1;
                             $buyableStockOrderEntry->Quantity = 0;
                         }
+
                         if ($buyableStockOrderEntry->Quantity != $sum) {
                             $buyableStockOrderEntry->Quantity = $sum;
                             $buyableStockOrderEntry->write();
@@ -283,6 +294,7 @@ class BuyableStockCalculatedQuantity extends DataObject
                     }
                 }
             }
+
             //find last adjustment
             $latestManualUpdate = BuyableStockManualUpdate::get()
                 ->filter(['ParentID' => $this->ID])
@@ -303,6 +315,7 @@ class BuyableStockCalculatedQuantity extends DataObject
             } else {
                 $latestManualUpdateQuantity = 0;
             }
+
             //work out additional purchases
             $orderQuantityToDeduct = BuyableStockOrderEntry::get()
                 ->filter(
@@ -314,6 +327,7 @@ class BuyableStockCalculatedQuantity extends DataObject
             if (! $orderQuantityToDeduct) {
                 $orderQuantityToDeduct = 0;
             }
+
             //work out base total
             $actualQuantity = $latestManualUpdateQuantity - $orderQuantityToDeduct;
             if (isset($_GET['debug'])) {
@@ -325,6 +339,7 @@ class BuyableStockCalculatedQuantity extends DataObject
                 echo '<hr />';
             }
         }
+
         return $actualQuantity;
     }
 }

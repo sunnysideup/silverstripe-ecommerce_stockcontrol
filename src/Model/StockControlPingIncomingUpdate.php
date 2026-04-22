@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
+use Override;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\DataObject;
@@ -10,6 +11,7 @@ use SilverStripe\Security\Security;
 use Sunnysideup\Ecommerce\Config\EcommerceConfig;
 use Sunnysideup\Ecommerce\Model\Config\EcommerceDBConfig;
 use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
+use SilverStripe\Versioned\Versioned;
 
 /**
  *	Example of POST:
@@ -66,13 +68,11 @@ class StockControlPingIncomingUpdate extends DataObject
         'LastEdited' => true,
     ];
 
-    private static $default_sort = [
-        'LastEdited' => 'DESC',
-        'ID' => 'DESC',
-    ];
+    private static $default_sort = 'LastEdited DESC, ID DESC';
 
     private static $singular_name = 'External Update to Product Availability';
 
+    #[Override]
     public function i18n_singular_name()
     {
         return _t('StockControlPing.EXTERNALUPDATETOPRODUCTAVAILABILITY', 'External Update to Product Availability');
@@ -80,26 +80,31 @@ class StockControlPingIncomingUpdate extends DataObject
 
     private static $plural_name = 'External Updates to Product Availability';
 
-    public function i18n_plural_name()
+    #[Override]
+    public function plural_name()
     {
         return _t('StockControlPing.EXTERNALUPDATESTOPRODUCTAVAILABILITY', 'External Updates to Product Availability');
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return $this->canDoAnything($member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return $this->canDoAnything($member);
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return false;
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return false;
@@ -111,10 +116,12 @@ class StockControlPingIncomingUpdate extends DataObject
         if (! Permission::check('ADMIN') && ! Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }
+
         return true;
     }
 
-    public function onAfterWrite()
+    #[Override]
+    protected function onAfterWrite()
     {
         parent::onAfterWrite();
         //TODO: move to findBuyable in Core Ecommerce Code!
@@ -141,19 +148,22 @@ class StockControlPingIncomingUpdate extends DataObject
                     }
                 }
             }
+
             if ($buyable) {
                 if ($buyable->AllowPurchase = ! $allowPurchase) {
                     $buyable->AllowPurchase = $allowPurchase;
                     if ($buyable instanceof SiteTree) {
                         $buyable->writeToStage('Stage');
-                        $buyable->publish('Stage', 'Live');
+                        $buyable->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
                     } else {
                         $buyable->write();
                     }
                 }
+
                 $this->BuyableClassName = $buyable->ClassName;
                 $this->BuyableID = $buyable->ID;
             }
+
             $this->Actioned = 1;
             $this->write();
         }

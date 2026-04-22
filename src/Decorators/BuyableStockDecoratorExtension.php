@@ -22,11 +22,13 @@ class BuyableStockDecoratorExtension extends Extension
         $msg = Config::inst()->get(MinMaxModifier::class, 'sorry_message');
         $fieldSelector = Config::inst()->get(BuyableStockDecorator::class, 'quantity_field_selector');
         if ($minField = Config::inst()->get(MinMaxModifier::class, 'min_field')) {
-            $min = $this->owner->$minField;
+            $min = $this->getOwner()->$minField;
         }
+
         if ($maxField = Config::inst()->get(MinMaxModifier::class, 'max_field')) {
-            $max = $this->owner->$maxField;
+            $max = $this->getOwner()->$maxField;
         }
+
         $js = '
             MinMaxModifierData = [];
             MinMaxModifierData.push(
@@ -34,7 +36,7 @@ class BuyableStockDecoratorExtension extends Extension
                     selector: "' . $fieldSelector . '",
                     min: ' . intval($min) . ',
                     max: ' . intval($max) . ',
-                    msg: "' . addslashes($msg) . '"
+                    msg: "' . addslashes((string) $msg) . '"
                 }
             );';
         Requirements::javascript('ecommerce_stockcontrol/javascript/MinMaxModifier.js');

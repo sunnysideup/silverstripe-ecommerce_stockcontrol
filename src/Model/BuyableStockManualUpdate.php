@@ -2,6 +2,7 @@
 
 namespace Sunnysideup\EcommerceStockControl\Model;
 
+use Override;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
@@ -22,6 +23,8 @@ use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
 
 class BuyableStockManualUpdate extends DataObject
 {
+    private static $table_name = 'BuyableStockManualUpdate';
+
     private static $db = [
         'Quantity' => 'Int',
         'ExternalUpdate' => 'Boolean',
@@ -57,14 +60,11 @@ class BuyableStockManualUpdate extends DataObject
         'LastEdited' => true,
     ];
 
-    private static $default_sort = [
-        'LastEdited' => 'DESC',
-        'ParentID' => 'ASC',
-        'ID' => 'DESC',
-    ];
+    private static $default_sort = 'LastEdited DESC, ParentID ASC, ID DESC';
 
     private static $singular_name = 'Stock Manual Update Entry';
 
+    #[Override]
     public function i18n_singular_name()
     {
         return _t('BuyableStockManualUpdate.STOCKUPDATEENTRY', 'Stock Manual Update Entry');
@@ -72,26 +72,31 @@ class BuyableStockManualUpdate extends DataObject
 
     private static $plural_name = 'Stock Manual Update Entries';
 
-    public function i18n_plural_name()
+    #[Override]
+    public function plural_name()
     {
         return _t('BuyableStockManualUpdate.STOCKUPDATEENTRIES', 'Stock Manual Update Entries');
     }
 
+    #[Override]
     public function canView($member = null)
     {
         return $this->canDoAnything($member);
     }
 
+    #[Override]
     public function canCreate($member = null, $context = [])
     {
         return $this->canDoAnything($member);
     }
 
+    #[Override]
     public function canEdit($member = null)
     {
         return false;
     }
 
+    #[Override]
     public function canDelete($member = null)
     {
         return false;
@@ -103,6 +108,7 @@ class BuyableStockManualUpdate extends DataObject
         if (! Permission::check($shopAdminCode)) {
             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
         }
+
         return true;
     }
 }
