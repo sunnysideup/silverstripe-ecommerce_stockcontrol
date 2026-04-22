@@ -60,20 +60,7 @@ class BuyableStockManualUpdate extends DataObject
         'LastEdited' => true,
     ];
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: default_sort = [
-  * NEW: default_sort = [ ...  (COMPLEX)
-  * EXP: A string is preferred over an array
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    private static $default_sort = [
-        'LastEdited' => 'DESC',
-        'ParentID' => 'ASC',
-        'ID' => 'DESC',
-    ];
+    private static $default_sort = 'LastEdited DESC, ParentID ASC, ID DESC';
 
     private static $singular_name = 'Stock Manual Update Entry';
 

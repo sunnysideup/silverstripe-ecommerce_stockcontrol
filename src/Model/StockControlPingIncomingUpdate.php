@@ -11,6 +11,7 @@ use SilverStripe\Security\Security;
 use Sunnysideup\Ecommerce\Config\EcommerceConfig;
 use Sunnysideup\Ecommerce\Model\Config\EcommerceDBConfig;
 use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
+use SilverStripe\Versioned\Versioned;
 
 /**
  *	Example of POST:
@@ -67,19 +68,7 @@ class StockControlPingIncomingUpdate extends DataObject
         'LastEdited' => true,
     ];
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: default_sort = [
-  * NEW: default_sort = [ ...  (COMPLEX)
-  * EXP: A string is preferred over an array
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    private static $default_sort = [
-        'LastEdited' => 'DESC',
-        'ID' => 'DESC',
-    ];
+    private static $default_sort = 'LastEdited DESC, ID DESC';
 
     private static $singular_name = 'External Update to Product Availability';
 
@@ -165,16 +154,7 @@ class StockControlPingIncomingUpdate extends DataObject
                     $buyable->AllowPurchase = $allowPurchase;
                     if ($buyable instanceof SiteTree) {
                         $buyable->writeToStage('Stage');
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: publish(
-  * NEW: publish( ...  (COMPLEX)
-  * EXP: Removed deprecated method ... SilverStripe\Versioned\Versioned::publish() - use SilverStripe\Versioned\Versioned::copyVersionToStage() instead
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-                        $buyable->publish('Stage', 'Live');
+                        $buyable->copyVersionToStage(Versioned::DRAFT, Versioned::LIVE);
                     } else {
                         $buyable->write();
                     }

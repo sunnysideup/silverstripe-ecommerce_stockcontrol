@@ -71,20 +71,7 @@ class BuyableStockCalculatedQuantity extends DataObject
         'BaseQuantity' => true,
     ];
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: default_sort = [
-  * NEW: default_sort = [ ...  (COMPLEX)
-  * EXP: A string is preferred over an array
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    private static $default_sort = [
-        'BuyableClassName' => 'ASC',
-        'BaseQuantity' => 'DESC',
-        'ID' => 'ASC',
-    ];
+    private static $default_sort = 'BuyableClassName ASC, BaseQuantity DESC, ID ASC';
 
     private static $singular_name = 'Stock Calculated Quantity';
 
@@ -311,15 +298,6 @@ class BuyableStockCalculatedQuantity extends DataObject
             //find last adjustment
             $latestManualUpdate = BuyableStockManualUpdate::get()
                 ->filter(['ParentID' => $this->ID])
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ->sort(
-  * NEW: ->sort( ...  (COMPLEX)
-  * EXP: This method no longer accepts raw sql, only known field names.  If you have raw SQL then use ->orderBy
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
                 ->sort(['LastEdited' => 'DESC'])
                 ->First();
             //nullify order quantities that were entered before last adjustment

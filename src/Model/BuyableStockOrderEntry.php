@@ -57,20 +57,7 @@ class BuyableStockOrderEntry extends DataObject
         'Quantity',
     ];
 
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: default_sort = [
-  * NEW: default_sort = [ ...  (COMPLEX)
-  * EXP: A string is preferred over an array
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
-    private static $default_sort = [
-        'LastEdited' => 'DESC',
-        'ParentID' => 'ASC',
-        'ID' => 'DESC',
-    ];
+    private static $default_sort = 'LastEdited DESC, ParentID ASC, ID DESC';
 
     private static $indexes = [
         'LastEdited' => true,
@@ -146,15 +133,6 @@ class BuyableStockOrderEntry extends DataObject
             $toBeDeleted = BuyableStockOrderEntry::get()
                 ->filter(['OrderID' => $this->OrderID, 'ParentID' => $this->ParentID])
                 ->exclude(['ID' => $this->ID])
-
-/**
-  * ### @@@@ START REPLACEMENT @@@@ ###
-  * WHY: automated upgrade
-  * OLD: ->sort(
-  * NEW: ->sort( ...  (COMPLEX)
-  * EXP: This method no longer accepts raw sql, only known field names.  If you have raw SQL then use ->orderBy
-  * ### @@@@ STOP REPLACEMENT @@@@ ###
-  */
                 ->sort(['LastEdited' => 'ASC']);
             foreach ($toBeDeleted as $youAreDodo) {
                 $youAreDodo->delete();
