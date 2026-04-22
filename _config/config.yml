@@ -1,14 +1,13 @@
 ---
 Name: ecommerce_stockcontrol
-Before: 'mysite/*'
-After: 'framework/*','cms/*', 'ecommerce/*'
+Before: 'app/*'
+After:
+  - 'framework/*'
+  - 'ecommerce/*'
 ---
-
-Product:
+Sunnysideup\Ecommerce\Pages\Product:
   extensions:
-    - BuyableStockDecorator
-
-
-BuyableStockDecorator:
+    - Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator
+Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator:
   buyables:
-    - Product
+    - Sunnysideup\Ecommerce\Pages\Product

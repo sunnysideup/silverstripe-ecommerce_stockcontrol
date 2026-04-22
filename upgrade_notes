@@ -1,0 +1,501 @@
+2026-04-07 01:16
+
+# running php upgrade upgrade see: https://github.com/silverstripe/silverstripe-upgrader
+cd /home/sdgm/projects/upgrades/upgradeto4
+php /home/sdgm/projects/ss3upgrader/vendor/silverstripe/upgrader/bin/upgrade-code upgrade /home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol  --root-dir=/home/sdgm/projects/upgrades/upgradeto4 --write -vvv
+Writing changes for 13 files
+Running upgrades on "/home/sdgm/projects/upgrades/upgradeto4/ecommerce_stockcontrol"
+[2026-04-07 13:16:54] Applying RenameClasses to EcommerceStockcontrolTest.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to EcommerceStockcontrolTest.php...
+[2026-04-07 13:16:54] Applying RenameClasses to _config.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to _config.php...
+[2026-04-07 13:16:54] Applying RenameClasses to MinMaxModifier.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to MinMaxModifier.php...
+[2026-04-07 13:16:54] Applying RenameClasses to StockControlController.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to StockControlController.php...
+[2026-04-07 13:16:54] Applying RenameClasses to BuyableStockOrderEntry.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to BuyableStockOrderEntry.php...
+[2026-04-07 13:16:54] Applying RenameClasses to BuyableStockCalculatedQuantity.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to BuyableStockCalculatedQuantity.php...
+[2026-04-07 13:16:54] Applying RenameClasses to StockControlPing_OrderStep.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to StockControlPing_OrderStep.php...
+[2026-04-07 13:16:54] Applying RenameClasses to StockControlPing_IncomingUpdate.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to StockControlPing_IncomingUpdate.php...
+[2026-04-07 13:16:54] Applying RenameClasses to StockControlPing_OrderStatusLog.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to StockControlPing_OrderStatusLog.php...
+[2026-04-07 13:16:54] Applying RenameClasses to BuyableStockManualUpdate.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to BuyableStockManualUpdate.php...
+[2026-04-07 13:16:54] Applying RenameClasses to BuyableStockDecorator.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to BuyableStockDecorator.php...
+[2026-04-07 13:16:54] Applying RenameClasses to BuyableStockDecorator_Extension.php...
+[2026-04-07 13:16:54] Applying ClassToTraitRule to BuyableStockDecorator_Extension.php...
+[2026-04-07 13:16:54] Applying UpdateConfigClasses to config.yml...
+[2026-04-07 13:16:54] Applying UpdateConfigClasses to routes.yml...
+modified:	tests/EcommerceStockcontrolTest.php
+@@ -1,4 +1,6 @@
+ <?php
++
++use SilverStripe\Dev\SapphireTest;
+
+ class EcommerceStockcontrolTest extends SapphireTest
+ {
+
+modified:	src/Modifiers/MinMaxModifier.php
+@@ -2,14 +2,23 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Modifiers;
+
+-use OrderModifier;
+-use ReadonlyField;
+-use ShoppingCart;
++
++
++
+ use debug;
+-use Director;
+-use Requirements;
+-use Convert;
+-use OrderItem;
++
++
++
++
++use Sunnysideup\EcommerceStockControl\Modifiers\MinMaxModifier;
++use SilverStripe\Forms\ReadonlyField;
++use Sunnysideup\Ecommerce\Api\ShoppingCart;
++use SilverStripe\Control\Director;
++use SilverStripe\View\Requirements;
++use SilverStripe\Core\Convert;
++use Sunnysideup\Ecommerce\Model\OrderItem;
++use Sunnysideup\Ecommerce\Model\OrderModifier;
++
+
+
+ /**
+@@ -49,7 +58,7 @@
+         return self::$plural_name;
+     }
+
+-    private static $title = "MinMaxModifier";
++    private static $title = MinMaxModifier::class;
+
+     private static $default_min_quantity = 1;
+
+
+modified:	src/StockControlController.php
+@@ -2,15 +2,26 @@
+
+ namespace Sunnysideup\EcommerceStockControl;
+
+-use ContentController;
+-use EcommerceConfig;
+-use Permission;
+-use Security;
+-use Requirements;
+-use Director;
+-use BuyableStockCalculatedQuantity;
+-use BuyableStockManualUpdate;
+-use BuyableStockOrderEntry;
++
++
++
++
++
++
++
++
++
++use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
++use Sunnysideup\Ecommerce\Config\EcommerceConfig;
++use SilverStripe\Security\Permission;
++use SilverStripe\Security\Security;
++use SilverStripe\View\Requirements;
++use SilverStripe\Control\Director;
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate;
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockOrderEntry;
++use SilverStripe\CMS\Controllers\ContentController;
++
+
+ /**
+  * @author Nicolaas [at] sunnysideup.co.nz
+@@ -37,7 +48,7 @@
+     public function init()
+     {
+         // Only administrators can run this method
+-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
++        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
+         if (!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
+             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
+         }
+
+modified:	src/Model/BuyableStockOrderEntry.php
+@@ -2,10 +2,18 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Model;
+
+-use DataObject;
+-use EcommerceConfig;
+-use Permission;
+-use Security;
++
++
++
++
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
++use Sunnysideup\Ecommerce\Model\Order;
++use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
++use Sunnysideup\Ecommerce\Config\EcommerceConfig;
++use SilverStripe\Security\Permission;
++use SilverStripe\Security\Security;
++use SilverStripe\ORM\DataObject;
++
+
+ /**
+  *@author: Nicolaas [at] Sunny Side Up . Co . Nz
+@@ -23,8 +31,8 @@
+     );
+
+     private static $has_one = array(
+-        "Parent" => "BuyableStockCalculatedQuantity",
+-        "Order" => "Order",
++        "Parent" => BuyableStockCalculatedQuantity::class,
++        "Order" => Order::class,
+     );
+
+     private static $defaults = array(
+@@ -44,7 +52,7 @@
+         "Quantity" => "Calculated Quantity On Hand",
+         "IncludeInCurrentCalculation" => "Include in Calculation",
+         "ParentID" => "Buyable Calculation",
+-        "OrderID" => "Order"
++        "OrderID" => Order::class
+     );
+
+     private static $summary_fields = array(
+@@ -98,7 +106,7 @@
+
+     protected function canDoAnything()
+     {
+-        EcommerceConfig::get("EcommerceRole", "admin_permission_code");
++        EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
+         if (!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
+             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
+         }
+
+modified:	src/Model/BuyableStockCalculatedQuantity.php
+@@ -2,11 +2,22 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Model;
+
+-use DataObject;
+-use Security;
+-use Order;
+-use ShoppingCart;
+-use DB;
++
++
++
++
++
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockOrderEntry;
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate;
++use SilverStripe\Security\Security;
++use Sunnysideup\Ecommerce\Model\Order;
++use Sunnysideup\Ecommerce\Api\ShoppingCart;
++use Sunnysideup\Ecommerce\Model\OrderAttribute;
++use Sunnysideup\Ecommerce\Model\OrderItem;
++use Sunnysideup\Ecommerce\Model\Process\OrderStep;
++use SilverStripe\ORM\DB;
++use SilverStripe\ORM\DataObject;
++
+
+ /**
+  *@author: Nicolaas [at] Sunny Side Up . Co . Nz
+@@ -27,8 +38,8 @@
+     );
+
+     private static $has_many = array(
+-        "BuyableStockOrderEntry" => "BuyableStockOrderEntry",
+-        "BuyableStockManualUpdate" => "BuyableStockManualUpdate"
++        "BuyableStockOrderEntry" => BuyableStockOrderEntry::class,
++        "BuyableStockManualUpdate" => BuyableStockManualUpdate::class
+     );
+
+     private static $defaults = array(
+@@ -258,9 +269,9 @@
+                     AND
+                     "Order"."ID" <> '.ShoppingCart::current_order()->ID.'
+                 ')
+-                ->innerJoin('OrderAttribute', '"OrderAttribute"."OrderID" = "Order"."ID"')
+-                ->innerJoin('OrderItem', '"OrderAttribute"."ID" = "OrderItem"."ID"')
+-                ->innerJoin('OrderStep', '"OrderStep"."ID" = "Order"."StatusID"');
++                ->innerJoin(OrderAttribute::class, '"OrderAttribute"."OrderID" = "Order"."ID"')
++                ->innerJoin(OrderItem::class, '"OrderAttribute"."ID" = "OrderItem"."ID"')
++                ->innerJoin(OrderStep::class, '"OrderStep"."ID" = "Order"."StatusID"');
+             $amountPerOrder = [];
+             if($query->count()) {
+                 foreach ($query as $row) {
+
+Warnings for src/Model/BuyableStockCalculatedQuantity.php:
+ - src/Model/BuyableStockCalculatedQuantity.php:135 PhpParser\Node\Expr\Variable
+ - WARNING: New class instantiated by a dynamic value on line 135
+
+modified:	src/Model/StockControlPing_OrderStep.php
+@@ -2,9 +2,13 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Model;
+
+-use OrderStep;
+-use HeaderField;
+-use Order;
++
++
++
++use SilverStripe\Forms\HeaderField;
++use Sunnysideup\Ecommerce\Model\Order;
++use Sunnysideup\Ecommerce\Model\Process\OrderStep;
++
+
+
+ /**
+
+modified:	src/Model/StockControlPing_IncomingUpdate.php
+@@ -2,12 +2,21 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Model;
+
+-use DataObject;
+-use EcommerceConfig;
+-use Permission;
+-use Security;
+-use Convert;
+-use SiteTree;
++
++
++
++
++
++
++use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
++use Sunnysideup\Ecommerce\Config\EcommerceConfig;
++use SilverStripe\Security\Permission;
++use SilverStripe\Security\Security;
++use SilverStripe\Core\Convert;
++use Sunnysideup\Ecommerce\Model\Config\EcommerceDBConfig;
++use SilverStripe\CMS\Model\SiteTree;
++use SilverStripe\ORM\DataObject;
++
+
+
+ /**
+@@ -119,7 +128,7 @@
+
+     protected function canDoAnything($member = null)
+     {
+-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
++        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
+         if (!Permission::check("ADMIN") && !Permission::check($shopAdminCode)) {
+             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
+         }
+@@ -197,7 +206,7 @@
+   * EXP: Check if the class name can still be used as such
+   * ### @@@@ STOP REPLACEMENT @@@@ ###
+   */
+-                $buyablesArray = EcommerceConfig::get($className = "EcommerceDBConfig", $identifier = "array_of_buyables");
++                $buyablesArray = EcommerceConfig::get($className = EcommerceDBConfig::class, $identifier = "array_of_buyables");
+                 if (is_array($buyablesArray)) {
+                     if (count($buyablesArray)) {
+
+
+Warnings for src/Model/StockControlPing_IncomingUpdate.php:
+ - src/Model/StockControlPing_IncomingUpdate.php:177 PhpParser\Node\Expr\Variable
+ - WARNING: New class instantiated by a dynamic value on line 177
+
+ - src/Model/StockControlPing_IncomingUpdate.php:188 PhpParser\Node\Expr\Variable
+ - WARNING: New class instantiated by a dynamic value on line 188
+
+ - src/Model/StockControlPing_IncomingUpdate.php:222 PhpParser\Node\Expr\Variable
+ - WARNING: New class instantiated by a dynamic value on line 222
+
+modified:	src/Model/StockControlPing_OrderStatusLog.php
+@@ -2,7 +2,9 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Model;
+
+-use OrderStatusLog;
++
++use Sunnysideup\Ecommerce\Model\Process\OrderStatusLog;
++
+
+
+ class StockControlPing_OrderStatusLog extends OrderStatusLog
+
+modified:	src/Model/BuyableStockManualUpdate.php
+@@ -2,10 +2,18 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Model;
+
+-use DataObject;
+-use EcommerceConfig;
+-use Permission;
+-use Security;
++
++
++
++
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
++use SilverStripe\Security\Member;
++use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
++use Sunnysideup\Ecommerce\Config\EcommerceConfig;
++use SilverStripe\Security\Permission;
++use SilverStripe\Security\Security;
++use SilverStripe\ORM\DataObject;
++
+
+ /**
+  *@author: Nicolaas [at] Sunny Side Up . Co . Nz
+@@ -26,8 +34,8 @@
+     );
+
+     private static $has_one = array(
+-        "Parent" => "BuyableStockCalculatedQuantity",
+-        "Member" => "Member"
++        "Parent" => BuyableStockCalculatedQuantity::class,
++        "Member" => Member::class
+     );
+
+     //MODEL ADMIN STUFF
+@@ -96,7 +104,7 @@
+
+     protected function canDoAnything($member = null)
+     {
+-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
++        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
+         if (!Permission::check($shopAdminCode)) {
+             Security::permissionFailure($this, _t('Security.PERMFAILURE', ' This page is secured and you need administrator rights to access it. Enter your credentials below and we will send you right along.'));
+         }
+
+modified:	src/Decorators/BuyableStockDecorator.php
+@@ -2,17 +2,30 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Decorators;
+
+-use DataExtension;
+-use FieldList;
+-use HeaderField;
+-use NumericField;
+-use CheckboxField;
+-use LiteralField;
+-use BuyableStockCalculatedQuantity;
+-use EcommerceConfig;
+-use Permission;
+-use Security;
+-use BuyableStockManualUpdate;
++
++
++
++
++
++
++
++
++
++
++
++use SilverStripe\Forms\FieldList;
++use SilverStripe\Forms\HeaderField;
++use SilverStripe\Forms\NumericField;
++use SilverStripe\Forms\CheckboxField;
++use SilverStripe\Forms\LiteralField;
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockCalculatedQuantity;
++use Sunnysideup\Ecommerce\Model\Extensions\EcommerceRole;
++use Sunnysideup\Ecommerce\Config\EcommerceConfig;
++use SilverStripe\Security\Permission;
++use SilverStripe\Security\Security;
++use Sunnysideup\EcommerceStockControl\Model\BuyableStockManualUpdate;
++use SilverStripe\ORM\DataExtension;
++
+
+
+ /**
+@@ -173,7 +186,7 @@
+             $this->owner->write();
+         }
+         //only set stock level if it differs from previous
+-        $shopAdminCode = EcommerceConfig::get("EcommerceRole", "admin_permission_code");
++        $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, "admin_permission_code");
+         if ($this->owner->ID) {
+             if ($shopAdminCode && Permission::check($shopAdminCode)) {
+                 if ($value != $this->owner->getActualQuantity()) {
+
+modified:	src/Decorators/BuyableStockDecorator_Extension.php
+@@ -2,9 +2,15 @@
+
+ namespace Sunnysideup\EcommerceStockControl\Decorators;
+
+-use Extension;
+-use Config;
+-use Requirements;
++
++
++
++use SilverStripe\Core\Config\Config;
++use Sunnysideup\EcommerceStockControl\Modifiers\MinMaxModifier;
++use Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator;
++use SilverStripe\View\Requirements;
++use SilverStripe\Core\Extension;
++
+
+
+
+@@ -30,12 +36,12 @@
+     {
+         $min = 0;
+         $max = 0;
+-        $msg = Config::inst()->get("MinMaxModifier", "sorry_message");
+-        $fieldSelector = Config::inst()->get("BuyableStockDecorator", "quantity_field_selector");
+-        if ($minField = Config::inst()->get("MinMaxModifier", "min_field")) {
++        $msg = Config::inst()->get(MinMaxModifier::class, "sorry_message");
++        $fieldSelector = Config::inst()->get(BuyableStockDecorator::class, "quantity_field_selector");
++        if ($minField = Config::inst()->get(MinMaxModifier::class, "min_field")) {
+             $min = $this->owner->$minField;
+         }
+-        if ($maxField = Config::inst()->get("MinMaxModifier", "max_field")) {
++        if ($maxField = Config::inst()->get(MinMaxModifier::class, "max_field")) {
+             $max = $this->owner->$maxField;
+         }
+         $js = '
+
+modified:	_config/config.yml
+@@ -3,13 +3,10 @@
+ Before: 'app/*'
+ After: 'framework/*','cms/*', 'ecommerce/*'
+ ---
++Sunnysideup\Ecommerce\Pages\Product:
++  extensions:
++    - Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator
++Sunnysideup\EcommerceStockControl\Decorators\BuyableStockDecorator:
++  buyables:
++    - Sunnysideup\Ecommerce\Pages\Product
+
+-Product:
+-  extensions:
+-    - BuyableStockDecorator
+-
+-
+-BuyableStockDecorator:
+-  buyables:
+-    - Product
+-
+
+modified:	_config/routes.yml
+@@ -1,4 +1,4 @@
+ SilverStripe\Control\Director:
+   rules:
+-    'update-stock//$Action/$ID/$OtherID/$Value': 'StockControlController'
++    update-stock//$Action/$ID/$OtherID/$Value: Sunnysideup\EcommerceStockControl\StockControlController
+
+
+Writing changes for 13 files
+✔✔✔
