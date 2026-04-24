@@ -105,6 +105,7 @@ class StockControlController extends ContentController
         } else {
             user_error('new quantity specified is unknown', E_USER_NOTICE);
         }
+
         return null;
     }
 
