@@ -25,8 +25,7 @@
     }
   ],
   "require": {
-    "sunnysideup/ecommerce": "^5.0-dev",
-    "silverstripe/recipe-cms": "^5.0"
+    "silverstripe/recipe-cms": "^6.0"
   },
   "extra": {
     "expose": [
@@ -38,6 +37,13 @@
   "autoload": {
     "psr-4": {
       "Sunnysideup\\EcommerceStockControl\\": "src/"
+    }
+  },
+  "yet-to-update": {
+    "sunnysideup/ecommerce": {
+      "section": "require",
+      "current": "^5.0-dev",
+      "reason": "no-compatible-stable-release"
     }
   }
 }
