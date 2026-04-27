@@ -89,7 +89,7 @@ class BuyableStockDecorator extends Extension
 
     public function getActualQuantity()
     {
-        return BuyableStockCalculatedQuantity::get_quantity_by_buyable($this->owner);
+        return BuyableStockCalculatedQuantity::get_quantity_by_buyable($this->getOwner());
     }
 
     /*
@@ -98,16 +98,16 @@ class BuyableStockDecorator extends Extension
      */
     public function setActualQuantity($value)
     {
-        if (! $this->owner->ID) {
-            $this->owner->write();
+        if (! $this->getOwner()->ID) {
+            $this->getOwner()->write();
         }
 
         //only set stock level if it differs from previous
         $shopAdminCode = EcommerceConfig::get(EcommerceRole::class, 'admin_permission_code');
-        if ($this->owner->ID) {
+        if ($this->getOwner()->ID) {
             if ($shopAdminCode && Permission::check($shopAdminCode)) {
-                if ($value != $this->owner->getActualQuantity()) {
-                    $parent = BuyableStockCalculatedQuantity::get_by_buyable($this->owner);
+                if ($value != $this->getOwner()->getActualQuantity()) {
+                    $parent = BuyableStockCalculatedQuantity::get_by_buyable($this->getOwner());
                     if ($parent) {
                         $member = Security::getCurrentUser();
                         $obj = BuyableStockManualUpdate::create();
@@ -116,11 +116,11 @@ class BuyableStockDecorator extends Extension
                         $obj->MemberID = $member->ID;
                         $obj->write();
                     } else {
-                        user_error('Could not write BuyableStockCalculatedQuantity Object because there was no parent ' . $this->owner->Title);
+                        user_error('Could not write BuyableStockCalculatedQuantity Object because there was no parent ' . $this->getOwner()->Title);
                     }
                 }
             } else {
-                user_error('Could not write BuyableStockCalculatedQuantity Object because you do not have permissions ' . $this->owner->Title);
+                user_error('Could not write BuyableStockCalculatedQuantity Object because you do not have permissions ' . $this->getOwner()->Title);
             }
         }
     }
@@ -132,15 +132,15 @@ class BuyableStockDecorator extends Extension
      */
     public function canPurchase($member = null)
     {
-        if ($this->owner->UnlimitedStock) {
+        if ($this->getOwner()->UnlimitedStock) {
             return null;
         }
 
-        if ($this->owner->getActualQuantity() < $this->owner->MinQuantity) {
+        if ($this->getOwner()->getActualQuantity() < $this->getOwner()->MinQuantity) {
             return false;
         }
 
-        if ($this->owner->getActualQuantity() <= 0) {
+        if ($this->getOwner()->getActualQuantity() <= 0) {
             return false;
         }
 
@@ -152,11 +152,11 @@ class BuyableStockDecorator extends Extension
      */
     public function onAfterWrite()
     {
-        BuyableStockCalculatedQuantity::get_by_buyable($this->owner);
+        BuyableStockCalculatedQuantity::get_by_buyable($this->getOwner());
         if (isset($_REQUEST['ActualQuantity'])) {
             $actualQuantity = intval($_REQUEST['ActualQuantity']);
-            if ($actualQuantity != $this->owner->getActualQuantity() && ($actualQuantity === 0 || $actualQuantity)) {
-                $this->owner->setActualQuantity($actualQuantity);
+            if ($actualQuantity != $this->getOwner()->getActualQuantity() && ($actualQuantity === 0 || $actualQuantity)) {
+                $this->getOwner()->setActualQuantity($actualQuantity);
             }
         }
     }
