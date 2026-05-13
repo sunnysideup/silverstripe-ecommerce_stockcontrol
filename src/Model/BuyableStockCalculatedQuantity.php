@@ -254,9 +254,9 @@ class BuyableStockCalculatedQuantity extends DataObject
                     AND
                     "Order"."ID" <> ' . ShoppingCart::current_order()->ID . '
                 ')
-                ->innerJoin(OrderAttribute::class, '"OrderAttribute"."OrderID" = "Order"."ID"')
-                ->innerJoin(OrderItem::class, '"OrderAttribute"."ID" = "OrderItem"."ID"')
-                ->innerJoin(OrderStep::class, '"OrderStep"."ID" = "Order"."StatusID"');
+                ->innerJoin('OrderAttribute', '"OrderAttribute"."OrderID" = "Order"."ID"')
+                ->innerJoin('OrderItem', '"OrderAttribute"."ID" = "OrderItem"."ID"')
+                ->innerJoin('OrderStep', '"OrderStep"."ID" = "Order"."StatusID"');
             $amountPerOrder = [];
             if ($query->count()) {
                 foreach ($query as $row) {
