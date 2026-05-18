@@ -183,12 +183,10 @@ class MinMaxModifier extends OrderModifier
                         $absoluteMax = intval($absoluteMax);
                         $newValue = $quantity;
                         if ($quantity < $absoluteMin && $absoluteMin > 0) {
-                            debug::log(sprintf('adjusting for MIN: %s < %d', $quantity, $absoluteMin));
                             $newValue = $absoluteMin;
                         }
 
                         if ($quantity > $absoluteMax && $absoluteMax > 0) {
-                            debug::log(sprintf('adjusting for MAX: %s > %d', $quantity, $absoluteMax));
                             $newValue = $absoluteMax;
                         }
 
