@@ -108,7 +108,7 @@ class MinMaxModifier extends OrderModifier
     #[Override]
     protected function LiveTableValue()
     {
-        return '';
+        return 0;
     }
 
     //--------------------------------------------------------------------*** table titles
