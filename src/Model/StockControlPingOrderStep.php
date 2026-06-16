@@ -126,7 +126,7 @@ class StockControlPingOrderStep extends OrderStep
      * @param array $options for cURL
      * @return string
      */
-    protected function curlGet($url, array $get = null, array $options = [])
+    protected function curlGet($url, ?array $get = null, ?array $options = [])
     {
         $defaults = [
             CURLOPT_URL => $url . (str_contains($url, '?') ? '' : '?') . http_build_query($get),
